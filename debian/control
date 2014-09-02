@@ -35,3 +35,24 @@ Depends:
  ${misc:Depends}
 Description: Qt port of the LXDE file manager PCManFM
  Qt port of the LXDE file manager PCManFM.
+
+Package: libfm-qt1
+Provides: libfm-qt
+Section: libs
+Multi-Arch: same
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends}
+Description: Qt port of the LXDE file manager PCManFM
+ Qt port of the LXDE file manager PCManFM.
+
+Package: libfm-qt-dev
+Section: libdevel
+Multi-Arch: same
+Architecture: any
+Depends:
+ libfm-qt1 (= ${binary:Version}),
+ ${misc:Depends}
+Description: Qt port of the LXDE file manager PCManFM
+ Qt port of the LXDE file manager PCManFM.

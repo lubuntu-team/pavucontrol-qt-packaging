@@ -24,5 +24,9 @@ override_dh_auto_install:
 	dh_auto_install
 	find $(CURDIR)/debian/tmp -type d -empty -delete
 
+override_dh_installman:
+	help2man --version-string=$(shell dpkg-parsechangelog -SVersion|cut -d- -f 1) $(CURDIR)/debian/tmp/usr/bin/pcmanfm-qt > $(CURDIR)/debian/pcmanfm-qt.manpages
+	dh_installman
+
 override_dh_strip:
 	dh_strip --dbg-package=pcmanfm-qt-dbg

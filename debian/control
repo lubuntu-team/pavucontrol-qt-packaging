@@ -10,7 +10,8 @@ Build-Depends:
  libfm-dev (>= 1.2.0),
  libx11-dev,
  libglib2.0-dev,
- libmenu-cache-dev
+ libmenu-cache-dev,
+ help2man
 Standards-Version: 3.9.5
 Homepage: https://github.com/lxde/pcmanfm-qt
 Vcs-Git: git://github.com/lxde/pcmanfm-qt.git

@@ -23,5 +23,9 @@ override_dh_auto_clean:
 	dh_auto_clean
 	-$(CP) $(TS_BAK)/*.ts $(TS)
 
+override_dh_auto_install:
+	dh_auto_install
+	find $(CURDIR)/debian/tmp -type d -empty -delete
+
 override_dh_strip:
 	dh_strip --dbg-package=pcmanfm-qt-dbg

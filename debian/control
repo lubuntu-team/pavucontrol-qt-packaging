@@ -2,15 +2,36 @@ Source: pcmanfm-qt
 Section: x11
 Priority: optional
 Maintainer: Wen Liao <wen.cf83@gmail.com>
-Build-Depends: debhelper (>= 9), cmake (>= 2.8.3), libqt4-dev (>= 4.6),
-               pkg-config, libfm-dev (>= 1.2.0), libx11-dev, libglib2.0-dev, libmenu-cache-dev
+Build-Depends:
+ debhelper (>= 9),
+ cmake (>= 2.8.3),
+ libqt4-dev (>= 4.6),
+ pkg-config,
+ libfm-dev (>= 1.2.0),
+ libx11-dev,
+ libglib2.0-dev,
+ libmenu-cache-dev
 Standards-Version: 3.9.5
 Homepage: https://github.com/lxde/pcmanfm-qt
-Vcs-Git: https://github.com/lxde/pcmanfm-qt.git
+Vcs-Git: git://github.com/lxde/pcmanfm-qt.git
 Vcs-Browser: https://github.com/lxde/pcmanfm-qt
 
 Package: pcmanfm-qt
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: foreign
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends}
+Description: Qt port of the LXDE file manager PCManFM
+ Qt port of the LXDE file manager PCManFM.
+
+Package: pcmanfm-qt-dbg
+Section: debug
+Priority: extra
+Multi-Arch: same
+Architecture: any
+Depends:
+ pcmanfm-qt (= ${binary:Version}),
+ ${misc:Depends}
 Description: Qt port of the LXDE file manager PCManFM
  Qt port of the LXDE file manager PCManFM.

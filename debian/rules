@@ -2,10 +2,26 @@
 
 #DH_VERBOSE = 1
 
+
+TS     := $(CURDIR)/pcmanfm/translations/
+TS_BAK := $(CURDIR)/debian/bak/pcmanfm/translations/
+
+MKDIR  := mkdir -p
+CP     := cp
+
 export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 %:
 	dh $@ 
+
+override_dh_auto_configure:
+	$(MKDIR) $(TS_BAK)
+	$(CP) $(TS)/*.ts $(TS_BAK)
+	dh_auto_configure
+
+override_dh_auto_clean:
+	dh_auto_clean
+	-$(CP) $(TS_BAK)/*.ts $(TS)
 
 override_dh_strip:
 	dh_strip --dbg-package=pcmanfm-qt-dbg

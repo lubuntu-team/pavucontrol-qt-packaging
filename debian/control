@@ -41,6 +41,8 @@ Provides: libfm-qt
 Section: libs
 Multi-Arch: same
 Architecture: any
+Pre-Depends:
+ ${misc:Pre-Depends}
 Depends:
  ${shlibs:Depends},
  ${misc:Depends}

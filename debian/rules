@@ -6,22 +6,19 @@
 TS     := $(CURDIR)/pcmanfm/translations/
 TS_BAK := $(CURDIR)/debian/bak/pcmanfm/translations/
 
-MKDIR  := mkdir -p
-CP     := cp
-
 export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 %:
 	dh $@ 
 
 override_dh_auto_configure:
-	$(MKDIR) $(TS_BAK)
-	$(CP) $(TS)/*.ts $(TS_BAK)
+	mkdir -p $(TS_BAK)
+	cp $(TS)/*.ts $(TS_BAK)
 	dh_auto_configure
 
 override_dh_auto_clean:
 	dh_auto_clean
-	-$(CP) $(TS_BAK)/*.ts $(TS)
+	-cp $(TS_BAK)/*.ts $(TS)
 
 override_dh_auto_install:
 	dh_auto_install

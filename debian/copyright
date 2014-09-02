@@ -2,10 +2,15 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: pcmanfm-qt
 Source: https://github.com/lxde/pcmanfm-qt
 
-Files: *
+Files: libfm-qt/*
 Copyright: LXQt team: http://lxqt.org
            Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
 License: LGPL-2.1+
+
+Files: *
+Copyright: LXQt team: http://lxqt.org
+           Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
+License: GPL-2+
 
 Files: debian/*
 Copyright: 2014 Wen Liao <wen.cf83@gmail.com>

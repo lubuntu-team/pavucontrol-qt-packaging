@@ -22,8 +22,10 @@ Multi-Arch: foreign
 Depends:
  ${shlibs:Depends},
  ${misc:Depends}
-Description: Qt port of the LXDE file manager PCManFM
- Qt port of the LXDE file manager PCManFM.
+Description: lightweight Qt based file manager for X Window
+ PCMan  File  Manager  Qt  (PCManFM-Qt)  is an extremly fast, lightweight, yet
+ feature-rich file manager with tabbed browsing. It is the default file manager
+ for the lightweight desktop environment, LXQt.
 
 Package: pcmanfm-qt-dbg
 Section: debug
@@ -33,8 +35,12 @@ Architecture: any
 Depends:
  pcmanfm-qt (= ${binary:Version}),
  ${misc:Depends}
-Description: Qt port of the LXDE file manager PCManFM
- Qt port of the LXDE file manager PCManFM.
+Description: Debug symbols for pcmanfm-qt
+ PCMan  File  Manager  Qt  (PCManFM-Qt)  is an extremly fast, lightweight, yet
+ feature-rich file manager with tabbed browsing. It is the default file manager
+ for the lightweight desktop environment, LXQt.
+ .
+ This package contains debug symbols for PCManFM-Qt.
 
 Package: libfm-qt1
 Provides: libfm-qt
@@ -46,8 +52,12 @@ Pre-Depends:
 Depends:
  ${shlibs:Depends},
  ${misc:Depends}
-Description: Qt port of the LXDE file manager PCManFM
- Qt port of the LXDE file manager PCManFM.
+Description: Helper library for pcmanfm-qt
+ PCMan  File  Manager  Qt  (PCManFM-Qt)  is an extremly fast, lightweight, yet
+ feature-rich file manager with tabbed browsing. It is the default file manager
+ for the lightweight desktop environment, LXQt.
+ .
+ This package contains helper library libfm-qt for pcmanfm-qt.
 
 Package: libfm-qt-dev
 Section: libdevel
@@ -56,5 +66,10 @@ Architecture: any
 Depends:
  libfm-qt1 (= ${binary:Version}),
  ${misc:Depends}
-Description: Qt port of the LXDE file manager PCManFM
- Qt port of the LXDE file manager PCManFM.
+Description: Development files for libfm-qt
+ PCMan  File  Manager  Qt  (PCManFM-Qt)  is an extremly fast, lightweight, yet
+ feature-rich file manager with tabbed browsing. It is the default file manager
+ for the lightweight desktop environment, LXQt.
+ .
+ This package contains development files for helper library libfm-qt for
+ pcmanfm-qt.

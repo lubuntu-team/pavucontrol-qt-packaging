@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 #DH_VERBOSE = 1
-
+export USE_QT5 = 1
 
 TS     := $(CURDIR)/pcmanfm/translations/
 TS_BAK := $(CURDIR)/debian/bak/pcmanfm/translations/
@@ -9,7 +9,7 @@ TS_BAK := $(CURDIR)/debian/bak/pcmanfm/translations/
 export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 %:
-	dh $@ 
+	dh $@ --buildsystem cmake --parallel
 
 override_dh_auto_configure:
 	mkdir -p $(TS_BAK)
@@ -24,5 +24,8 @@ override_dh_auto_install:
 	dh_auto_install
 	find $(CURDIR)/debian/tmp -type d -empty -delete
 
+override_dh_install:
+	dh_install --fail-missing --exclude=pcmanfm-qt.1
+
 override_dh_strip:
-	dh_strip --dbg-package=pcmanfm-qt-dbg
+	dh_strip --dbg-package=pcmanfm-qt5-dbg

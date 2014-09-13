@@ -9,7 +9,7 @@ Copyright: Copyright (c) 2013-2014 LXQt team
            Copyright (C) 2014  Kuzma Shapran <kuzma.shapran@gmail.com>
 License: GPL-2+
 
-Files: libfm-qt/appchooser* libfm-qt/applaunchcontext.* libfm-qt/appmenuview* libfm-qt/cachedfoldermodel.* libfm-qt/execfiledialog* libfm-qt/filelauncher.* libfm-qt/filemenu* libfm-qt/foldermodel.* libfm-qt/foldermodelitem.cpp libfm-qt/folderview.* libfm-qt/folderview_p.h libfm-qt/icontheme.cpp libfm-qt/libfmqt.cpp libfm-qt/libfmqtglobal.h libfm-qt/proxyfoldermodel.* pcmanfm-qt/launcher.*
+Files: libfm-qt/appchooser* libfm-qt/applaunchcontext.* libfm-qt/appmenuview* libfm-qt/cachedfoldermodel.* libfm-qt/execfiledialog* libfm-qt/filelauncher.* libfm-qt/filemenu* libfm-qt/foldermodel.* libfm-qt/foldermodelitem.cpp libfm-qt/folderview.* libfm-qt/folderview_p.h libfm-qt/icontheme.cpp libfm-qt/libfmqt.cpp libfm-qt/libfmqtglobals.h libfm-qt/proxyfoldermodel.* pcmanfm/launcher.*
 Copyright: Copyright (c) 2013-2014 LXQt team
            Copyright (C) 2013  Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
            Copyright 2012-2013 Andriy Grytsenko (LStranger) <andrej@rep.kiev.ua>

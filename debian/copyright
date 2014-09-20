@@ -3,22 +3,23 @@ Upstream-Name: pcmanfm-qt
 Source: https://github.com/lxde/pcmanfm-qt
 
 Files: *
-Copyright: Copyright (c) 2013-2014 LXQt team
-           Copyright (C) 2013  Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
-           Copyright 2012-2013 Andriy Grytsenko (LStranger) <andrej@rep.kiev.ua>
-           Copyright (C) 2014  Kuzma Shapran <kuzma.shapran@gmail.com>
-License: GPL-2+
+Copyright: 2013-2014 LXQt team
+           2013      Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
+           2012-2013 Andriy Grytsenko (LStranger) <andrej@rep.kiev.ua>
+           2014      Kuzma Shapran <kuzma.shapran@gmail.com>
+License: GPL-2.0+
 
-Files: libfm-qt/appchooser* libfm-qt/applaunchcontext.* libfm-qt/appmenuview* libfm-qt/cachedfoldermodel.* libfm-qt/execfiledialog* libfm-qt/filelauncher.* libfm-qt/filemenu* libfm-qt/foldermodel.* libfm-qt/foldermodelitem.cpp libfm-qt/folderview.* libfm-qt/folderview_p.h libfm-qt/icontheme.cpp libfm-qt/libfmqt.cpp libfm-qt/libfmqtglobals.h libfm-qt/proxyfoldermodel.* pcmanfm/launcher.*
-Copyright: Copyright (c) 2013-2014 LXQt team
-           Copyright (C) 2013  Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
-           Copyright 2012-2013 Andriy Grytsenko (LStranger) <andrej@rep.kiev.ua>
+Files: libfm-qt/appchooser* libfm-qt/applaunchcontext.* libfm-qt/appmenuview* libfm-qt/cachedfoldermodel.* libfm-qt/execfiledialog* libfm-qt/filelauncher.* libfm-qt/filemenu* libfm-qt/foldermodel.* libfm-qt/foldermodelitem.cpp libfm-qt/folderview.* libfm-qt/folderview_p.h libfm-qt/icontheme.cpp libfm-qt/libfmqt.cpp libfm-qt/libfmqtglobal.h libfm-qt/proxyfoldermodel.* pcmanfm-qt/launcher.*
+Copyright: 2013-2014 LXQt team
+           2013      Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
+           2012-2013 Andriy Grytsenko (LStranger) <andrej@rep.kiev.ua>
 License: LGPL-2.1+
 
 Files: debian/*
-Copyright: Copyright 2014 Wen Liao <wen.cf83@gmail.com>
-           Copyright 2014 ChangZhuo Chen (陳昌倬) <czchen@gmail.com>
-License: GPL-2+
+Copyright: 2014      Wen Liao <wen.cf83@gmail.com>
+           2014      ChangZhuo Chen (陳昌倬) <czchen@gmail.com>
+           2013-2014 Alf Gaida <agaida@siduction.org>
+License: GPL-2.0+
 
 License: LGPL-2.1+
  This library is free software; you can redistribute it and/or
@@ -34,7 +35,7 @@ License: LGPL-2.1+
  On Debian system, the complete text of GNU Lesser General Public License can
  be found in "/usr/share/common-licenses/LGPL-2.1".
 
-License: GPL-2+
+License: GPL-2.0+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 2 of the License, or

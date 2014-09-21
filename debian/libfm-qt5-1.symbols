@@ -293,7 +293,6 @@ libfm-qt5.so.1 libfm-qt5-1 #MINVER#
  (c++)"Fm::MountOperation::onEjectMountFinished(_GMount*, _GAsyncResult*, QPointer<Fm::MountOperation>*)@Base" 0.8.0
  (c++)"Fm::MountOperation::onEjectVolumeFinished(_GVolume*, _GAsyncResult*, QPointer<Fm::MountOperation>*)@Base" 0.8.0
  (c++)"Fm::MountOperation::onMountVolumeFinished(_GVolume*, _GAsyncResult*, QPointer<Fm::MountOperation>*)@Base" 0.8.0
- (c++)"Fm::MountOperation::onShowUnmountProgress(_GMountOperation*, char*, long, long, Fm::MountOperation*)@Base" 0.8.0
  (c++)"Fm::MountOperation::onUnmountMountFinished(_GMount*, _GAsyncResult*, QPointer<Fm::MountOperation>*)@Base" 0.8.0
  (c++)"Fm::MountOperation::wait()@Base" 0.8.0
  (c++)"Fm::MountOperation::onAbort(_GMountOperation*, Fm::MountOperation*)@Base" 0.8.0
@@ -353,7 +352,6 @@ libfm-qt5.so.1 libfm-qt5-1 #MINVER#
  (c++)"Fm::ThumbnailLoader::localFilesOnly_@Base" 0.8.0
  (c++)"Fm::ThumbnailLoader::readImageFromFile(char const*)@Base" 0.8.0
  (c++)"Fm::ThumbnailLoader::theThumbnailLoader@Base" 0.8.0
- (c++)"Fm::ThumbnailLoader::readImageFromStream(_GInputStream*, unsigned long, _GCancellable*)@Base" 0.8.0
  (c++)"Fm::ThumbnailLoader::maxThumbnailFileSize_@Base" 0.8.0
  (c++)"Fm::ThumbnailLoader::image(_FmThumbnailLoader*)@Base" 0.8.0
  (c++)"Fm::ThumbnailLoader::ThumbnailLoader()@Base" 0.8.0
@@ -790,3 +788,5 @@ libfm-qt5.so.1 libfm-qt5-1 #MINVER#
  (c++)"non-virtual thunk to Fm::PathEdit::~PathEdit()@Base" 0.8.0
  (c++)"non-virtual thunk to Fm::SidePane::~SidePane()@Base" 0.8.0
  (c++)"non-virtual thunk to Fm::SidePane::~SidePane()@Base" 0.8.0
+ _ZN2Fm14MountOperation21onShowUnmountProgressEP16_GMountOperationPcxxPS0_@Base 0.8.0-2
+ _ZN2Fm15ThumbnailLoader19readImageFromStreamEP13_GInputStreamyP13_GCancellable@Base 0.8.0-2

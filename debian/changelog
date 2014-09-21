@@ -1,3 +1,9 @@
+pcmanfm-qt (0.8.0-2) unstable; urgency=low
+
+  * add two symbols - cleanup needed
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 21 Sep 2014 02:35:10 +0200
+
 pcmanfm-qt (0.8.0-1) unstable; urgency=low
 
   * Initial release (Closes: #747605)

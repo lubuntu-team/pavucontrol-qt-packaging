@@ -1,28 +1,5 @@
-Description: <short summary of the patch>
- TODO: Put a short summary on the line above and replace this paragraph
- with a longer explanation of this change. Complete the meta-information
- with other relevant fields (see below for details). To make it easier, the
- information below has been extracted from the changelog. Adjust it or drop
- it.
- .
- pcmanfm-qt (0.8.0-1) unstable; urgency=low
- .
-   * Initial release (Closes: #747605)
-Author: ChangZhuo Chen (陳昌倬) <czchen@gmail.com>
-Bug-Debian: https://bugs.debian.org/747605
-
----
-The information above should follow the Patch Tagging Guidelines, please
-checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
-are templates for supplementary fields that you might want to add:
-
-Origin: <vendor|upstream|other>, <url of original patch>
-Bug: <url in upstream bugtracker>
-Bug-Debian: https://bugs.debian.org/<bugnumber>
-Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
-Forwarded: <no|not-needed|url proving that it has been forwarded>
-Reviewed-By: <name and email of someone who approved the patch>
-Last-Update: <YYYY-MM-DD>
+Description: pure upsteam, can be removed with next release
+Origin: upstream
 
 --- /dev/null
 +++ pcmanfm-qt-0.8.0/libfm-qt/translations/libfm-qt_cs_CZ.ts

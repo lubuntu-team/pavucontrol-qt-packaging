@@ -1,42 +1,42 @@
-Description: pure upstream, can be removed with next release
+Description: unchanged upstrem, must be removed with next release
 Origin: upstream
 
 --- /dev/null
-+++ b/libfm-qt/translations/libfm-qt_template-fr.ts
++++ pcmanfm-qt-0.8.0/libfm-qt/translations/libfm-qt_template-gl.ts
 @@ -0,0 +1,835 @@
 +<!DOCTYPE TS>
-+<TS version="2.0" language="fr">
++<TS version="2.0" language="gl">
 +<context>
 +    <name>EditBookmarksDialog</name>
 +    <message>
 +        <location filename="../edit-bookmarks.ui" line="14"/>
 +        <source>Edit Bookmarks</source>
-+        <translation>Modifier les signets</translation>
++        <translation>Editar marcadores</translation>
 +    </message>
 +    <message>
 +        <location filename="../edit-bookmarks.ui" line="42"/>
 +        <source>Name</source>
-+        <translation>Nom</translation>
++        <translation>Nome</translation>
 +    </message>
 +    <message>
 +        <location filename="../edit-bookmarks.ui" line="47"/>
 +        <source>Location</source>
-+        <translation>Emplacement</translation>
++        <translation>Localización</translation>
 +    </message>
 +    <message>
 +        <location filename="../edit-bookmarks.ui" line="67"/>
 +        <source>&amp;Add Item</source>
-+        <translation>&amp;Ajouter un élément</translation>
++        <translation>&amp;Engadir un elemento</translation>
 +    </message>
 +    <message>
 +        <location filename="../edit-bookmarks.ui" line="77"/>
 +        <source>&amp;Remove Item</source>
-+        <translation>&amp;Supprimer un élément</translation>
++        <translation>&amp;Retirar o elemento</translation>
 +    </message>
 +    <message>
 +        <location filename="../edit-bookmarks.ui" line="102"/>
 +        <source>Use drag and drop to reorder the items</source>
-+        <translation>Utiliser le glisser-déposer pour trier à nouveau les éléments</translation>
++        <translation>Usar arrastrar e soltar para ordenar elementos</translation>
 +    </message>
 +</context>
 +<context>
@@ -44,27 +44,27 @@ Origin: upstream
 +    <message>
 +        <location filename="../file-operation-dialog.ui" line="32"/>
 +        <source>Destination:</source>
-+        <translation>Destination :</translation>
++        <translation>Destino:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-operation-dialog.ui" line="55"/>
 +        <source>Processing:</source>
-+        <translation>Traitement :</translation>
++        <translation>Procesando:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-operation-dialog.ui" line="68"/>
 +        <source>Preparing...</source>
-+        <translation>Préparation...</translation>
++        <translation>Preparando...</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-operation-dialog.ui" line="75"/>
 +        <source>Progress</source>
-+        <translation>Progression</translation>
++        <translation>Progreso</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-operation-dialog.ui" line="95"/>
 +        <source>Time remaining:</source>
-+        <translation>Temps restant :</translation>
++        <translation>Tempo restante:</translation>
 +    </message>
 +</context>
 +<context>
@@ -72,138 +72,138 @@ Origin: upstream
 +    <message>
 +        <location filename="../file-props.ui" line="14"/>
 +        <source>File Properties</source>
-+        <translation>Propriétés du fichier</translation>
++        <translation>Propiedades do ficheiro</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="32"/>
 +        <source>General</source>
-+        <translation>Général</translation>
++        <translation>Xeral</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="71"/>
 +        <source>Location:</source>
-+        <translation>Emplacement :</translation>
++        <translation>Localización</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="94"/>
 +        <source>File type:</source>
-+        <translation>Type de fichier :</translation>
++        <translation>Tipo de ficheiro:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="114"/>
 +        <source>Mime type:</source>
-+        <translation>Type Mime :</translation>
++        <translation>Tipo MIME:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="134"/>
 +        <source>File size:</source>
-+        <translation>Taille du fichier :</translation>
++        <translation>Tamaño do ficheiro:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="154"/>
 +        <source>On-disk size:</source>
-+        <translation>Taille sur le disque :</translation>
++        <translation>Tamaño no disco:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="174"/>
 +        <source>Last modified:</source>
-+        <translation>Date de dernière modification :</translation>
++        <translation>Última modificación:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="194"/>
 +        <source>Link target:</source>
-+        <translation>Cible du lien :</translation>
++        <translation>Destino da ligazón:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="217"/>
 +        <source>Open With:</source>
-+        <translation>Ouvrir avec :</translation>
++        <translation>Abrir con:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="234"/>
 +        <source>Last accessed:</source>
-+        <translation>Date de dernier accès :</translation>
++        <translation>Último acceso:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="249"/>
 +        <source>Permissions</source>
-+        <translation>Droits d'accès</translation>
++        <translation>Permisos</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="264"/>
 +        <source>Ownership</source>
-+        <translation>Propriété</translation>
++        <translation>Dono</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="288"/>
 +        <location filename="../file-props.ui" line="353"/>
 +        <location filename="../file-props.ui" line="467"/>
 +        <source>Group:</source>
-+        <translation>Groupe :</translation>
++        <translation>Grupo:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="301"/>
 +        <location filename="../file-props.ui" line="336"/>
 +        <location filename="../file-props.ui" line="415"/>
 +        <source>Owner:</source>
-+        <translation>Propriétaire :</translation>
++        <translation>Propietario:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="317"/>
 +        <source>Access Control</source>
-+        <translation>Contrôle d'accès</translation>
++        <translation>Control de acceso</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="370"/>
 +        <location filename="../file-props.ui" line="519"/>
 +        <source>Other:</source>
-+        <translation>Autre :</translation>
++        <translation>Outros:</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="387"/>
 +        <source>Make the file executable</source>
-+        <translation>Rendre le fichier exécutable</translation>
++        <translation>Facer que o ficheiro sexa executábel</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="428"/>
 +        <location filename="../file-props.ui" line="480"/>
 +        <location filename="../file-props.ui" line="532"/>
 +        <source>Read</source>
-+        <translation>Lecture</translation>
++        <translation>Lectura</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="441"/>
 +        <location filename="../file-props.ui" line="493"/>
 +        <location filename="../file-props.ui" line="545"/>
 +        <source>Write</source>
-+        <translation>Écriture</translation>
++        <translation>Escritura</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="454"/>
 +        <location filename="../file-props.ui" line="506"/>
 +        <location filename="../file-props.ui" line="558"/>
 +        <source>Execute</source>
-+        <translation>Exécution</translation>
++        <translation>Execución</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="567"/>
 +        <source>Sticky</source>
-+        <translation>Permanent</translation>
++        <translation>Persistente</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="574"/>
 +        <source>SetUID</source>
-+        <translation type="unfinished"/>
++        <translation>Estabelecer o UID</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="581"/>
 +        <source>SetGID</source>
-+        <translation type="unfinished"/>
++        <translation>Estabelecer o GID</translation>
 +    </message>
 +    <message>
 +        <location filename="../file-props.ui" line="617"/>
 +        <source>Advanced Mode</source>
-+        <translation>Mode avancé</translation>
++        <translation>Modo avanzado</translation>
 +    </message>
 +</context>
 +<context>
@@ -211,22 +211,22 @@ Origin: upstream
 +    <message>
 +        <location filename="../dndactionmenu.cpp" line="26"/>
 +        <source>Copy here</source>
-+        <translation>Copier ici</translation>
++        <translation>Copiar para aquí</translation>
 +    </message>
 +    <message>
 +        <location filename="../dndactionmenu.cpp" line="27"/>
 +        <source>Move here</source>
-+        <translation>Déplacer ici</translation>
++        <translation>Mover para aquí</translation>
 +    </message>
 +    <message>
 +        <location filename="../dndactionmenu.cpp" line="28"/>
 +        <source>Create symlink here</source>
-+        <translation>Créer un lien symbolique ici</translation>
++        <translation>Crear aquí unha ligazón simbólica</translation>
 +    </message>
 +    <message>
 +        <location filename="../dndactionmenu.cpp" line="30"/>
 +        <source>Cancel</source>
-+        <translation>Annuler</translation>
++        <translation>Cancelar</translation>
 +    </message>
 +</context>
 +<context>
@@ -234,7 +234,7 @@ Origin: upstream
 +    <message>
 +        <location filename="../editbookmarksdialog.cpp" line="87"/>
 +        <source>New bookmark</source>
-+        <translation>Nouveau signet</translation>
++        <translation>Novo marcador</translation>
 +    </message>
 +</context>
 +<context>
@@ -242,63 +242,63 @@ Origin: upstream
 +    <message>
 +        <location filename="../filemenu.cpp" line="92"/>
 +        <source>Open</source>
-+        <translation>Ouvrir</translation>
++        <translation>Abrir</translation>
 +    </message>
 +    <message>
 +        <location filename="../filemenu.cpp" line="96"/>
 +        <source>OpenWith</source>
-+        <translation type="unfinished"/>
++        <translation>Abrir con</translation>
 +    </message>
 +    <message>
 +        <location filename="../filemenu.cpp" line="126"/>
 +        <source>Cut</source>
-+        <translation>Couper</translation>
++        <translation>Cortar</translation>
 +    </message>
 +    <message>
 +        <location filename="../filemenu.cpp" line="130"/>
 +        <source>Copy</source>
-+        <translation>Copier</translation>
++        <translation>Copiar</translation>
 +    </message>
 +    <message>
 +        <location filename="../filemenu.cpp" line="134"/>
 +        <source>Paste</source>
-+        <translation>Coller</translation>
++        <translation>Pegar</translation>
 +    </message>
 +    <message>
 +        <location filename="../filemenu.cpp" line="138"/>
 +        <location filename="../filemenu.cpp" line="239"/>
 +        <source>&amp;Move to Trash</source>
-+        <translation>&amp;Mettre à la corbeille</translation>
++        <translation>Deitar no lixo</translation>
 +    </message>
 +    <message>
 +        <location filename="../filemenu.cpp" line="239"/>
 +        <source>&amp;Delete</source>
-+        <translation>&amp;Supprimer</translation>
++        <translation>&amp;Eliminar</translation>
 +    </message>
 +    <message>
 +        <location filename="../filemenu.cpp" line="142"/>
 +        <source>Rename</source>
-+        <translation>Renommer</translation>
++        <translation>Renomear</translation>
 +    </message>
 +    <message>
 +        <location filename="../filemenu.cpp" line="154"/>
 +        <source>Extract to...</source>
-+        <translation>Extraire vers...</translation>
++        <translation>Extraer en…</translation>
 +    </message>
 +    <message>
 +        <location filename="../filemenu.cpp" line="159"/>
 +        <source>Extract Here</source>
-+        <translation>Extraire ici</translation>
++        <translation>Extraer aquí</translation>
 +    </message>
 +    <message>
 +        <location filename="../filemenu.cpp" line="165"/>
 +        <source>Compress</source>
-+        <translation>Compresser</translation>
++        <translation>Comprimir</translation>
 +    </message>
 +    <message>
 +        <location filename="../filemenu.cpp" line="175"/>
 +        <source>Properties</source>
-+        <translation>Propriétés</translation>
++        <translation>Propiedades</translation>
 +    </message>
 +</context>
 +<context>
@@ -307,17 +307,17 @@ Origin: upstream
 +        <location filename="../fileoperation.cpp" line="213"/>
 +        <location filename="../fileoperation.cpp" line="229"/>
 +        <source>Confirm</source>
-+        <translation>Confirmer</translation>
++        <translation>Confirmar</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperation.cpp" line="214"/>
 +        <source>Do you want to delete the selected files?</source>
-+        <translation>Voulez-vous supprimer les fichiers sélectionnés ?</translation>
++        <translation>Quere eliminar os ficheiros seleccionados?</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperation.cpp" line="230"/>
 +        <source>Do you want to move the selected files to trash can?</source>
-+        <translation>Voulez-vous mettre les fichiers sélectionnés à la corbeille ?</translation>
++        <translation>Quere mover os ficheiros seleccionados ao cesto do lixo?</translation>
 +    </message>
 +</context>
 +<context>
@@ -325,77 +325,77 @@ Origin: upstream
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="41"/>
 +        <source>Move files</source>
-+        <translation>Déplacer les fichiers</translation>
++        <translation>Mover os ficheiros</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="42"/>
 +        <source>Moving the following files to destination folder:</source>
-+        <translation>Déplacement des fichiers suivants vers le dossier de destination en cours :</translation>
++        <translation>Movendo os seguintes ficheiros ao cartafol de destino:</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="45"/>
 +        <source>Copy Files</source>
-+        <translation>Copier les fichiers</translation>
++        <translation>Copiar os ficheiros</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="46"/>
 +        <source>Copying the following files to destination folder:</source>
-+        <translation>Copie des fichiers suivants vers le dossier de destination en cours :</translation>
++        <translation>Copiando os seguintes ficheiros ao cartafol de destino:</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="49"/>
 +        <source>Trash Files</source>
-+        <translation>Mettre les fichiers de la corbeille</translation>
++        <translation>Deitar no lixo os ficheiros</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="50"/>
 +        <source>Moving the following files to trash can:</source>
-+        <translation>Déplacement des fichiers suivants vers la corbeille en cours :</translation>
++        <translation>Movendo os seguintes ficheiros ao lixo:</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="53"/>
 +        <source>Delete Files</source>
-+        <translation>Supprimer les fichiers</translation>
++        <translation>Eliminar os ficheiros</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="54"/>
 +        <source>Deleting the following files</source>
-+        <translation>Suppression des fichiers suivants</translation>
++        <translation>Eliminando os seguintes ficheiros</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="59"/>
 +        <source>Create Symlinks</source>
-+        <translation>Créer des liens symboliques</translation>
++        <translation>Crear ligazóns simbólicas</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="60"/>
 +        <source>Creating symlinks for the following files:</source>
-+        <translation>Création de liens symboliques avec les fichiers suivants en cours :</translation>
++        <translation>Creando ligazóns simbólicas para os seguintes ficheiros:</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="63"/>
 +        <source>Change Attributes</source>
-+        <translation>Modifier les attributs</translation>
++        <translation>Cambiar os atributos</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="64"/>
 +        <source>Changing attributes of the following files:</source>
-+        <translation>Modification des attributs des fichiers suivants en cours :</translation>
++        <translation>Cambiando os atributos dos seguintes ficheiros:</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="69"/>
 +        <source>Restore Trashed Files</source>
-+        <translation>Restaurer les fichiers de la corbeille</translation>
++        <translation>Restaurar os ficheiro do lixo</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="70"/>
 +        <source>Restoring the following files from trash can:</source>
-+        <translation>Restauration des fichiers suivants depuis la corbeille en cours :</translation>
++        <translation>Restaurando os seguintes ficheiros do lixo:</translation>
 +    </message>
 +    <message>
 +        <location filename="../fileoperationdialog.cpp" line="137"/>
 +        <source>Error</source>
-+        <translation>Erreur</translation>
++        <translation>Erro</translation>
 +    </message>
 +</context>
 +<context>
@@ -403,47 +403,47 @@ Origin: upstream
 +    <message>
 +        <location filename="../filepropsdialog.cpp" line="167"/>
 +        <source>View folder content</source>
-+        <translation>Voir le contenu du dossier</translation>
++        <translation>Ver o contido do cartafol</translation>
 +    </message>
 +    <message>
 +        <location filename="../filepropsdialog.cpp" line="168"/>
 +        <source>View and modify folder content</source>
-+        <translation>Voir et modifier le contenu du dossier</translation>
++        <translation>Ver e modificar o contido do cartafol</translation>
 +    </message>
 +    <message>
 +        <location filename="../filepropsdialog.cpp" line="172"/>
 +        <source>Read</source>
-+        <translation>Lecture</translation>
++        <translation>Lectura</translation>
 +    </message>
 +    <message>
 +        <location filename="../filepropsdialog.cpp" line="173"/>
 +        <source>Read and write</source>
-+        <translation>Lecture et écriture</translation>
++        <translation>Lectura e escritura</translation>
 +    </message>
 +    <message>
 +        <location filename="../filepropsdialog.cpp" line="175"/>
 +        <source>Forbidden</source>
-+        <translation>Interdit</translation>
++        <translation>Prohibido</translation>
 +    </message>
 +    <message>
 +        <location filename="../filepropsdialog.cpp" line="277"/>
 +        <source>Files of different types</source>
-+        <translation>Fichiers de différents types</translation>
++        <translation>Ficheiros de tipos diferentes</translation>
 +    </message>
 +    <message>
 +        <location filename="../filepropsdialog.cpp" line="307"/>
 +        <source>Multiple Files</source>
-+        <translation>Fichiers multiples</translation>
++        <translation>Múltiplos ficheiros</translation>
 +    </message>
 +    <message>
 +        <location filename="../filepropsdialog.cpp" line="439"/>
 +        <source>Apply changes</source>
-+        <translation>Appliquer les modifications</translation>
++        <translation>Aplicar os cambios</translation>
 +    </message>
 +    <message>
 +        <location filename="../filepropsdialog.cpp" line="440"/>
 +        <source>Do you want to recursively apply these changes to all files and sub-folders?</source>
-+        <translation>Voulez-vous appliquer ces changements récursivement à tous les fichiers et sous-dossiers ?</translation>
++        <translation>Quere aplicar recursivamente estes cambios a todos os ficheiros e subcartafoles?</translation>
 +    </message>
 +</context>
 +<context>
@@ -451,92 +451,92 @@ Origin: upstream
 +    <message>
 +        <location filename="../foldermenu.cpp" line="35"/>
 +        <source>Create &amp;New</source>
-+        <translation>Créer un &amp;nouveau</translation>
++        <translation>Crear &amp;novo</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="43"/>
 +        <source>&amp;Paste</source>
-+        <translation>&amp;Coller</translation>
++        <translation>&amp;Pegar</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="49"/>
 +        <source>Select &amp;All</source>
-+        <translation>Sélectionner &amp;tous</translation>
++        <translation>Seleccionar &amp;todo</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="53"/>
 +        <source>Invert Selection</source>
-+        <translation>Inverser la sélection</translation>
++        <translation>Inverter a selección</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="59"/>
 +        <source>Sorting</source>
-+        <translation>Tri en cours</translation>
++        <translation>Ordenación</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="64"/>
 +        <source>Show Hidden</source>
-+        <translation>Afficher les éléments cachés</translation>
++        <translation>Amosar agochados</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="72"/>
 +        <source>Folder Pr&amp;operties</source>
-+        <translation>Pr&amp;opriétés du dossier</translation>
++        <translation>Pr&amp;opiedades do cartafol</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="82"/>
 +        <source>Folder</source>
-+        <translation>Dossier</translation>
++        <translation>Cartafol</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="86"/>
 +        <source>File</source>
-+        <translation>Fichier</translation>
++        <translation>Ficheiro</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="112"/>
 +        <source>By File Name</source>
-+        <translation>Par nom de fichier</translation>
++        <translation>Polo nome do ficheiro</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="113"/>
 +        <source>By Modification Time</source>
-+        <translation>Par date de modification</translation>
++        <translation>Pola data de modificación</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="114"/>
 +        <source>By File Size</source>
-+        <translation>Par taille de fichier</translation>
++        <translation>Polo tamaño do ficheiro</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="115"/>
 +        <source>By File Type</source>
-+        <translation>Par type de fichier</translation>
++        <translation>Polo tipo do ficheiro</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="116"/>
 +        <source>By File Owner</source>
-+        <translation>Par propriétaire de fichier</translation>
++        <translation>Polo propietario do ficheiro</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="127"/>
 +        <source>Ascending</source>
-+        <translation>Ascendant</translation>
++        <translation>Ascendente</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="132"/>
 +        <source>Descending</source>
-+        <translation>Descendant</translation>
++        <translation>Descendente</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="147"/>
 +        <source>Folder First</source>
-+        <translation>Dossier en premier</translation>
++        <translation>Primeiro os cartafoles</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermenu.cpp" line="154"/>
 +        <source>Case Sensitive</source>
-+        <translation>Sensible à la casse</translation>
++        <translation>Distinguindo maiúsculas de minúsculas</translation>
 +    </message>
 +</context>
 +<context>
@@ -544,27 +544,27 @@ Origin: upstream
 +    <message>
 +        <location filename="../foldermodel.cpp" line="235"/>
 +        <source>Name</source>
-+        <translation>Nom</translation>
++        <translation>Nome</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermodel.cpp" line="238"/>
 +        <source>Type</source>
-+        <translation>Type</translation>
++        <translation>Tipo</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermodel.cpp" line="241"/>
 +        <source>Size</source>
-+        <translation>Taille</translation>
++        <translation>Tamaño</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermodel.cpp" line="244"/>
 +        <source>Modified</source>
-+        <translation>Modifié</translation>
++        <translation>Modificado</translation>
 +    </message>
 +    <message>
 +        <location filename="../foldermodel.cpp" line="247"/>
 +        <source>Owner</source>
-+        <translation>Propriétaire</translation>
++        <translation>Propietario</translation>
 +    </message>
 +</context>
 +<context>
@@ -572,12 +572,12 @@ Origin: upstream
 +    <message>
 +        <location filename="../fontbutton.cpp" line="46"/>
 +        <source>Bold</source>
-+        <translation>Gras</translation>
++        <translation>Negra</translation>
 +    </message>
 +    <message>
 +        <location filename="../fontbutton.cpp" line="50"/>
 +        <source>Italic</source>
-+        <translation>Italique</translation>
++        <translation>Itálica</translation>
 +    </message>
 +</context>
 +<context>
@@ -585,7 +585,7 @@ Origin: upstream
 +    <message>
 +        <location filename="../mountoperationpassworddialog.cpp" line="40"/>
 +        <source>&amp;Connect</source>
-+        <translation>&amp;Connecter</translation>
++        <translation>&amp;Conectar</translation>
 +    </message>
 +</context>
 +<context>
@@ -593,42 +593,42 @@ Origin: upstream
 +    <message>
 +        <location filename="../placesmodel.cpp" line="108"/>
 +        <source>Places</source>
-+        <translation>Emplacements</translation>
++        <translation>Lugares</translation>
 +    </message>
 +    <message>
 +        <location filename="../placesmodel.cpp" line="117"/>
 +        <source>Desktop</source>
-+        <translation>Bureau</translation>
++        <translation>Escritorio</translation>
 +    </message>
 +    <message>
 +        <location filename="../placesmodel.cpp" line="121"/>
 +        <source>Trash</source>
-+        <translation>Corbeille</translation>
++        <translation>Lixo</translation>
 +    </message>
 +    <message>
 +        <location filename="../placesmodel.cpp" line="126"/>
 +        <source>Computer</source>
-+        <translation>Ordinateur</translation>
++        <translation>Computador</translation>
 +    </message>
 +    <message>
 +        <location filename="../placesmodel.cpp" line="131"/>
 +        <source>Applications</source>
-+        <translation>Applications</translation>
++        <translation>Aplicacións</translation>
 +    </message>
 +    <message>
 +        <location filename="../placesmodel.cpp" line="136"/>
 +        <source>Network</source>
-+        <translation>Réseau</translation>
++        <translation>Rede</translation>
 +    </message>
 +    <message>
 +        <location filename="../placesmodel.cpp" line="141"/>
 +        <source>Devices</source>
-+        <translation>Appareils</translation>
++        <translation>Dispositivos</translation>
 +    </message>
 +    <message>
 +        <location filename="../placesmodel.cpp" line="184"/>
 +        <source>Bookmarks</source>
-+        <translation>Signets</translation>
++        <translation>Marcadores</translation>
 +    </message>
 +</context>
 +<context>
@@ -636,28 +636,28 @@ Origin: upstream
 +    <message>
 +        <location filename="../placesview.cpp" line="178"/>
 +        <source>Rename</source>
-+        <translation>Renommer</translation>
++        <translation>Renomear</translation>
 +    </message>
 +    <message>
 +        <location filename="../placesview.cpp" line="181"/>
 +        <source>Delete</source>
-+        <translation>Supprimer</translation>
++        <translation>Eliminar</translation>
 +    </message>
 +    <message>
 +        <location filename="../placesview.cpp" line="191"/>
 +        <location filename="../placesview.cpp" line="209"/>
 +        <source>Unmount</source>
-+        <translation>Démonter</translation>
++        <translation>Desmontar</translation>
 +    </message>
 +    <message>
 +        <location filename="../placesview.cpp" line="195"/>
 +        <source>Mount</source>
-+        <translation>Monter</translation>
++        <translation>Montar</translation>
 +    </message>
 +    <message>
 +        <location filename="../placesview.cpp" line="201"/>
 +        <source>Eject</source>
-+        <translation>Éjecter</translation>
++        <translation>Expulsar</translation>
 +    </message>
 +</context>
 +<context>
@@ -668,33 +668,33 @@ Origin: upstream
 +        <source>Type: %1
 +Size: %2
 +Modified: %3</source>
-+        <translation>Type : %1
-+Taille : %2
-+Modification : %3</translation>
++        <translation>Tipo: %1
++Tamaño: %2
++Modificado: %3</translation>
 +    </message>
 +    <message>
 +        <location filename="../renamedialog.cpp" line="56"/>
 +        <source>Type: %1
 +Modified: %2</source>
-+        <translation>Type : %1
-+Modification : %2</translation>
++        <translation>Tipo: %1
++Modificado: %2</translation>
 +    </message>
 +    <message>
 +        <location filename="../renamedialog.cpp" line="75"/>
 +        <source>Type: %1
 +Modified: %3</source>
-+        <translation>Type : %1
-+Modification : %3</translation>
++        <translation>Tipo: %1
++Modificado: %3</translation>
 +    </message>
 +    <message>
 +        <location filename="../renamedialog.cpp" line="89"/>
 +        <source>&amp;Overwrite</source>
-+        <translation>&amp;Remplacer</translation>
++        <translation>&amp;Sobrescribir</translation>
 +    </message>
 +    <message>
 +        <location filename="../renamedialog.cpp" line="91"/>
 +        <source>&amp;Rename</source>
-+        <translation>&amp;Renommer</translation>
++        <translation>&amp;Renomear</translation>
 +    </message>
 +</context>
 +<context>
@@ -702,47 +702,47 @@ Origin: upstream
 +    <message>
 +        <location filename="../mount-operation-password.ui" line="20"/>
 +        <source>Mount</source>
-+        <translation>Monter</translation>
++        <translation>Montar</translation>
 +    </message>
 +    <message>
 +        <location filename="../mount-operation-password.ui" line="48"/>
 +        <source>Connect &amp;anonymously</source>
-+        <translation>Connecter &amp;anonymement</translation>
++        <translation>Conectar &amp;anonimamente</translation>
 +    </message>
 +    <message>
 +        <location filename="../mount-operation-password.ui" line="58"/>
 +        <source>Connect as u&amp;ser:</source>
-+        <translation>Connecter comme utilis&amp;sateur :</translation>
++        <translation>Conectar como u&amp;suario</translation>
 +    </message>
 +    <message>
 +        <location filename="../mount-operation-password.ui" line="79"/>
 +        <source>&amp;Username:</source>
-+        <translation>Nom d'&amp;utilisateur :</translation>
++        <translation>Nome de &amp;usuario:</translation>
 +    </message>
 +    <message>
 +        <location filename="../mount-operation-password.ui" line="102"/>
 +        <source>&amp;Password:</source>
-+        <translation>Mot de &amp;passe :</translation>
++        <translation>&amp;Contrasinal:</translation>
 +    </message>
 +    <message>
 +        <location filename="../mount-operation-password.ui" line="112"/>
 +        <source>&amp;Domain:</source>
-+        <translation>&amp;Domaine :</translation>
++        <translation>&amp;Dominio:</translation>
 +    </message>
 +    <message>
 +        <location filename="../mount-operation-password.ui" line="127"/>
 +        <source>Forget password &amp;immediately</source>
-+        <translation>Oublier le mot de passe &amp;immédiatement</translation>
++        <translation>Esquecer o contrasinal &amp;inmediatamente</translation>
 +    </message>
 +    <message>
 +        <location filename="../mount-operation-password.ui" line="137"/>
 +        <source>Remember password until you &amp;logout</source>
-+        <translation>Se souvenir du mot de passe jusqu'à &amp;la déconnexion</translation>
++        <translation>Lembrar o contrasinal ata &amp;saír da sesión</translation>
 +    </message>
 +    <message>
 +        <location filename="../mount-operation-password.ui" line="147"/>
 +        <source>Remember &amp;forever</source>
-+        <translation>&amp;Toujours s'en souvenir</translation>
++        <translation>&amp;Lemprar para sempre</translation>
 +    </message>
 +</context>
 +<context>
@@ -752,42 +752,42 @@ Origin: upstream
 +        <location filename="../utilities.cpp" line="134"/>
 +        <location filename="../utilities.cpp" line="201"/>
 +        <source>Error</source>
-+        <translation>Erreur</translation>
++        <translation>Erro</translation>
 +    </message>
 +    <message>
 +        <location filename="../utilities.cpp" line="116"/>
 +        <source>Rename File</source>
-+        <translation>Renommer le fichier</translation>
++        <translation>Renomear o ficheiro</translation>
 +    </message>
 +    <message>
 +        <location filename="../utilities.cpp" line="117"/>
 +        <source>Please enter a new name:</source>
-+        <translation>Veuillez entrer un nouveau nom :</translation>
++        <translation>Introduza un nome novo:</translation>
 +    </message>
 +    <message>
 +        <location filename="../utilities.cpp" line="154"/>
 +        <source>Please enter a new file name:</source>
-+        <translation>Veuillez entrer un nouveau nom de fichier :</translation>
++        <translation>Introduza un novo nome de ficheiro:</translation>
 +    </message>
 +    <message>
 +        <location filename="../utilities.cpp" line="155"/>
 +        <source>New text file</source>
-+        <translation>Nouveau fichier texte</translation>
++        <translation>Novo ficheiro de texto</translation>
 +    </message>
 +    <message>
 +        <location filename="../utilities.cpp" line="158"/>
 +        <source>Please enter a new folder name:</source>
-+        <translation>Veuillez entrer un nouveau nom de répertoire :</translation>
++        <translation>Introduza un nome novo para o cartafol:</translation>
 +    </message>
 +    <message>
 +        <location filename="../utilities.cpp" line="159"/>
 +        <source>New folder</source>
-+        <translation>Nouveau répertoire</translation>
++        <translation>Novo cartafol</translation>
 +    </message>
 +    <message>
 +        <location filename="../utilities.cpp" line="166"/>
 +        <source>Create File</source>
-+        <translation>Créer un fichier</translation>
++        <translation>Crear un ficheiro</translation>
 +    </message>
 +</context>
 +<context>
@@ -795,32 +795,32 @@ Origin: upstream
 +    <message>
 +        <location filename="../rename-dialog.ui" line="14"/>
 +        <source>Confirm to replace files</source>
-+        <translation>Confirmer le remplacement des fichiers</translation>
++        <translation>Confirmar a substitución de ficheiros</translation>
 +    </message>
 +    <message>
 +        <location filename="../rename-dialog.ui" line="35"/>
 +        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;There is already a file with the same name in this location.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Do you want to replace the existing file?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Il existe déjà un fichier avec le même nom à cet emplacement.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Voulez-vous replacer le fichier existant ?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
++        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Xa existe un ficheiro con este mesmo nome neste lugar.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Quere substituír o ficheiro existente?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
 +    </message>
 +    <message>
 +        <location filename="../rename-dialog.ui" line="56"/>
 +        <source>dest</source>
-+        <translation>dest.</translation>
++        <translation>dest</translation>
 +    </message>
 +    <message>
 +        <location filename="../rename-dialog.ui" line="63"/>
 +        <source>with the following file?</source>
-+        <translation>avec le fichier suivant ?</translation>
++        <translation>co seguinte ficheiro?</translation>
 +    </message>
 +    <message>
 +        <location filename="../rename-dialog.ui" line="76"/>
 +        <source>src file info</source>
-+        <translation>infos fichier src</translation>
++        <translation>Ficheiro de información «src»</translation>
 +    </message>
 +    <message>
 +        <location filename="../rename-dialog.ui" line="89"/>
 +        <source>dest file info</source>
-+        <translation>infos fichier dest.</translation>
++        <translation>Ficheiro de información «dest»</translation>
 +    </message>
 +    <message>
 +        <location filename="../rename-dialog.ui" line="102"/>
@@ -830,12 +830,12 @@ Origin: upstream
 +    <message>
 +        <location filename="../rename-dialog.ui" line="122"/>
 +        <source>&amp;File name:</source>
-+        <translation>Nom de &amp;fichier :</translation>
++        <translation>Nome do &amp;ficheiro:</translation>
 +    </message>
 +    <message>
 +        <location filename="../rename-dialog.ui" line="137"/>
 +        <source>Apply this option to all existing files</source>
-+        <translation>Appliquer cette option à tous les fichiers existants</translation>
++        <translation>Aplicar esta opción a todos os ficheiros existentes</translation>
 +    </message>
 +</context>
 +</TS>

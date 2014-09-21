@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 #DH_VERBOSE = 1
-export USE_QT5 = 1
+export USE_QT5=1
 
 TS     := $(CURDIR)/pcmanfm/translations
 TS_BAK := $(CURDIR)/debian/bak/pcmanfm/translations
@@ -13,12 +13,10 @@ export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 override_dh_auto_configure:
 	mkdir -p $(TS_BAK)
-	-cp $(TS)/*.ts $(TS_BAK)
 	dh_auto_configure
 
 override_dh_auto_clean:
 	dh_auto_clean
-	-cp $(TS_BAK)/*.ts $(TS)
 
 override_dh_auto_install:
 	dh_auto_install

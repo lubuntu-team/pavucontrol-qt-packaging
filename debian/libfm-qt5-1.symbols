@@ -344,7 +344,8 @@ libfm-qt5.so.1 libfm-qt5-1 #MINVER#
  (c++)"Fm::PlacesModelItem::~PlacesModelItem()@Base" 0.8.0
  (c++)"Fm::ThumbnailLoader::scaleImage(_GObject*, int, int)@Base" 0.8.0
  (c++)"Fm::ThumbnailLoader::writeImage(_GObject*, char const*)@Base" 0.8.0
- (c++)"Fm::ThumbnailLoader::readImageFromStream(_GInputStream*, unsigned long, _GCancellable*)@Base" 0.8.0
+ (arch=amd64|c++)"Fm::ThumbnailLoader::readImageFromStream(_GInputStream*, unsigned long, _GCancellable*)@Base" 0.8.0
+ (arch=i386|c++)"Fm::ThumbnailLoader::readImageFromStream(_GInputStream*, unsigned long long, _GCancellable*)@Base" 0.8.0
  (c++)"Fm::ThumbnailLoader::rotateImage(_GObject*, int)@Base" 0.8.0
  (c++)"Fm::ThumbnailLoader::getImageText(_GObject*, char const*)@Base" 0.8.0
  (c++)"Fm::ThumbnailLoader::setImageText(_GObject*, char const*, char const*)@Base" 0.8.0
@@ -631,7 +632,8 @@ libfm-qt5.so.1 libfm-qt5-1 #MINVER#
  (c++)"Fm::BrowseHistory::canBackward() const@Base" 0.8.0
  (c++)"Fm::FileOperation::metaObject() const@Base" 0.8.0
  (c++)"Fm::MountOperation::metaObject() const@Base" 0.8.0
- (c++)"Fm::MountOperation::onShowUnmountProgress(_GMountOperation*, char*, long, long, Fm::MountOperation*)@Base" 0.8.0
+ (arch=amd64|c++)"Fm::MountOperation::onShowUnmountProgress(_GMountOperation*, char*, long, long, Fm::MountOperation*)@Base" 0.8.0
+ (arch=i386|c++)"Fm::MountOperation::onShowUnmountProgress(_GMountOperation*, char*, long long, long long, Fm::MountOperation*)@Base" 0.8.0
  (c++)"Fm::FilePropsDialog::metaObject() const@Base" 0.8.0
  (c++)"Fm::PlacesModelItem::data(int) const@Base" 0.8.0
  (c++)"Fm::AppChooserDialog::metaObject() const@Base" 0.8.0

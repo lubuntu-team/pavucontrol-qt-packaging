@@ -1,3 +1,9 @@
+pcmanfm-qt (0.8.0-3) unstable; urgency=medium
+
+  * fix arch dependent symbols 
+
+ -- Alf Gaida <agaida@siduction.org>  Mon, 20 Oct 2014 20:27:05 +0200
+
 pcmanfm-qt (0.8.0-2) unstable; urgency=medium
 
   * Imported Upstream version 0.8.0

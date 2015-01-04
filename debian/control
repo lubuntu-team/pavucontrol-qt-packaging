@@ -30,6 +30,7 @@ Depends:
    ${misc:Depends},
    ${shlibs:Depends}, 
    libfm-modules,
+Recommends: gvfs-backends,
 Description: lightweight Qt based file manager for X Window
  PCMan  File  Manager  Qt  (PCManFM-Qt)  is an extremly fast, lightweight, yet
  feature-rich file manager with tabbed browsing. It is the default file manager

@@ -15,8 +15,8 @@ override_dh_auto_configure:
 	mkdir -p $(TS_BAK)
 	dh_auto_configure
 
-override_dh_auto_clean:
-	dh_auto_clean
+override_dh_install:
+	dh_install --exclude=pcmanfm-qt.1 --fail-missing  --list-missing
 
 override_dh_auto_install:
 	dh_auto_install
@@ -24,6 +24,11 @@ override_dh_auto_install:
 
 override_dh_install:
 	dh_install --fail-missing --exclude=pcmanfm-qt.1
+
+override_dh_clean:
+	$(RM) -r debian/libfm-qt5-dbg
+	$(RM) -r debian/pcmanfm-qt-dbg
+	dh_clean
 
 override_dh_strip:
 	dh_strip -ppcmanfm-qt5 --dbg-package=pcmanfm-qt5-dbg

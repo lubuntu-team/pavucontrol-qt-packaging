@@ -1,0 +1,13 @@
+/*.debhelper
+/*.log
+/*.substvars
+/files
+
+/pcmanfm-qt/
+/pcmanfm-qt-dbg/
+/libfm-qt5-2/
+/libfm-qt5-dev/
+/libfm-qt5-dbg/
+/pcmanfm-qt5/
+/pcmanfm-qt5-dbg/
+/tmp

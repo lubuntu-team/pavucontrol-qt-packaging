@@ -103,21 +103,3 @@ Description: Debug symbols for libfm-qt
  for the lightweight desktop environment, LXQt.
  .
  This package contains debugging symbols for the shared libs.
-
-# ---- to be removed in 2016 ----
-
-Package: pcmanfm-qt5
-Depends: pcmanfm-qt, ${misc:Depends}
-Priority: extra
-Section: oldlibs
-Architecture: all
-Description: pcmanfm-qt transitional package
- Empty package to facilitate upgrades, can be safely removed.
-
-Package: pcmanfm-qt5-dbg
-Depends: pcmanfm-qt-dbg, ${misc:Depends}
-Priority: extra
-Section: oldlibs
-Architecture: all
-Description: pcmanfm-qt transitional package
- Empty package to facilitate upgrades, can be safely removed.

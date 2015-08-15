@@ -13,7 +13,7 @@ override_dh_auto_configure:
 	dh_auto_configure
 
 override_dh_clean:
-	-cp -r $(CURDIR)/debian/bak/pcmanfm/translations/* $(CURDIR)/pcmanfm/translations/
+	-cp $(CURDIR)/debian/bak/pcmanfm/translations/* $(CURDIR)/pcmanfm/translations/
 	dh_clean
 
 override_dh_install:

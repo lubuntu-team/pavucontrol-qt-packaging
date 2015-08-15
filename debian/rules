@@ -12,9 +12,9 @@ override_dh_auto_configure:
 	cp -r $(CURDIR)/pcmanfm/translations/* $(CURDIR)/debian/bak/pcmanfm/translations
 	dh_auto_configure
 
-override_dh_clean:
+override_dh_auto_clean:
 	-cp $(CURDIR)/debian/bak/pcmanfm/translations/* $(CURDIR)/pcmanfm/translations/
-	dh_clean
+	dh_auto_clean
 
 override_dh_install:
 	dh_install --exclude=pcmanfm-qt.1 --fail-missing  --list-missing

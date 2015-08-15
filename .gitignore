@@ -1,2 +1,2 @@
-# don't track quilt files
-/.pc
+build
+.kdev4

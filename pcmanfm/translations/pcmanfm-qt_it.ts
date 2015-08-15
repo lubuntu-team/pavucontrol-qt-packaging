@@ -168,27 +168,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="298"/>
         <source>Window Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestore finestre</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="299"/>
         <source>Show menus provided by window managers when desktop is clicked</source>
-        <translation>Mostra menu forniti dai gestori finestre quando si fa clic sulla Scrivania</translation>
+        <translation>Mostra il menu forniti dal gestore finestre quando si fa clic sulla scrivania</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="300"/>
         <source>Desktop</source>
-        <translation type="unfinished"></translation>
+        <translation>Scrivania</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="301"/>
         <source>Desktop folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cartella scrivania:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="308"/>
         <source>Folder path</source>
-        <translation type="unfinished"></translation>
+        <translation>Percorso</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="310"/>
@@ -199,397 +199,422 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="499"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="514"/>
         <source>File Manager</source>
         <translation>Gestore file</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="502"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="517"/>
         <source>Go Up</source>
         <translation>Vai su</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="504"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="519"/>
         <source>Alt+Up</source>
         <translation>Alt+Su</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="505"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="520"/>
         <source>Home</source>
         <translation>Cartella home</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="506"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="521"/>
         <source>Alt+Home</source>
         <translation>Alt+Inizio</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="525"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="540"/>
         <source>Reload</source>
         <translation>Ricarica</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="508"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="523"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="507"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="522"/>
         <source>&amp;Reload</source>
         <translation>&amp;Ricarica</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="509"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="524"/>
         <source>Go</source>
         <translation>Vai</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="510"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="525"/>
         <source>Quit</source>
         <translation>Esci</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="511"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="526"/>
         <source>&amp;About</source>
         <translation>&amp;Informazioni</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="514"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="529"/>
         <source>New Window</source>
         <translation>Nuova finestra</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="516"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="531"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="517"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="532"/>
         <source>Show &amp;Hidden</source>
-        <translation>Mostra &amp;nascosti</translation>
+        <translation>Mostra file &amp;nascosti</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="518"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="533"/>
         <source>Ctrl+H</source>
         <translation>Ctrl+H</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="519"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="534"/>
         <source>&amp;Computer</source>
         <translation>&amp;Computer</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="520"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="535"/>
         <source>&amp;Trash</source>
         <translation>Ces&amp;tino</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="521"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="536"/>
         <source>&amp;Network</source>
         <translation>&amp;Rete</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="522"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="537"/>
         <source>&amp;Desktop</source>
         <translation>&amp;Scrivania</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="523"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="538"/>
         <source>&amp;Add to Bookmarks</source>
         <translation>&amp;Aggiungi ai segnalibri</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="524"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="539"/>
         <source>&amp;Applications</source>
         <translation>&amp;Applicazioni</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="531"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="546"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="532"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="547"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copia</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="533"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="548"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="534"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="549"/>
         <source>&amp;Paste</source>
         <translation>&amp;Incolla</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="535"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="550"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="536"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="551"/>
         <source>Select &amp;All</source>
         <translation>Seleziona t&amp;utto</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="538"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="553"/>
         <source>Pr&amp;eferences</source>
         <translation>Pr&amp;eferenze</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="561"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="576"/>
         <source>&amp;Invert Selection</source>
         <translation>&amp;Inverti selezione</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="562"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="577"/>
         <source>&amp;Delete</source>
         <translation>&amp;Rimuovi</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="564"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="579"/>
         <source>&amp;Rename</source>
         <translation>&amp;Rinomina</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="537"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="552"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="500"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="515"/>
         <source>Go &amp;Up</source>
         <translation>Vai &amp;su</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="512"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="527"/>
         <source>&amp;New Window</source>
         <translation>&amp;Nuova finestra</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="526"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="541"/>
         <source>&amp;Icon View</source>
         <translation>Vista &amp;icone</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="527"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="542"/>
         <source>&amp;Compact View</source>
         <translation>Vista &amp;compatta</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="528"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="543"/>
         <source>&amp;Detailed List</source>
         <translation>Elenco &amp;dettagliato</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="529"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="544"/>
         <source>&amp;Thumbnail View</source>
         <translation>Vista minia&amp;ture</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="530"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="545"/>
         <source>Cu&amp;t</source>
         <translation>&amp;Taglia</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="539"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="554"/>
         <source>Ascending</source>
         <translation>Crescente</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="540"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="555"/>
         <source>Descending</source>
         <translation>Decrescente</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="541"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="556"/>
         <source>By File Name</source>
         <translation>Per nome file</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="542"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="557"/>
         <source>By Modification Time</source>
         <translation>Per data modifica</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="543"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="558"/>
         <source>By File Type</source>
         <translation>Per tipo file</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="544"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="559"/>
         <source>By Owner</source>
         <translation>Per proprietario</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="545"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="560"/>
         <source>Folder First</source>
         <translation>Prima le cartelle</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="546"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="561"/>
         <source>New &amp;Tab</source>
         <translation>Nuova sc&amp;heda</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="548"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="563"/>
         <source>New Tab</source>
         <translation>Nuova scheda</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="550"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="565"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="551"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="566"/>
         <source>Go &amp;Back</source>
         <translation>Vai in&amp;dietro</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="553"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="568"/>
         <source>Go Back</source>
         <translation>Va indietro</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="555"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="570"/>
         <source>Alt+Left</source>
         <translation>Alt+Sinistra</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="556"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="571"/>
         <source>Go &amp;Forward</source>
         <translation>Vai &amp;avanti</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="558"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="573"/>
         <source>Go Forward</source>
         <translation>Va avanti</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="560"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="575"/>
         <source>Alt+Right</source>
         <translation>Alt+Destra</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="563"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="578"/>
         <source>Del</source>
         <translation>Canc</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="565"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="580"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="566"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="581"/>
         <source>C&amp;lose Tab</source>
         <translation>C&amp;hiudi scheda</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="568"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="583"/>
         <source>File &amp;Properties</source>
         <translation>&amp;Proprietà file</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="570"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="585"/>
         <source>&amp;Folder Properties</source>
         <translation>Proprietà &amp;cartella</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="582"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="594"/>
+        <source>Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="595"/>
+        <source>Ctrl+Shift+N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="596"/>
+        <source>Blank File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="597"/>
+        <source>Ctrl+Alt+N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="599"/>
+        <source>C&amp;reate New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="602"/>
         <source>&amp;Sorting</source>
         <translation>&amp;Ordinamento</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="587"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="607"/>
         <source>Main Toolbar</source>
         <translation>Barra strumenti principale</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="567"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="582"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="569"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="584"/>
         <source>Alt+Return</source>
         <translation>Alt+Invio</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="571"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="586"/>
         <source>Case Sensitive</source>
         <translation>Distingui MAIUSCOLE/minuscole</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="572"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="587"/>
         <source>By File Size</source>
         <translation>Per dimensione file</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="573"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="588"/>
         <source>Close Window</source>
         <translation>Chiudi finestra</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="574"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="589"/>
         <source>Edit Bookmarks</source>
         <translation>Modifica segnalibri</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="575"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="590"/>
         <source>Open &amp;Terminal</source>
         <translation>Apri &amp;terminale</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="576"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="591"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="577"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="592"/>
         <source>Open as &amp;Root</source>
         <translation>Apri come &amp;root</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="578"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="593"/>
         <source>&amp;Edit Bookmarks</source>
         <translation>&amp;Modifica segnalibri</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="579"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="598"/>
         <source>&amp;File</source>
         <translation>&amp;File</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="580"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="600"/>
         <source>&amp;Help</source>
         <translation>A&amp;iuto</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="581"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="601"/>
         <source>&amp;View</source>
         <translation>&amp;Visualizza</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="583"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="603"/>
         <source>&amp;Edit</source>
         <translation>&amp;Modifica</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="584"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="604"/>
         <source>&amp;Bookmarks</source>
         <translation>&amp;Segnalibri</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="585"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="605"/>
         <source>&amp;Go</source>
         <translation>&amp;Vai</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="586"/>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="606"/>
         <source>&amp;Tool</source>
         <translation>S&amp;trumenti</translation>
     </message>
@@ -680,7 +705,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../application.cpp" line="156"/>
         <source>Files or directories to open</source>
-        <translation type="unfinished"></translation>
+        <translation>Cartelle o file da aprire</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="402"/>
@@ -710,32 +735,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
 <context>
     <name>PCManFM::DesktopPreferencesDialog</name>
     <message>
-        <location filename="../desktoppreferencesdialog.cpp" line="93"/>
+        <location filename="../desktoppreferencesdialog.cpp" line="46"/>
         <source>Fill with background color only</source>
         <translation>Riempi solo con il colore di sfondo</translation>
     </message>
     <message>
-        <location filename="../desktoppreferencesdialog.cpp" line="94"/>
+        <location filename="../desktoppreferencesdialog.cpp" line="47"/>
         <source>Stretch to fill the entire screen</source>
         <translation>Allarga per riempire tutto lo schermo</translation>
     </message>
     <message>
-        <location filename="../desktoppreferencesdialog.cpp" line="95"/>
+        <location filename="../desktoppreferencesdialog.cpp" line="48"/>
         <source>Stretch to fit the screen</source>
-        <translation>Restringe per adattare allo schermo</translation>
+        <translation>Restringi per adattare allo schermo</translation>
     </message>
     <message>
-        <location filename="../desktoppreferencesdialog.cpp" line="96"/>
+        <location filename="../desktoppreferencesdialog.cpp" line="49"/>
         <source>Center on the screen</source>
         <translation>Centra nello schermo</translation>
     </message>
     <message>
-        <location filename="../desktoppreferencesdialog.cpp" line="97"/>
+        <location filename="../desktoppreferencesdialog.cpp" line="50"/>
         <source>Tile the image to fill the entire screen</source>
         <translation>Ripete l&apos;immagine per riempire tutto lo schermo</translation>
     </message>
     <message>
-        <location filename="../desktoppreferencesdialog.cpp" line="176"/>
+        <location filename="../desktoppreferencesdialog.cpp" line="128"/>
         <source>Image Files</source>
         <translation>File immagine</translation>
     </message>
@@ -743,12 +768,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
 <context>
     <name>PCManFM::DesktopWindow</name>
     <message>
-        <location filename="../desktopwindow.cpp" line="364"/>
+        <location filename="../desktopwindow.cpp" line="366"/>
         <source>Stic&amp;k to Current Position</source>
         <translation>Blo&amp;cca alla posizione attuale</translation>
     </message>
     <message>
-        <location filename="../desktopwindow.cpp" line="386"/>
+        <location filename="../desktopwindow.cpp" line="388"/>
         <source>Desktop Preferences</source>
         <translation>Preferenze scrivania</translation>
     </message>
@@ -756,28 +781,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
 <context>
     <name>PCManFM::MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="404"/>
+        <location filename="../mainwindow.cpp" line="426"/>
         <source>Version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione:%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="810"/>
+        <location filename="../mainwindow.cpp" line="831"/>
         <source>&amp;Move to Trash</source>
         <translation>Cestin&amp;a</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="810"/>
+        <location filename="../mainwindow.cpp" line="831"/>
         <source>&amp;Delete</source>
         <translation>&amp;Rimuovi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="871"/>
-        <location filename="../mainwindow.cpp" line="882"/>
+        <location filename="../mainwindow.cpp" line="893"/>
+        <location filename="../mainwindow.cpp" line="904"/>
         <source>Error</source>
         <translation>Errore</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="882"/>
+        <location filename="../mainwindow.cpp" line="904"/>
         <source>Switch user command is not set.</source>
         <translation>Il comando per cambiare utente non è impostato.</translation>
     </message>
@@ -785,22 +810,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
 <context>
     <name>PCManFM::PreferencesDialog</name>
     <message>
-        <location filename="../preferencesdialog.cpp" line="175"/>
+        <location filename="../preferencesdialog.cpp" line="173"/>
         <source>Icon View</source>
         <translation>Vista icone</translation>
     </message>
     <message>
-        <location filename="../preferencesdialog.cpp" line="176"/>
+        <location filename="../preferencesdialog.cpp" line="174"/>
         <source>Compact Icon View</source>
         <translation>Vista icone compatta</translation>
     </message>
     <message>
-        <location filename="../preferencesdialog.cpp" line="177"/>
+        <location filename="../preferencesdialog.cpp" line="175"/>
         <source>Thumbnail View</source>
         <translation>Vista miniature</translation>
     </message>
     <message>
-        <location filename="../preferencesdialog.cpp" line="178"/>
+        <location filename="../preferencesdialog.cpp" line="176"/>
         <source>Detailed List View</source>
         <translation>Vista elenco dettagliato</translation>
     </message>
@@ -821,7 +846,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
         <location filename="../tabpage.cpp" line="238"/>
         <source>%n item(s)</source>
         <translation>
-            <numerusform>%n oggetto</numerusform>
+            <numerusform>%n oggetto/i</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -836,7 +861,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../tabpage.cpp" line="388"/>
         <source>%1 item(s) selected</source>
-        <translation>%1 elemento selezionato</translation>
+        <translation>%1 elementi selezionati</translation>
     </message>
 </context>
 <context>
@@ -860,219 +885,227 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
 <context>
     <name>PreferencesDialog</name>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="524"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="530"/>
         <source>Preferences</source>
         <translation>Preferenze</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="529"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="535"/>
         <source>User Interface</source>
         <translation>Interfaccia utente</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="531"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="537"/>
         <source>Behavior</source>
         <translation>Comportamento</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="533"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="539"/>
         <source>Thumbnail</source>
         <translation>Miniatura</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="535"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="541"/>
         <source>Volume</source>
         <translation>Volume</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="537"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="543"/>
         <source>Advanced</source>
         <translation>Avanzate</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="540"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="546"/>
         <source>Icons</source>
         <translation>Icone</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="541"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="547"/>
         <source>Size of big icons:</source>
         <translation>Dimensione delle icone grandi:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="542"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="548"/>
         <source>Size of small icons:</source>
         <translation>Dimensione delle icone piccole:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="543"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="549"/>
         <source>Size of thumbnails:</source>
         <translation>Dimensione delle miniature:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="544"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="550"/>
         <source>Size of side pane icons:</source>
         <translation>Dimensione delle icone del riquadro laterale:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="545"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="551"/>
         <source>Icon theme:</source>
         <translation>Tema delle icone:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="546"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="552"/>
         <source>Window</source>
         <translation>Finestra</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="550"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="556"/>
         <source>Default width of new windows:</source>
         <translation>Larghezza predefinita delle nuove finestre:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="551"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="557"/>
         <source>Default height of new windows:</source>
         <translation>Altezza predefinita delle nuove finestre:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="547"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="553"/>
         <source>Always show the tab bar</source>
         <translation>Mostra sempre la barra delle schede</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="548"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="554"/>
         <source>Show &apos;Close&apos; buttons on tabs	</source>
         <translation>Mostra pulsanti di chiusura sulle schede	</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="549"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="555"/>
         <source>Remember the size of the last closed window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ricorda dimensione della ultima finestra chiusa</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="552"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="558"/>
         <source>Browsing</source>
         <translation>Navigazione</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="553"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="559"/>
         <source>Open files with single click</source>
         <translation>Apri file con un clic singolo</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="554"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="560"/>
         <source>Delay of auto-selection in single click mode (0 to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ritardo per l&apos;auto-selezione in modalità click singolo</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="555"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="561"/>
         <source>Default view mode:</source>
         <translation>Modalità vista predefinita:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="556"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="562"/>
         <source> sec</source>
-        <translation type="unfinished"></translation>
+        <translation>secondi</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="557"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="563"/>
         <source>File Operations</source>
         <translation>Operazioni sui file</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="558"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="564"/>
         <source>Confirm before deleting files</source>
         <translation>Conferma prima di rimuovere i file</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="559"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="565"/>
         <source>Move deleted files to &quot;trash bin&quot; instead of erasing from disk.</source>
         <translation>Sposta nel «Cestino» i file rimossi invece di eliminarli dal disco.</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="560"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="566"/>
         <source>Show thumbnails of files</source>
         <translation>Mostra miniature dei file</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="561"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="567"/>
         <source>Only show thumbnails for local files</source>
         <translation>Mostra miniature solo per i file locali</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="562"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="568"/>
         <source>Do not generate thumbnails for image files exceeding this size:</source>
         <translation>Non generare miniature per file immagine più grandi di:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="563"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="569"/>
         <source> KB</source>
         <translation> KB</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="564"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="570"/>
         <source>Auto Mount</source>
         <translation>Montaggio automatico</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="565"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="571"/>
         <source>Mount mountable volumes automatically on program startup</source>
         <translation>Monta automaticamente i volumi montabili all&apos;avvio del programma</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="566"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="572"/>
         <source>Mount removable media automatically when they are inserted</source>
         <translation>Monta automaticamente i volumi rimovibli quando vengono inseriti</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="567"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="573"/>
         <source>Show available options for removable media when they are inserted</source>
         <translation>Mostra opzioni disponibili per i volumi rimovibli quando vengono inseriti</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="568"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="574"/>
         <source>When removable medium unmounted:</source>
-        <translation type="unfinished"></translation>
+        <translation>Quando viene smontato un volume rimovibile:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="569"/>
-        <source>Close tab containing removable medium</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="575"/>
+        <source>Close &amp;tab containing removable medium</source>
+        <translation>Chiudi &amp;scheda con il contenuto</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="570"/>
-        <source>Change folder in the tab to home folder</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="576"/>
+        <source>Chan&amp;ge folder in the tab to home folder</source>
+        <translation>Cambia in cartella &amp;home</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="571"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="579"/>
+        <source>Switch &amp;user command:</source>
+        <translation>Comando per cambiare utente:</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="582"/>
+        <source>Archiver in&amp;tegration:</source>
+        <translation>Gestore archivi da usare:</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="577"/>
         <source>Programs</source>
         <translation>Programmi</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="572"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="578"/>
         <source>Terminal emulator:</source>
         <translation>Emulatore di terminale:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="573"/>
         <source>Switch user command:</source>
-        <translation>Comando per cambiare utente:</translation>
+        <translation type="vanished">Comando per cambiare utente:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="574"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="580"/>
         <source>Examples: &quot;xterm -e %s&quot; for terminal or &quot;gksu %s&quot; for switching user.
 %s = the command line you want to execute with terminal or su.</source>
         <translation>Esempi: &quot;xterm -e %s&quot; per il terminale o &quot;gksu %s&quot; per cambiare utente.
 %s = la riga di comando da eseguire con il terminal o con su.</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="576"/>
         <source>Archiver integration:</source>
-        <translation>Integrazione con gli archivi:</translation>
+        <translation type="vanished">Integrazione con gli archivi:</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="577"/>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="583"/>
         <source>Use SI decimal prefixes instead of IEC binary prefixes</source>
         <translation>Usa i prefissi decimali del SI invece di quelli binari dello IEC</translation>
     </message>

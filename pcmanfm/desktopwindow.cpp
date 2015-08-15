@@ -48,6 +48,7 @@
 #include "filepropsdialog.h"
 #include "utilities.h"
 #include "path.h"
+#include "xdgdir.h"
 
 #include <QX11Info>
 #include <QScreen>
@@ -198,7 +199,8 @@ void DesktopWindow::resizeEvent(QResizeEvent* event) {
 }
 
 void DesktopWindow::setDesktopFolder() {
-  model_ = Fm::CachedFolderModel::modelFromPath(fm_path_get_desktop());
+  FmPath *path = fm_path_new_for_path(XdgDir::readDesktopDir().toStdString().c_str());
+  model_ = Fm::CachedFolderModel::modelFromPath(path);
   proxyModel_->setSourceModel(model_);
 }
 
@@ -649,7 +651,7 @@ void DesktopWindow::onDeleteActivated() {
     Settings& settings = static_cast<Application*>(qApp)->settings();
     bool shiftPressed = (qApp->keyboardModifiers() & Qt::ShiftModifier ? true : false);
     if(settings.useTrash() && !shiftPressed)
-      Fm::FileOperation::trashFiles(paths, settings.confirmDelete());
+      Fm::FileOperation::trashFiles(paths, settings.confirmTrash());
     else
       Fm::FileOperation::deleteFiles(paths, settings.confirmDelete());
     fm_path_list_unref(paths);
@@ -697,7 +699,11 @@ bool DesktopWindow::event(QEvent* event)
   case QEvent::FontChange:
     queueRelayout();
     break;
+
+  default:
+      break;
   }
+
   return QWidget::event(event);
 }
 

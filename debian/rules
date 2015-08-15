@@ -7,6 +7,14 @@ export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 %:
 	dh ${@} --buildsystem cmake --parallel --with quilt
 
+override_dh_auto_configure:
+	mkdir -p $(CURDIR)/debian/bak/pcmanfm/translations
+	cp -r $(CURDIR)/pcmanfm/translations/* $(CURDIR)/debian/bak/pcmanfm/translations
+	dh_auto_configure
+
+override_dh_clean:
+	-cp -r $(CURDIR)/debian/bak/pcmanfm/translations/* $(CURDIR)/pcmanfm/translations/
+	dh_clean
 
 override_dh_install:
 	dh_install --exclude=pcmanfm-qt.1 --fail-missing  --list-missing

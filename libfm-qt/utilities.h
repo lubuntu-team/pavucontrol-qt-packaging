@@ -48,7 +48,7 @@ enum CreateFileType {
   CreateWithTemplate
 };
 
-LIBFM_QT_API void createFile(CreateFileType type, FmPath* parentDir, FmTemplate* templ = NULL, QWidget* parent = 0);
+LIBFM_QT_API void createFileOrFolder(CreateFileType type, FmPath* parentDir, FmTemplate* templ = NULL, QWidget* parent = 0);
 
 LIBFM_QT_API uid_t uidFromName(QString name);
 
@@ -60,7 +60,11 @@ LIBFM_QT_API QString gidToName(gid_t gid);
 
 LIBFM_QT_API int execModelessDialog(QDialog* dlg);
 
+// NOTE: this does not work reliably due to some problems in gio/gvfs
+// Use uriExists() whenever possible.
 LIBFM_QT_API bool isUriSchemeSupported(const char* uriScheme);
+
+LIBFM_QT_API bool uriExists(const char* uri);
 
 }
 

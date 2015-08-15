@@ -158,9 +158,11 @@ void renameFile(FmFileInfo *file, QWidget *parent) {
 }
 
 // templateFile is a file path used as a template of the new file.
-void createFile(CreateFileType type, FmPath* parentDir, FmTemplate* templ, QWidget* parent) {
+void createFileOrFolder(CreateFileType type, FmPath* parentDir, FmTemplate* templ, QWidget* parent) {
   QString defaultNewName;
   QString prompt;
+  QString dialogTitle = type == CreateNewFolder ? QObject::tr("Create Folder")
+                                                : QObject::tr("Create File");
 
   switch(type) {
   case CreateNewTextFile:
@@ -184,7 +186,7 @@ void createFile(CreateFileType type, FmPath* parentDir, FmTemplate* templ, QWidg
 _retry:
   // ask the user to input a file name
   bool ok;
-  QString new_name = QInputDialog::getText(parent, QObject::tr("Create File"),
+  QString new_name = QInputDialog::getText(parent, dialogTitle,
                      prompt,
                      QLineEdit::Normal,
                      defaultNewName,
@@ -230,7 +232,8 @@ _retry:
 
 uid_t uidFromName(QString name) {
   uid_t ret;
-
+  if(name.isEmpty())
+      return -1;
   if(name.at(0).digitValue() != -1) {
     ret = uid_t(name.toUInt());
   }
@@ -249,13 +252,16 @@ QString uidToName(uid_t uid) {
 
   if(pw)
     ret = pw->pw_name;
+  else
+    ret = QString::number(uid);
 
   return ret;
 }
 
 gid_t gidFromName(QString name) {
   gid_t ret;
-
+  if(name.isEmpty())
+      return -1;
   if(name.at(0).digitValue() != -1) {
     ret = gid_t(name.toUInt());
   }
@@ -274,6 +280,8 @@ QString gidToName(gid_t gid) {
 
   if(grp)
     ret = grp->gr_name;
+  else
+    ret = QString::number(gid);
 
   return ret;
 }
@@ -290,6 +298,9 @@ int execModelessDialog(QDialog* dlg) {
 }
 
 // check if GVFS can support this uri scheme (lower case)
+// NOTE: this does not work reliably due to some problems in gio/gvfs and causes bug lxde/lxqt#512
+// https://github.com/lxde/lxqt/issues/512
+// Use uriExists() whenever possible.
 bool isUriSchemeSupported(const char* uriScheme) {
   const gchar * const * schemes = g_vfs_get_supported_uri_schemes(g_vfs_get_default());
   if(Q_UNLIKELY(schemes == NULL))
@@ -300,5 +311,16 @@ bool isUriSchemeSupported(const char* uriScheme) {
   return false;
 }
 
+// check if the URI exists.
+// NOTE: this is a blocking call possibly involving I/O.
+// So it's better to use it in limited cases, like checking trash:// or computer://.
+// Avoid calling this on a slow filesystem.
+// Checking "network:///" is very slow, for example.
+bool uriExists(const char* uri) {
+  GFile* gf = g_file_new_for_uri(uri);
+  bool ret = (bool)g_file_query_exists(gf, NULL);
+  g_object_unref(gf);
+  return ret;
+}
 
-};
+}

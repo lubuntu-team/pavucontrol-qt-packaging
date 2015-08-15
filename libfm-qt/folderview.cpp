@@ -66,7 +66,7 @@ void FolderViewListView::mousePressEvent(QMouseEvent* event) {
 
 QModelIndex FolderViewListView::indexAt(const QPoint& point) const {
   QModelIndex index = QListView::indexAt(point);
-  // NOTE: QListView has a severe design flaw here. It does hit-testing based on the 
+  // NOTE: QListView has a severe design flaw here. It does hit-testing based on the
   // total bound rect of the item. The width of an item is determined by max(icon_width, text_width).
   // So if the text label is much wider than the icon, when you click outside the icon but
   // the point is still within the outer bound rect, the item is still selected.
@@ -195,6 +195,11 @@ FolderViewTreeView::~FolderViewTreeView() {
 void FolderViewTreeView::setModel(QAbstractItemModel* model) {
   QTreeView::setModel(model);
   layoutColumns();
+  if(ProxyFolderModel* proxyModel = qobject_cast<ProxyFolderModel*>(model)) {
+    connect(proxyModel, &ProxyFolderModel::sortFilterChanged, this, &FolderViewTreeView::onSortFilterChanged,
+            Qt::UniqueConnection);
+    onSortFilterChanged();
+  }
 }
 
 void FolderViewTreeView::mousePressEvent(QMouseEvent* event) {
@@ -262,12 +267,10 @@ void FolderViewTreeView::layoutColumns() {
       // even when we reduce the width of the filename column to 200,
       // the available space is not enough. So we give up trying.
       widths[filenameColumn] = 200;
-      desiredWidth += 200;
     }
     else { // we still have more space, so the width of filename column can be increased
       // expand the filename column to fill all available space.
       widths[filenameColumn] = availWidth - desiredWidth;
-      desiredWidth = availWidth;
     }
   }
 
@@ -278,7 +281,7 @@ void FolderViewTreeView::layoutColumns() {
 
   delete []widths;
   doingLayout_ = false;
-  
+
   if(layoutTimer_) {
     delete layoutTimer_;
     layoutTimer_ = NULL;
@@ -287,7 +290,13 @@ void FolderViewTreeView::layoutColumns() {
 
 void FolderViewTreeView::resizeEvent(QResizeEvent* event) {
   QAbstractItemView::resizeEvent(event);
-  if(!doingLayout_) // prevent endless recursion.
+  // prevent endless recursion.
+  // When manually resizing columns, at the point where a horizontal scroll
+  // bar has to be inserted or removed, the vertical size changes, a resize
+  // event  occurs and the column headers are flickering badly if the column
+  // layout is modified at this point. Therefore only layout the columns if
+  // the horizontal size changes.
+  if(!doingLayout_ && event->size().width() != event->oldSize().width())
     layoutColumns(); // layoutColumns() also triggers resizeEvent
 }
 
@@ -305,6 +314,17 @@ void FolderViewTreeView::dataChanged(const QModelIndex& topLeft, const QModelInd
   QTreeView::dataChanged(topLeft, bottomRight);
   // FIXME: this will be very inefficient
   // queueLayoutColumns();
+}
+
+void FolderViewTreeView::reset() {
+  // Sometimes when the content of the model is radically changed, Qt does reset()
+  // on the model rather than doing large amount of insertion and deletion.
+  // This is for performance reason so in this case rowsInserted() and rowsAboutToBeRemoved()
+  // might not be called. Hence we also have to re-layout the columns when the model is reset.
+  // This fixes bug #190
+  // https://github.com/lxde/pcmanfm-qt/issues/190
+  QTreeView::reset();
+  queueLayoutColumns();
 }
 
 void FolderViewTreeView::queueLayoutColumns() {
@@ -343,6 +363,16 @@ void FolderViewTreeView::mouseDoubleClickEvent(QMouseEvent* event) {
 void FolderViewTreeView::activation(const QModelIndex &index) {
   if (activationAllowed_) {
     Q_EMIT activatedFiltered(index);
+  }
+}
+
+void FolderViewTreeView::onSortFilterChanged() {
+  if(QSortFilterProxyModel* proxyModel = qobject_cast<QSortFilterProxyModel*>(model())) {
+    header()->setSortIndicatorShown(true);
+    header()->setSortIndicator(proxyModel->sortColumn(), proxyModel->sortOrder());
+    if (!isSortingEnabled()) {
+      setSortingEnabled(true);
+    }
   }
 }
 
@@ -423,7 +453,7 @@ void FolderView::setViewMode(ViewMode _mode) {
     return;
   // FIXME: retain old selection
 
-  // since only detailed list mode uses QTreeView, and others 
+  // since only detailed list mode uses QTreeView, and others
   // all use QListView, it's wise to preserve QListView when possible.
   bool recreateView = false;
   if(view && (mode == DetailedListMode || _mode == DetailedListMode)) {
@@ -683,7 +713,7 @@ FmFileInfoList* FolderView::selectedFiles() const {
     if(!selIndexes.isEmpty()) {
       FmFileInfoList* files = fm_file_info_list_new();
       QModelIndexList::const_iterator it;
-      for(it = selIndexes.constBegin(); it != selIndexes.constEnd(); it++) {
+      for(it = selIndexes.constBegin(); it != selIndexes.constEnd(); ++it) {
         FmFileInfo* file = model_->fileInfoFromIndex(*it);
         fm_file_info_list_push_tail(files, file);
       }
@@ -905,15 +935,13 @@ void FolderView::onFileClicked(int type, FmFileInfo* fileInfo) {
       }
     }
     else {
-      FmFolder* _folder = folder();
-      FmFileInfo* info = fm_folder_get_info(_folder);
       Fm::FolderMenu* folderMenu = new Fm::FolderMenu(this);
       prepareFolderMenu(folderMenu);
       menu = folderMenu;
     }
     if (menu) {
-      menu->popup(QCursor::pos());
-      connect(menu, &QMenu::aboutToHide, menu, &QMenu::deleteLater);
+      menu->exec(QCursor::pos());
+      delete menu;
     }
   }
 }

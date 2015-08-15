@@ -37,7 +37,6 @@ PlacesModel::PlacesModel(QObject* parent):
 
   setColumnCount(2);
 
-  PlacesModelItem* item;
   placesRoot = new QStandardItem(tr("Places"));
   placesRoot->setSelectable(false);
   placesRoot->setColumnCount(2);
@@ -52,7 +51,8 @@ PlacesModel::PlacesModel(QObject* parent):
   createTrashItem();
 
   FmPath* path;
-  if(isUriSchemeSupported("computer")) {
+  // FIXME: add an option to hide network:///
+  if(true) {
     path = fm_path_new_for_uri("computer:///");
     computerItem = new PlacesModelItem("computer", tr("Computer"), path);
     fm_path_unref(path);
@@ -61,6 +61,7 @@ PlacesModel::PlacesModel(QObject* parent):
   else
     computerItem = NULL;
 
+  // FIXME: add an option to hide applications:///
   const char* applicaion_icon_names[] = {"system-software-install", "applications-accessories", "application-x-executable"};
   // NOTE: g_themed_icon_new_from_names() accepts char**, but actually const char** is OK.
   GIcon* gicon = g_themed_icon_new_from_names((char**)applicaion_icon_names, G_N_ELEMENTS(applicaion_icon_names));
@@ -70,7 +71,8 @@ PlacesModel::PlacesModel(QObject* parent):
   fm_icon_unref(fmicon);
   placesRoot->appendRow(applicationsItem);
 
-  if(isUriSchemeSupported("network")) {
+  // FIXME: add an option to hide network:///
+  if(true) {
     const char* network_icon_names[] = {"network", "folder-network", "folder"};
     // NOTE: g_themed_icon_new_from_names() accepts char**, but actually const char** is OK.
     gicon = g_themed_icon_new_from_names((char**)network_icon_names, G_N_ELEMENTS(network_icon_names));
@@ -118,7 +120,7 @@ PlacesModel::PlacesModel(QObject* parent):
         if(volume)
         g_object_unref(volume);
         else { /* network mounts or others */
-        item = new PlacesModelMountItem(mount);
+        PlacesModelItem* item = new PlacesModelMountItem(mount);
         devicesRoot->appendRow(item);
         }
         g_object_unref(mount);

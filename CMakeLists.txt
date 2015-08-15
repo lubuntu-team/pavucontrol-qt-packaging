@@ -1,8 +1,18 @@
 cmake_minimum_required(VERSION 2.8.11)
 project(pcmanfm-qt)
 
-set(PCMANFM_QT_VERSION "0.9.0")
-set(LIBFM_QT_VERSION "0.9.0")
+set(PCMANFM_QT_VERSION_MAJOR 0)
+set(PCMANFM_QT_VERSION_MINOR 9)
+set(PCMANFM_QT_VERSION_PATCH 0)
+set(PCMANFM_QT_VERSION ${PCMANFM_QT_VERSION_MAJOR}.${PCMANFM_QT_VERSION_MINOR}.${PCMANFM_QT_VERSION_PATCH})
+
+set(LIBFM_QT_VERSION_MAJOR 0)
+set(LIBFM_QT_VERSION_MINOR 9)
+set(LIBFM_QT_VERSION_PATCH 0)
+set(LIBFM_QT_VERSION ${LIBFM_QT_VERSION_MAJOR}.${LIBFM_QT_VERSION_MINOR}.${LIBFM_QT_VERSION_PATCH})
+
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
 # We use the libtool versioning scheme for the internal so name, "current:revision:age"
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html#Updating-version-info
 # https://www.sourceware.org/autobook/autobook/autobook_91.html
@@ -13,10 +23,6 @@ set(LIBFM_QT_VERSION "0.9.0")
 # current: 2, revision: 0, age: 0 => version: 2.0.0
 set(LIBFM_QT_LIB_VERSION "2.0.0")
 set(LIBFM_QT_LIB_SOVERSION "2")
-
-# Set default installation paths
-set(LIB_INSTALL_DIR "lib${LIB_SUFFIX}" CACHE PATH "Installation path for libraries")
-set(INCLUDE_INSTALL_DIR include CACHE PATH "Installation path for includes")
 
 find_package(Qt5Widgets 5.2 REQUIRED)
 find_package(Qt5DBus 5.2 REQUIRED)
@@ -34,7 +40,10 @@ pkg_check_modules(SYSTEM_LIBS REQUIRED
 pkg_check_modules(LIBFM REQUIRED libfm>=1.2.0)
 pkg_check_modules(LIBMENUCACHE REQUIRED libmenu-cache>=0.4.0)
 
+option(UPDATE_TRANSLATIONS "Update source translation translations/*.ts files" OFF)
 include(GNUInstallDirs)
+include(LXQtTranslateTs)
+include(LXQtTranslateDesktop)
 
 add_definitions(-DQT_NO_KEYWORDS)
 
@@ -48,12 +57,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_subdirectory(libfm-qt)
 add_subdirectory(pcmanfm)
-
-# update translations
-add_custom_target(update_translations ALL DEPENDS
-    libfm_translations
-    pcmanfm_translations
-)
 
 # manpage for pcmanfm-qt
 configure_file(
@@ -89,9 +92,9 @@ include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
 set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README")
 set(CPACK_PACKAGE_VENDOR "")
-set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "8")
-set(CPACK_PACKAGE_VERSION_PATCH "0")
+set(CPACK_PACKAGE_VERSION_MAJOR ${PCMANFM_QT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PCMANFM_QT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PCMANFM_QT_VERSION_PATCH})
 set(CPACK_GENERATOR TBZ2)
 set(CPACK_SOURCE_GENERATOR TBZ2)
 set(CPACK_SOURCE_IGNORE_FILES /build/;.gitignore;.*~;.git;.kdev4;temp)

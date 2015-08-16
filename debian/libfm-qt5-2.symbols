@@ -1,4 +1,4 @@
-libfm-qt5.so.2 libfm-qt-5-2 #MINVER#
+libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FolderMenu::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::FolderMenu::qt_metacast(char const*)@Base" 0.9.0+20150816
  (c++)"Fm::FolderMenu::createSortMenu()@Base" 0.9.0+20150816

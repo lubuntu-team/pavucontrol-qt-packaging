@@ -32,7 +32,7 @@ Depends: ${misc:Depends},
 Recommends: gvfs-backends
 Breaks: pcmanfm-qt5 (<< 0.9.0)
 Replaces: pcmanfm-qt5 (<< 0.9.0)
-Description: File manager & desktop icon manager (Qt port of PCManFM and libfm)
+Description: extremely fast and lightweight file and desktop icon manager
  PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
  .
  Libfm-Qt is a companion library providing components to build desktop file
@@ -46,7 +46,7 @@ Depends: ${misc:Depends},
          pcmanfm-qt (= ${binary:Version})
 Breaks: pcmanfm-qt5-dbg (<< 0.2.0)
 Replaces: pcmanfm-qt5-dbg (<< 0.2.0)
-Description: Debug symbols for pcmanfm-qt
+Description: extremely fast and lightweight file and desktop icon manager (debug)
  PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
  .
  Libfm-Qt is a companion library providing components to build desktop file
@@ -64,7 +64,7 @@ Pre-Depends: ${misc:Pre-Depends}
 Replaces: libfm-qt5-0.0.0,
           libfm-qt0.0.0,
           libfm-qt5-1
-Description: Helper library for pcmanfm-qt
+Description: file management support for pcmanfm-qt
  PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
  .
  Libfm-Qt is a companion library providing components to build desktop file
@@ -78,10 +78,10 @@ Section: libdevel
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          libfm-qt5-2 (= ${binary:Version})
-Description: Development files for libfm-qt
- PCMan  File  Manager  Qt  (PCManFM-Qt)  is an extremly fast, lightweight, yet
- feature-rich file manager with tabbed browsing. It is the default file manager
- for the lightweight desktop environment, LXQt.
+Description: file management support for pcmanfm-qt (core development files)
+ PCMan File Manager Qt (PCManFM-Qt) is an extremly fast, lightweight, yet
+ feature-rich file manager with tabbed browsing. It is the default file
+ manager for the lightweight desktop environment, LXQt.
  .
  This package contains development files for helper library libfm-qt for
  pcmanfm-qt.
@@ -94,9 +94,9 @@ Priority: extra
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          libfm-qt5-2 (= ${binary:Version})
-Description: Debug symbols for libfm-qt
- PCMan  File  Manager  Qt  (PCManFM-Qt)  is an extremly fast, lightweight, yet
- feature-rich file manager with tabbed browsing. It is the default file manager
- for the lightweight desktop environment, LXQt.
+Description: file management support for pcmanfm-qt (libfm-qt5 debug)
+ PCMan File Manager Qt (PCManFM-Qt) is an extremly fast, lightweight, yet
+ feature-rich file manager with tabbed browsing. It is the default file
+ manager for the lightweight desktop environment, LXQt.
  .
  This package contains debugging symbols for the shared libs.

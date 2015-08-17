@@ -49,7 +49,8 @@ License: LGPL-2.1+
  Lesser General Public License for more details.
  .
  On Debian systems, the complete text of the GNU Lesser General
- Public License version 2.1 can be found in "/usr/share/common-licenses/LGPL-2.1".
+ Public License version 2.1 can be found in
+ "/usr/share/common-licenses/LGPL-2.1".
 
 License: GPL-2.0+
  This package is free software; you can redistribute it and/or modify
@@ -63,4 +64,5 @@ License: GPL-2.0+
  GNU General Public License for more details.
  .
  On Debian systems, the complete text of the GNU General
- Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
+ Public License version 2 can be found in
+ "/usr/share/common-licenses/GPL-2".

@@ -34,6 +34,7 @@ Files: debian/*
 Copyright: 2014-2015 Wen Liao <wen.cf83@gmail.com>
            2014-2015 ChangZhuo Chen (陳昌倬) <czchen@gmail.com>
            2013-2015 Alf Gaida <agaida@siduction.org>
+           2015      Andrew Lee (李健秋) <ajqlee@debian.org>
 License: GPL-2.0+
 
 License: LGPL-2.1+

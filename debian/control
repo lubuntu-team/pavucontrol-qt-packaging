@@ -30,8 +30,6 @@ Depends: ${misc:Depends},
          ${shlibs:Depends},
          libfm-modules
 Recommends: gvfs-backends
-Breaks: pcmanfm-qt5 (<< 0.9.0)
-Replaces: pcmanfm-qt5 (<< 0.9.0)
 Description: extremely fast and lightweight file and desktop icon manager
  PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
  .
@@ -44,8 +42,6 @@ Section: debug
 Priority: extra
 Depends: ${misc:Depends},
          pcmanfm-qt (= ${binary:Version})
-Breaks: pcmanfm-qt5-dbg (<< 0.2.0)
-Replaces: pcmanfm-qt5-dbg (<< 0.2.0)
 Description: extremely fast and lightweight file and desktop icon manager (debug)
  PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
  .
@@ -61,9 +57,6 @@ Section: libs
 Depends: ${misc:Depends},
          ${shlibs:Depends}
 Pre-Depends: ${misc:Pre-Depends}
-Replaces: libfm-qt5-0.0.0,
-          libfm-qt0.0.0,
-          libfm-qt5-1
 Description: file management support for pcmanfm-qt
  PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
  .

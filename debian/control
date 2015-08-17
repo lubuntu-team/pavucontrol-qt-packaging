@@ -91,6 +91,7 @@ Description: Development files for libfm-qt
 
 Package: libfm-qt5-dbg
 Architecture: any
+Multi-Arch: same
 Section: debug
 Priority: extra
 Depends:

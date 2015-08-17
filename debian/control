@@ -40,7 +40,7 @@ Description: lightweight Qt based file manager for X Windows
  for the lightweight desktop environment, LXQt.
 
 Package: pcmanfm-qt-dbg
-Architecture: same
+Architecture: any
 Section: debug
 Priority: extra
 Breaks: pcmanfm-qt5-dbg (<< 0.2.0)
@@ -90,7 +90,7 @@ Description: Development files for libfm-qt
  pcmanfm-qt.
 
 Package: libfm-qt5-dbg
-Architecture: same
+Architecture: any
 Section: debug
 Priority: extra
 Depends:

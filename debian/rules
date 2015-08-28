@@ -5,7 +5,7 @@
 export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 %:
-	dh ${@} --buildsystem cmake --parallel --with quilt
+	dh ${@} --buildsystem cmake --parallel
 
 override_dh_install:
 	dh_install --exclude=pcmanfm-qt.1 --fail-missing  --list-missing

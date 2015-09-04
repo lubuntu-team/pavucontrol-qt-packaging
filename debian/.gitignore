@@ -2,6 +2,7 @@
 /*.log
 /*.substvars
 /files
+/mangled
 
 /pcmanfm-qt/
 /pcmanfm-qt-dbg/

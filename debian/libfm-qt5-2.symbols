@@ -14,11 +14,9 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FolderMenu::onCaseSensitiveActionTriggered(bool)@Base" 0.9.0+20150816
  (c++)"Fm::FolderMenu::onInvertSelectionActionTriggered()@Base" 0.9.0+20150816
  (c++)"Fm::FolderMenu::FolderMenu(Fm::FolderView*, QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::FolderMenu::FolderMenu(Fm::FolderView*, QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::FolderMenu::~FolderMenu()@Base" 0.9.0+20150816
- (c++)"Fm::FolderMenu::~FolderMenu()@Base" 0.9.0+20150816
  (c++)"Fm::FolderMenu::~FolderMenu()@Base" 0.9.0+20150816
  (c++)"Fm::FolderView::selChanged(int)@Base" 0.9.0+20150816
+ (c++)"Fm::FolderView::clickedBack()@Base" 0.9.0+20150903
  (c++)"Fm::FolderView::eventFilter(QObject*, QEvent*)@Base" 0.9.0+20150816
  (c++)"Fm::FolderView::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::FolderView::qt_metacast(char const*)@Base" 0.9.0+20150816
@@ -28,6 +26,7 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FolderView::emitClickedAt(Fm::FolderView::ClickType, QPoint const&)@Base" 0.9.0+20150816
  (c++)"Fm::FolderView::onFileClicked(int, _FmFileInfo*)@Base" 0.9.0+20150816
  (c++)"Fm::FolderView::childDropEvent(QDropEvent*)@Base" 0.9.0+20150816
+ (c++)"Fm::FolderView::clickedForward()@Base" 0.9.0+20150903
  (c++)"Fm::FolderView::updateGridSize()@Base" 0.9.0+20150816
  (c++)"Fm::FolderView::invertSelection()@Base" 0.9.0+20150816
  (c++)"Fm::FolderView::onItemActivated(QModelIndex)@Base" 0.9.0+20150816
@@ -48,9 +47,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FolderView::setModel(Fm::ProxyFolderModel*)@Base" 0.9.0+20150816
  (c++)"Fm::FolderView::selectAll()@Base" 0.9.0+20150816
  (c++)"Fm::FolderView::FolderView(Fm::FolderView::ViewMode, QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::FolderView::FolderView(Fm::FolderView::ViewMode, QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::FolderView::~FolderView()@Base" 0.9.0+20150816
- (c++)"Fm::FolderView::~FolderView()@Base" 0.9.0+20150816
  (c++)"Fm::FolderView::~FolderView()@Base" 0.9.0+20150816
  (c++)"Fm::FontButton::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::FontButton::qt_metacast(char const*)@Base" 0.9.0+20150816
@@ -59,9 +55,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FontButton::setFont(QFont)@Base" 0.9.0+20150816
  (c++)"Fm::FontButton::onClicked()@Base" 0.9.0+20150816
  (c++)"Fm::FontButton::FontButton(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::FontButton::FontButton(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::FontButton::~FontButton()@Base" 0.9.0+20150816
- (c++)"Fm::FontButton::~FontButton()@Base" 0.9.0+20150816
  (c++)"Fm::FontButton::~FontButton()@Base" 0.9.0+20150816
  (c++)"Fm::PlacesView::commitData(QWidget*)@Base" 0.9.0+20150816
  (c++)"Fm::PlacesView::activateRow(int, QModelIndex const&)@Base" 0.9.0+20150816
@@ -88,9 +81,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::PlacesView::onClicked(QModelIndex const&)@Base" 0.9.0+20150816
  (c++)"Fm::PlacesView::onPressed(QModelIndex const&)@Base" 0.9.0+20150816
  (c++)"Fm::PlacesView::PlacesView(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::PlacesView::PlacesView(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::PlacesView::~PlacesView()@Base" 0.9.0+20150816
- (c++)"Fm::PlacesView::~PlacesView()@Base" 0.9.0+20150816
  (c++)"Fm::PlacesView::~PlacesView()@Base" 0.9.0+20150816
  (c++)"Fm::renameFile(_FmFileInfo*, QWidget*)@Base" 0.9.0+20150816
  (c++)"Fm::AppMenuView::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
@@ -106,9 +96,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::AppMenuView::selectedAppDesktopPath()@Base" 0.9.0+20150816
  (c++)"Fm::AppMenuView::selectedAppDesktopFilePath()@Base" 0.9.0+20150816
  (c++)"Fm::AppMenuView::AppMenuView(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::AppMenuView::AppMenuView(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::AppMenuView::~AppMenuView()@Base" 0.9.0+20150816
- (c++)"Fm::AppMenuView::~AppMenuView()@Base" 0.9.0+20150816
  (c++)"Fm::AppMenuView::~AppMenuView()@Base" 0.9.0+20150816
  (c++)"Fm::ColorButton::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::ColorButton::qt_metacast(char const*)@Base" 0.9.0+20150816
@@ -117,9 +104,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::ColorButton::setColor(QColor const&)@Base" 0.9.0+20150816
  (c++)"Fm::ColorButton::onClicked()@Base" 0.9.0+20150816
  (c++)"Fm::ColorButton::ColorButton(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::ColorButton::ColorButton(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::ColorButton::~ColorButton()@Base" 0.9.0+20150816
- (c++)"Fm::ColorButton::~ColorButton()@Base" 0.9.0+20150816
  (c++)"Fm::ColorButton::~ColorButton()@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeView::onExpanded(QModelIndex const&)@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeView::onCollapsed(QModelIndex const&)@Base" 0.9.0+20150816
@@ -146,9 +130,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::DirTreeView::onNewTab()@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeView::setModel(QAbstractItemModel*)@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeView::DirTreeView(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::DirTreeView::DirTreeView(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::DirTreeView::~DirTreeView()@Base" 0.9.0+20150816
- (c++)"Fm::DirTreeView::~DirTreeView()@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeView::~DirTreeView()@Base" 0.9.0+20150816
  (c++)"Fm::FolderModel::insertFiles(int, _FmFileInfoList*)@Base" 0.9.0+20150816
  (c++)"Fm::FolderModel::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
@@ -172,9 +153,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FolderModel::removeAll()@Base" 0.9.0+20150816
  (c++)"Fm::FolderModel::setFolder(_FmFolder*)@Base" 0.9.0+20150816
  (c++)"Fm::FolderModel::FolderModel()@Base" 0.9.0+20150816
- (c++)"Fm::FolderModel::FolderModel()@Base" 0.9.0+20150816
- (c++)"Fm::FolderModel::~FolderModel()@Base" 0.9.0+20150816
- (c++)"Fm::FolderModel::~FolderModel()@Base" 0.9.0+20150816
  (c++)"Fm::FolderModel::~FolderModel()@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModel::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModel::qt_metacast(char const*)@Base" 0.9.0+20150816
@@ -201,9 +179,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::PlacesModel::onBookmarksChanged(_FmBookmarks*, Fm::PlacesModel*)@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModel::setShowApplications(bool)@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModel::PlacesModel(QObject*)@Base" 0.9.0+20150816
- (c++)"Fm::PlacesModel::PlacesModel(QObject*)@Base" 0.9.0+20150816
- (c++)"Fm::PlacesModel::~PlacesModel()@Base" 0.9.0+20150816
- (c++)"Fm::PlacesModel::~PlacesModel()@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModel::~PlacesModel()@Base" 0.9.0+20150816
  (c++)"Fm::gidFromName(QString)@Base" 0.9.0+20150816
  (c++)"Fm::uidFromName(QString)@Base" 0.9.0+20150816
@@ -221,9 +196,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::DirTreeModel::rowLoaded(QModelIndex const&)@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeModel::unloadRow(QModelIndex const&)@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeModel::DirTreeModel(QObject*)@Base" 0.9.0+20150816
- (c++)"Fm::DirTreeModel::DirTreeModel(QObject*)@Base" 0.9.0+20150816
- (c++)"Fm::DirTreeModel::~DirTreeModel()@Base" 0.9.0+20150816
- (c++)"Fm::DirTreeModel::~DirTreeModel()@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeModel::~DirTreeModel()@Base" 0.9.0+20150816
  (c++)"Fm::FileLauncher::openFolder(_GAppLaunchContext*, _GList*, _GError**)@Base" 0.9.0+20150816
  (c++)"Fm::FileLauncher::launchFiles(QWidget*, _GList*)@Base" 0.9.0+20150816
@@ -234,9 +206,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FileLauncher::getApp(_GList*, _FmMimeType*, _GError**)@Base" 0.9.0+20150816
  (c++)"Fm::FileLauncher::execFile(_FmFileInfo*)@Base" 0.9.0+20150816
  (c++)"Fm::FileLauncher::FileLauncher()@Base" 0.9.0+20150816
- (c++)"Fm::FileLauncher::FileLauncher()@Base" 0.9.0+20150816
- (c++)"Fm::FileLauncher::~FileLauncher()@Base" 0.9.0+20150816
- (c++)"Fm::FileLauncher::~FileLauncher()@Base" 0.9.0+20150816
  (c++)"Fm::FileLauncher::~FileLauncher()@Base" 0.9.0+20150816
  (c++)"Fm::RenameDialog::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::RenameDialog::qt_metacast(char const*)@Base" 0.9.0+20150816
@@ -247,9 +216,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::RenameDialog::accept()@Base" 0.9.0+20150816
  (c++)"Fm::RenameDialog::reject()@Base" 0.9.0+20150816
  (c++)"Fm::RenameDialog::RenameDialog(_FmFileInfo*, _FmFileInfo*, QWidget*, QFlags<Qt::WindowType>)@Base" 0.9.0+20150816
- (c++)"Fm::RenameDialog::RenameDialog(_FmFileInfo*, _FmFileInfo*, QWidget*, QFlags<Qt::WindowType>)@Base" 0.9.0+20150816
- (c++)"Fm::RenameDialog::~RenameDialog()@Base" 0.9.0+20150816
- (c++)"Fm::RenameDialog::~RenameDialog()@Base" 0.9.0+20150816
  (c++)"Fm::RenameDialog::~RenameDialog()@Base" 0.9.0+20150816
  (c++)"Fm::BrowseHistory::setMaxCount(int)@Base" 0.9.0+20150816
  (c++)"Fm::BrowseHistory::setCurrentIndex(int)@Base" 0.9.0+20150816
@@ -257,9 +223,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::BrowseHistory::forward()@Base" 0.9.0+20150816
  (c++)"Fm::BrowseHistory::backward()@Base" 0.9.0+20150816
  (c++)"Fm::BrowseHistory::BrowseHistory()@Base" 0.9.0+20150816
- (c++)"Fm::BrowseHistory::BrowseHistory()@Base" 0.9.0+20150816
- (c++)"Fm::BrowseHistory::~BrowseHistory()@Base" 0.9.0+20150816
- (c++)"Fm::BrowseHistory::~BrowseHistory()@Base" 0.9.0+20150816
  (c++)"Fm::BrowseHistory::~BrowseHistory()@Base" 0.9.0+20150816
  (c++)"Fm::CreateNewMenu::onCreateNew()@Base" 0.9.0+20150816
  (c++)"Fm::CreateNewMenu::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
@@ -268,9 +231,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::CreateNewMenu::staticMetaObject@Base" 0.9.0+20150816
  (c++)"Fm::CreateNewMenu::onCreateNewFolder()@Base" 0.9.0+20150816
  (c++)"Fm::CreateNewMenu::CreateNewMenu(QWidget*, _FmPath*, QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::CreateNewMenu::CreateNewMenu(QWidget*, _FmPath*, QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::CreateNewMenu::~CreateNewMenu()@Base" 0.9.0+20150816
- (c++)"Fm::CreateNewMenu::~CreateNewMenu()@Base" 0.9.0+20150816
  (c++)"Fm::CreateNewMenu::~CreateNewMenu()@Base" 0.9.0+20150816
  (c++)"Fm::FileOperation::showDialog()@Base" 0.9.0+20150816
  (c++)"Fm::FileOperation::trashFiles(_FmPathList*, bool, QWidget*)@Base" 0.9.0+20150816
@@ -297,11 +257,7 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FileOperation::copyFiles(_FmPathList*, _FmPath*, QWidget*)@Base" 0.9.0+20150816
  (c++)"Fm::FileOperation::moveFiles(_FmPathList*, _FmPath*, QWidget*)@Base" 0.9.0+20150816
  (c++)"Fm::FileOperation::FileOperation(Fm::FileOperation::Type, _FmPathList*, QObject*)@Base" 0.9.0+20150816
- (c++)"Fm::FileOperation::FileOperation(Fm::FileOperation::Type, _FmPathList*, QObject*)@Base" 0.9.0+20150816
  (c++)"Fm::FileOperation::~FileOperation()@Base" 0.9.0+20150816
- (c++)"Fm::FileOperation::~FileOperation()@Base" 0.9.0+20150816
- (c++)"Fm::FileOperation::~FileOperation()@Base" 0.9.0+20150816
- (c++)"Fm::BookmarkAction::BookmarkAction(_FmBookmarkItem*, QObject*)@Base" 0.9.0+20150816
  (c++)"Fm::BookmarkAction::BookmarkAction(_FmBookmarkItem*, QObject*)@Base" 0.9.0+20150816
  (c++)"Fm::MountOperation::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::MountOperation::qt_metacast(char const*)@Base" 0.9.0+20150816
@@ -315,15 +271,11 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::MountOperation::onEjectMountFinished(_GMount*, _GAsyncResult*, QPointer<Fm::MountOperation>*)@Base" 0.9.0+20150816
  (c++)"Fm::MountOperation::onEjectVolumeFinished(_GVolume*, _GAsyncResult*, QPointer<Fm::MountOperation>*)@Base" 0.9.0+20150816
  (c++)"Fm::MountOperation::onMountVolumeFinished(_GVolume*, _GAsyncResult*, QPointer<Fm::MountOperation>*)@Base" 0.9.0+20150816
- (c++)"Fm::MountOperation::onShowUnmountProgress(_GMountOperation*, char*, long, long, Fm::MountOperation*)@Base" 0.9.0+20150816
  (c++)"Fm::MountOperation::onUnmountMountFinished(_GMount*, _GAsyncResult*, QPointer<Fm::MountOperation>*)@Base" 0.9.0+20150816
  (c++)"Fm::MountOperation::wait()@Base" 0.9.0+20150816
  (c++)"Fm::MountOperation::onAbort(_GMountOperation*, Fm::MountOperation*)@Base" 0.9.0+20150816
  (c++)"Fm::MountOperation::finished(_GError*)@Base" 0.9.0+20150816
  (c++)"Fm::MountOperation::MountOperation(bool, QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::MountOperation::MountOperation(bool, QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::MountOperation::~MountOperation()@Base" 0.9.0+20150816
- (c++)"Fm::MountOperation::~MountOperation()@Base" 0.9.0+20150816
  (c++)"Fm::MountOperation::~MountOperation()@Base" 0.9.0+20150816
  (c++)"Fm::FilePropsDialog::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::FilePropsDialog::qt_metacast(char const*)@Base" 0.9.0+20150816
@@ -336,9 +288,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FilePropsDialog::accept()@Base" 0.9.0+20150816
  (c++)"Fm::FilePropsDialog::initOwner()@Base" 0.9.0+20150816
  (c++)"Fm::FilePropsDialog::FilePropsDialog(_FmFileInfoList*, QWidget*, QFlags<Qt::WindowType>)@Base" 0.9.0+20150816
- (c++)"Fm::FilePropsDialog::FilePropsDialog(_FmFileInfoList*, QWidget*, QFlags<Qt::WindowType>)@Base" 0.9.0+20150816
- (c++)"Fm::FilePropsDialog::~FilePropsDialog()@Base" 0.9.0+20150816
- (c++)"Fm::FilePropsDialog::~FilePropsDialog()@Base" 0.9.0+20150816
  (c++)"Fm::FilePropsDialog::~FilePropsDialog()@Base" 0.9.0+20150816
  (c++)"Fm::FolderModelItem::findThumbnail(int)@Base" 0.9.0+20150816
  (c++)"Fm::FolderModelItem::removeThumbnail(int)@Base" 0.9.0+20150816
@@ -346,8 +295,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FolderModelItem::FolderModelItem(Fm::FolderModelItem const&)@Base" 0.9.0+20150816
  (c++)"Fm::FolderModelItem::FolderModelItem(_FmFileInfo*)@Base" 0.9.0+20150816
  (c++)"Fm::FolderModelItem::FolderModelItem(Fm::FolderModelItem const&)@Base" 0.9.0+20150816
- (c++)"Fm::FolderModelItem::~FolderModelItem()@Base" 0.9.0+20150816
- (c++)"Fm::FolderModelItem::~FolderModelItem()@Base" 0.9.0+20150816
  (c++)"Fm::FolderModelItem::~FolderModelItem()@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModelItem::updateIcon()@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModelItem::setFileInfo(_FmFileInfo*)@Base" 0.9.0+20150816
@@ -363,8 +310,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::PlacesModelItem::PlacesModelItem(char const*, QString, _FmPath*)@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModelItem::PlacesModelItem()@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModelItem::~PlacesModelItem()@Base" 0.9.0+20150816
- (c++)"Fm::PlacesModelItem::~PlacesModelItem()@Base" 0.9.0+20150816
- (c++)"Fm::PlacesModelItem::~PlacesModelItem()@Base" 0.9.0+20150816
  (c++)"Fm::ThumbnailLoader::scaleImage(_GObject*, int, int)@Base" 0.9.0+20150816
  (c++)"Fm::ThumbnailLoader::writeImage(_GObject*, char const*)@Base" 0.9.0+20150816
  (c++)"Fm::ThumbnailLoader::rotateImage(_GObject*, int)@Base" 0.9.0+20150816
@@ -375,13 +320,9 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::ThumbnailLoader::localFilesOnly_@Base" 0.9.0+20150816
  (c++)"Fm::ThumbnailLoader::readImageFromFile(char const*)@Base" 0.9.0+20150816
  (c++)"Fm::ThumbnailLoader::theThumbnailLoader@Base" 0.9.0+20150816
- (c++)"Fm::ThumbnailLoader::readImageFromStream(_GInputStream*, unsigned long, _GCancellable*)@Base" 0.9.0+20150816
  (c++)"Fm::ThumbnailLoader::maxThumbnailFileSize_@Base" 0.9.0+20150816
  (c++)"Fm::ThumbnailLoader::image(_FmThumbnailLoader*)@Base" 0.9.0+20150816
  (c++)"Fm::ThumbnailLoader::ThumbnailLoader()@Base" 0.9.0+20150816
- (c++)"Fm::ThumbnailLoader::ThumbnailLoader()@Base" 0.9.0+20150816
- (c++)"Fm::ThumbnailLoader::~ThumbnailLoader()@Base" 0.9.0+20150816
- (c++)"Fm::ThumbnailLoader::~ThumbnailLoader()@Base" 0.9.0+20150816
  (c++)"Fm::ThumbnailLoader::~ThumbnailLoader()@Base" 0.9.0+20150816
  (c++)"Fm::AppChooserDialog::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::AppChooserDialog::qt_metacast(char const*)@Base" 0.9.0+20150816
@@ -394,9 +335,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::AppChooserDialog::onSelectionChanged()@Base" 0.9.0+20150816
  (c++)"Fm::AppChooserDialog::accept()@Base" 0.9.0+20150816
  (c++)"Fm::AppChooserDialog::AppChooserDialog(_FmMimeType*, QWidget*, QFlags<Qt::WindowType>)@Base" 0.9.0+20150816
- (c++)"Fm::AppChooserDialog::AppChooserDialog(_FmMimeType*, QWidget*, QFlags<Qt::WindowType>)@Base" 0.9.0+20150816
- (c++)"Fm::AppChooserDialog::~AppChooserDialog()@Base" 0.9.0+20150816
- (c++)"Fm::AppChooserDialog::~AppChooserDialog()@Base" 0.9.0+20150816
  (c++)"Fm::AppChooserDialog::~AppChooserDialog()@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeModelItem::freeFolder()@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeModelItem::insertItem(Fm::DirTreeModelItem*)@Base" 0.9.0+20150816
@@ -416,7 +354,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::DirTreeModelItem::DirTreeModelItem(_FmFileInfo*, Fm::DirTreeModel*, Fm::DirTreeModelItem*)@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeModelItem::DirTreeModelItem()@Base" 0.9.0+20150816
  (c++)"Fm::DirTreeModelItem::~DirTreeModelItem()@Base" 0.9.0+20150816
- (c++)"Fm::DirTreeModelItem::~DirTreeModelItem()@Base" 0.9.0+20150816
  (c++)"Fm::ProxyFolderModel::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::ProxyFolderModel::qt_metacast(char const*)@Base" 0.9.0+20150816
  (c++)"Fm::ProxyFolderModel::removeFilter(Fm::ProxyFolderModelFilter*)@Base" 0.9.0+20150816
@@ -431,9 +368,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::ProxyFolderModel::sort(int, Qt::SortOrder)@Base" 0.9.0+20150816
  (c++)"Fm::ProxyFolderModel::addFilter(Fm::ProxyFolderModelFilter*)@Base" 0.9.0+20150816
  (c++)"Fm::ProxyFolderModel::ProxyFolderModel(QObject*)@Base" 0.9.0+20150816
- (c++)"Fm::ProxyFolderModel::ProxyFolderModel(QObject*)@Base" 0.9.0+20150816
- (c++)"Fm::ProxyFolderModel::~ProxyFolderModel()@Base" 0.9.0+20150816
- (c++)"Fm::ProxyFolderModel::~ProxyFolderModel()@Base" 0.9.0+20150816
  (c++)"Fm::ProxyFolderModel::~ProxyFolderModel()@Base" 0.9.0+20150816
  (c++)"Fm::CachedFolderModel::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::CachedFolderModel::qt_metacast(char const*)@Base" 0.9.0+20150816
@@ -442,9 +376,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::CachedFolderModel::staticMetaObject@Base" 0.9.0+20150816
  (c++)"Fm::CachedFolderModel::unref()@Base" 0.9.0+20150816
  (c++)"Fm::CachedFolderModel::CachedFolderModel(_FmFolder*)@Base" 0.9.0+20150816
- (c++)"Fm::CachedFolderModel::CachedFolderModel(_FmFolder*)@Base" 0.9.0+20150816
- (c++)"Fm::CachedFolderModel::~CachedFolderModel()@Base" 0.9.0+20150816
- (c++)"Fm::CachedFolderModel::~CachedFolderModel()@Base" 0.9.0+20150816
  (c++)"Fm::CachedFolderModel::~CachedFolderModel()@Base" 0.9.0+20150816
  (c++)"Fm::pathListFromQUrls(QList<QUrl>)@Base" 0.9.0+20150816
  (c++)"Fm::AppChooserComboBox::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
@@ -455,18 +386,12 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::AppChooserComboBox::onCurrentIndexChanged(int)@Base" 0.9.0+20150816
  (c++)"Fm::AppChooserComboBox::isChanged()@Base" 0.9.0+20150816
  (c++)"Fm::AppChooserComboBox::AppChooserComboBox(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::AppChooserComboBox::AppChooserComboBox(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::AppChooserComboBox::~AppChooserComboBox()@Base" 0.9.0+20150816
- (c++)"Fm::AppChooserComboBox::~AppChooserComboBox()@Base" 0.9.0+20150816
  (c++)"Fm::AppChooserComboBox::~AppChooserComboBox()@Base" 0.9.0+20150816
  (c++)"Fm::FolderItemDelegate::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::FolderItemDelegate::qt_metacast(char const*)@Base" 0.9.0+20150816
  (c++)"Fm::FolderItemDelegate::staticMetaObject@Base" 0.9.0+20150816
  (c++)"Fm::FolderItemDelegate::iconModeFromState(QFlags<QStyle::StateFlag>)@Base" 0.9.0+20150816
  (c++)"Fm::FolderItemDelegate::FolderItemDelegate(QAbstractItemView*, QObject*)@Base" 0.9.0+20150816
- (c++)"Fm::FolderItemDelegate::FolderItemDelegate(QAbstractItemView*, QObject*)@Base" 0.9.0+20150816
- (c++)"Fm::FolderItemDelegate::~FolderItemDelegate()@Base" 0.9.0+20150816
- (c++)"Fm::FolderItemDelegate::~FolderItemDelegate()@Base" 0.9.0+20150816
  (c++)"Fm::FolderItemDelegate::~FolderItemDelegate()@Base" 0.9.0+20150816
  (c++)"Fm::createFileOrFolder(Fm::CreateFileType, _FmPath*, _FmTemplate*, QWidget*)@Base" 0.9.0+20150816
  (c++)"Fm::execModelessDialog(QDialog*)@Base" 0.9.0+20150816
@@ -477,9 +402,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::EditBookmarksDialog::accept()@Base" 0.9.0+20150816
  (c++)"Fm::EditBookmarksDialog::onAddItem()@Base" 0.9.0+20150816
  (c++)"Fm::EditBookmarksDialog::EditBookmarksDialog(_FmBookmarks*, QWidget*, QFlags<Qt::WindowType>)@Base" 0.9.0+20150816
- (c++)"Fm::EditBookmarksDialog::EditBookmarksDialog(_FmBookmarks*, QWidget*, QFlags<Qt::WindowType>)@Base" 0.9.0+20150816
- (c++)"Fm::EditBookmarksDialog::~EditBookmarksDialog()@Base" 0.9.0+20150816
- (c++)"Fm::EditBookmarksDialog::~EditBookmarksDialog()@Base" 0.9.0+20150816
  (c++)"Fm::EditBookmarksDialog::~EditBookmarksDialog()@Base" 0.9.0+20150816
  (c++)"Fm::FileOperationDialog::setCurFile(QString)@Base" 0.9.0+20150816
  (c++)"Fm::FileOperationDialog::setPercent(unsigned int)@Base" 0.9.0+20150816
@@ -495,27 +417,19 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FileOperationDialog::reject()@Base" 0.9.0+20150816
  (c++)"Fm::FileOperationDialog::askRename(_FmFileInfo*, _FmFileInfo*, QString&)@Base" 0.9.0+20150816
  (c++)"Fm::FileOperationDialog::FileOperationDialog(Fm::FileOperation*)@Base" 0.9.0+20150816
- (c++)"Fm::FileOperationDialog::FileOperationDialog(Fm::FileOperation*)@Base" 0.9.0+20150816
- (c++)"Fm::FileOperationDialog::~FileOperationDialog()@Base" 0.9.0+20150816
- (c++)"Fm::FileOperationDialog::~FileOperationDialog()@Base" 0.9.0+20150816
  (c++)"Fm::FileOperationDialog::~FileOperationDialog()@Base" 0.9.0+20150816
  (c++)"Fm::cutFilesToClipboard(_FmPathList*)@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModelMountItem::update()@Base" 0.9.0+20150816
- (c++)"Fm::PlacesModelMountItem::PlacesModelMountItem(_GMount*)@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModelMountItem::PlacesModelMountItem(_GMount*)@Base" 0.9.0+20150816
  (c++)"Fm::copyFilesToClipboard(_FmPathList*)@Base" 0.9.0+20150816
  (c++)"Fm::isUriSchemeSupported(char const*)@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModelVolumeItem::update()@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModelVolumeItem::isMounted()@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModelVolumeItem::PlacesModelVolumeItem(_GVolume*)@Base" 0.9.0+20150816
- (c++)"Fm::PlacesModelVolumeItem::PlacesModelVolumeItem(_GVolume*)@Base" 0.9.0+20150816
- (c++)"Fm::PlacesModelBookmarkItem::PlacesModelBookmarkItem(_FmBookmarkItem*)@Base" 0.9.0+20150816
  (c++)"Fm::PlacesModelBookmarkItem::PlacesModelBookmarkItem(_FmBookmarkItem*)@Base" 0.9.0+20150816
  (c++)"Fm::pasteFilesFromClipboard(_FmPath*, QWidget*)@Base" 0.9.0+20150816
  (c++)"Fm::LibFmQt::translator()@Base" 0.9.0+20150816
  (c++)"Fm::LibFmQt::LibFmQt()@Base" 0.9.0+20150816
- (c++)"Fm::LibFmQt::LibFmQt()@Base" 0.9.0+20150816
- (c++)"Fm::LibFmQt::~LibFmQt()@Base" 0.9.0+20150816
  (c++)"Fm::LibFmQt::~LibFmQt()@Base" 0.9.0+20150816
  (c++)"Fm::FileMenu::createMenu(_FmFileInfoList*, _FmFileInfo*, _FmPath*)@Base" 0.9.0+20150816
  (c++)"Fm::FileMenu::onCompress()@Base" 0.9.0+20150816
@@ -543,8 +457,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FileMenu::FileMenu(_FmFileInfoList*, _FmFileInfo*, _FmPath*, QWidget*)@Base" 0.9.0+20150816
  (c++)"Fm::FileMenu::FileMenu(_FmFileInfoList*, _FmFileInfo*, _FmPath*, QString const&, QWidget*)@Base" 0.9.0+20150816
  (c++)"Fm::FileMenu::~FileMenu()@Base" 0.9.0+20150816
- (c++)"Fm::FileMenu::~FileMenu()@Base" 0.9.0+20150816
- (c++)"Fm::FileMenu::~FileMenu()@Base" 0.9.0+20150816
  (c++)"Fm::PathEdit::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
  (c++)"Fm::PathEdit::qt_metacast(char const*)@Base" 0.9.0+20150816
  (c++)"Fm::PathEdit::focusInEvent(QFocusEvent*)@Base" 0.9.0+20150816
@@ -557,9 +469,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::PathEdit::staticMetaObject@Base" 0.9.0+20150816
  (c++)"Fm::PathEdit::jobFunc(_GIOSchedulerJob*, _GCancellable*, void*)@Base" 0.9.0+20150816
  (c++)"Fm::PathEdit::PathEdit(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::PathEdit::PathEdit(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::PathEdit::~PathEdit()@Base" 0.9.0+20150816
- (c++)"Fm::PathEdit::~PathEdit()@Base" 0.9.0+20150816
  (c++)"Fm::PathEdit::~PathEdit()@Base" 0.9.0+20150816
  (c++)"Fm::SidePane::modeByName(char const*)@Base" 0.9.0+20150816
  (c++)"Fm::SidePane::setHomeDir(char const*)@Base" 0.9.0+20150816
@@ -583,9 +492,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::SidePane::setMode(Fm::SidePane::Mode)@Base" 0.9.0+20150816
  (c++)"Fm::SidePane::modeName(Fm::SidePane::Mode)@Base" 0.9.0+20150816
  (c++)"Fm::SidePane::SidePane(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::SidePane::SidePane(QWidget*)@Base" 0.9.0+20150816
- (c++)"Fm::SidePane::~SidePane()@Base" 0.9.0+20150816
- (c++)"Fm::SidePane::~SidePane()@Base" 0.9.0+20150816
  (c++)"Fm::SidePane::~SidePane()@Base" 0.9.0+20150816
  (c++)"Fm::IconTheme::eventFilter(QObject*, QEvent*)@Base" 0.9.0+20150816
  (c++)"Fm::IconTheme::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150816
@@ -599,9 +505,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::IconTheme::changed()@Base" 0.9.0+20150816
  (c++)"Fm::IconTheme::instance()@Base" 0.9.0+20150816
  (c++)"Fm::IconTheme::IconTheme()@Base" 0.9.0+20150816
- (c++)"Fm::IconTheme::IconTheme()@Base" 0.9.0+20150816
- (c++)"Fm::IconTheme::~IconTheme()@Base" 0.9.0+20150816
- (c++)"Fm::IconTheme::~IconTheme()@Base" 0.9.0+20150816
  (c++)"Fm::IconTheme::~IconTheme()@Base" 0.9.0+20150816
  (c++)"Fm::gidToName(unsigned int)@Base" 0.9.0+20150816
  (c++)"Fm::uidToName(unsigned int)@Base" 0.9.0+20150816
@@ -788,36 +691,26 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"vtable for Fm::SidePane@Base" 0.9.0+20150816
  (c++)"vtable for Fm::IconTheme@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::FolderMenu::~FolderMenu()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::FolderMenu::~FolderMenu()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::FolderView::~FolderView()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::FolderView::~FolderView()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::FontButton::~FontButton()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::FontButton::~FontButton()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::PlacesView::~PlacesView()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::PlacesView::~PlacesView()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::AppMenuView::~AppMenuView()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::AppMenuView::~AppMenuView()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::ColorButton::~ColorButton()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::ColorButton::~ColorButton()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::DirTreeView::~DirTreeView()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::DirTreeView::~DirTreeView()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::RenameDialog::~RenameDialog()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::RenameDialog::~RenameDialog()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::CreateNewMenu::~CreateNewMenu()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::CreateNewMenu::~CreateNewMenu()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::FilePropsDialog::~FilePropsDialog()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::FilePropsDialog::~FilePropsDialog()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::AppChooserDialog::~AppChooserDialog()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::AppChooserDialog::~AppChooserDialog()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::AppChooserComboBox::~AppChooserComboBox()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::AppChooserComboBox::~AppChooserComboBox()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::EditBookmarksDialog::~EditBookmarksDialog()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::EditBookmarksDialog::~EditBookmarksDialog()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::FileOperationDialog::~FileOperationDialog()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::FileOperationDialog::~FileOperationDialog()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::FileMenu::~FileMenu()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::FileMenu::~FileMenu()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::PathEdit::~PathEdit()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::PathEdit::~PathEdit()@Base" 0.9.0+20150816
  (c++)"non-virtual thunk to Fm::SidePane::~SidePane()@Base" 0.9.0+20150816
- (c++)"non-virtual thunk to Fm::SidePane::~SidePane()@Base" 0.9.0+20150816
+
+ (arch=i386|c++)"Fm::MountOperation::onShowUnmountProgress(_GMountOperation*, char*, long long, long long, Fm::MountOperation*)@Base" 0.9.0+20150903
+ (arch=i386|c++)"Fm::ThumbnailLoader::readImageFromStream(_GInputStream*, unsigned long long, _GCancellable*)@Base" 0.9.0+20150903
+
+ (arch=amd64|c++)"Fm::MountOperation::onShowUnmountProgress(_GMountOperation*, char*, long, long, Fm::MountOperation*)@Base" 0.9.0+20150816
+ (arch=amd64|c++)"Fm::ThumbnailLoader::readImageFromStream(_GInputStream*, unsigned long, _GCancellable*)@Base" 0.9.0+20150816
+

@@ -1,3 +1,12 @@
+pcmanfm-qt (0.9.0+20150903-1) unstable; urgency=medium
+
+  * Cherry-picked upstream version 0.9.0+20150903.
+  * Tar-ignore .gitignore
+  * Fixed control with cme fix
+  * Added upstream signing-key and use it in watch file 
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 04 Sep 2015 18:08:59 +0200
+
 pcmanfm-qt (0.9.0+20150816-1) unstable; urgency=medium
 
   [ ChangZhuo Chen (陳昌倬) ]

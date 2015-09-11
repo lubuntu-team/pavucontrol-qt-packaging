@@ -1,6 +1,6 @@
-pcmanfm-qt (0.9.0+20150903-1) unstable; urgency=medium
+pcmanfm-qt (0.9.0+20150908-1) UNRELEASED; urgency=medium
 
-  * Cherry-picked upstream version 0.9.0+20150903.
+  * Cherry-picked upstream version 0.9.0+20150908.
   * Tar-ignore .gitignore
   * Fixed control with cme fix
   * Added upstream signing-key and use it in watch file 

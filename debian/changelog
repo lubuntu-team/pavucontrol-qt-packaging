@@ -1,4 +1,4 @@
-pcmanfm-qt (0.9.0+20150908-2) unstable; urgency=medium
+pcmanfm-qt (0.9.0+20150908-1) unstable; urgency=medium
 
   [ Alf Gaida ]
   * Cherry-picked upstream version 0.9.0+20150908.

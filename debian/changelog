@@ -1,5 +1,6 @@
-pcmanfm-qt (0.9.0+20150908-1) UNRELEASED; urgency=medium
+pcmanfm-qt (0.9.0+20150908-2) unstable; urgency=medium
 
+  [ Alf Gaida ]
   * Cherry-picked upstream version 0.9.0+20150908.
   * Tar-ignore .gitignore
   * Fixed control with cme fix
@@ -7,7 +8,11 @@ pcmanfm-qt (0.9.0+20150908-1) UNRELEASED; urgency=medium
   * Removed automoc build dependency - not needed with Qt5
   * Fixed symbols for i386 and amd64
 
- -- Alf Gaida <agaida@siduction.org>  Fri, 04 Sep 2015 18:54:29 +0200
+  [ ChangZhuo Chen (陳昌倬) ]
+  * Use arch-bits to fix 32 bit architecture symbols.
+  * Add Shih-Yuan Lee (FourDollars) as Uploaders.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Tue, 15 Sep 2015 23:30:13 +0800
 
 pcmanfm-qt (0.9.0+20150816-1) unstable; urgency=medium
 

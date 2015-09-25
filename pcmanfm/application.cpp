@@ -42,6 +42,7 @@
 #include "mountoperation.h"
 #include "autorundialog.h"
 #include "launcher.h"
+#include "filesearchdialog.h"
 
 #include <QScreen>
 #include <QWindow>
@@ -113,8 +114,8 @@ Application::~Application() {
     g_object_unref(volumeMonitor_);
   }
 
-  if(enableDesktopManager_)
-    removeNativeEventFilter(this);
+  // if(enableDesktopManager_)
+  //   removeNativeEventFilter(this);
 }
 
 bool Application::parseCommandLineArgs() {
@@ -311,7 +312,7 @@ void Application::desktopManager(bool enabled) {
   QDesktopWidget* desktopWidget = desktop();
   if(enabled) {
     if(!enableDesktopManager_) {
-      installNativeEventFilter(this);
+      // installNativeEventFilter(this);
       Q_FOREACH(QScreen* screen, screens()) {
         connect(screen, &QScreen::virtualGeometryChanged, this, &Application::onVirtualGeometryChanged);
         connect(screen, &QObject::destroyed, this, &Application::onScreenDestroyed);
@@ -352,7 +353,7 @@ void Application::desktopManager(bool enabled) {
         disconnect(screen, &QObject::destroyed, this, &Application::onScreenDestroyed);
       }
       disconnect(this, &QApplication::screenAdded, this, &Application::onScreenAdded);
-      removeNativeEventFilter(this);
+      // removeNativeEventFilter(this);
     }
   }
   enableDesktopManager_ = enabled;
@@ -369,9 +370,22 @@ void Application::desktopPrefrences(QString page) {
   desktopPreferencesDialog_.data()->activateWindow();
 }
 
+void Application::onFindFileAccepted() {
+  Fm::FileSearchDialog* dlg = static_cast<Fm::FileSearchDialog*>(sender());
+  Fm::Path uri = dlg->searchUri();
+  // FIXME: we should be able to open it in an existing window
+  FmPathList* paths = fm_path_list_new();
+  fm_path_list_push_tail(paths, uri.data());
+  Launcher(NULL).launchPaths(NULL, paths);
+  fm_path_list_unref(paths);
+}
+
 void Application::findFiles(QStringList paths) {
-  // TODO: add a file searching utility here.
-  qDebug("findFiles");
+  // launch file searching utility.
+  Fm::FileSearchDialog* dlg = new Fm::FileSearchDialog(paths);
+  connect(dlg, &QDialog::accepted, this, &Application::onFindFileAccepted);
+  dlg->setAttribute(Qt::WA_DeleteOnClose);
+  dlg->show();
 }
 
 void Application::launchFiles(QString cwd, QStringList paths, bool inNewWindow) {
@@ -635,17 +649,18 @@ void Application::onVolumeAdded(GVolumeMonitor* monitor, GVolume* volume, Applic
     pThis->autoMountVolume(volume, true);
 }
 
+#if 0
 bool Application::nativeEventFilter(const QByteArray & eventType, void * message, long * result) {
   if(eventType == "xcb_generic_event_t") { // XCB event
     // filter all native X11 events (xcb)
     xcb_generic_event_t* generic_event = reinterpret_cast<xcb_generic_event_t*>(message);
     // qDebug("XCB event: %d", generic_event->response_type & ~0x80);
     Q_FOREACH(DesktopWindow * window, desktopWindows_) {
-      window->xcbEvent(generic_event);
     }
   }
   return false;
 }
+#endif
 
 void Application::onScreenAdded(QScreen* newScreen) {
   if(enableDesktopManager_) {

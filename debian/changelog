@@ -1,10 +1,24 @@
+pcmanfm-qt (0.9.0+20150925-1) experimental; urgency=medium
+
+  * Cherry-picked upstream version 0.9.0+20150925.
+  * Fixed source/options - no need to ignore .kdev4, fixed upstream
+  * Changed symbols 
+    - put the arch bit at the end and comment them
+    - put the new search symbols before the arch bits - they need a review
+  * Fixed the copied pdmanfm menu file
+  * Fixed rules --fail-missing is enough and will list missed files
+  * Switched to experimental because of LXQt namespace change
+  * Added minimum version for liblxqt0-dev (>= 0.9.0+20150911)
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 25 Sep 2015 22:12:50 +0200
+
 pcmanfm-qt (0.9.0+20150908-1) unstable; urgency=medium
 
   [ Alf Gaida ]
   * Cherry-picked upstream version 0.9.0+20150908.
   * Tar-ignore .gitignore
   * Fixed control with cme fix
-  * Added upstream signing-key and use it in watch file 
+  * Added upstream signing-key and use it in watch file
   * Removed automoc build dependency - not needed with Qt5
   * Fixed symbols for i386 and amd64
 

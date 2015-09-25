@@ -25,7 +25,6 @@
 #include "settings.h"
 #include "libfmqt.h"
 #include "editbookmarksdialog.h"
-#include <QAbstractNativeEventFilter>
 #include <QVector>
 #include <QPointer>
 #include <QProxyStyle>
@@ -49,7 +48,7 @@ public:
   virtual int styleHint(StyleHint hint, const QStyleOption * option = 0, const QWidget * widget = 0, QStyleHintReturn * returnData = 0) const;
 };
 
-class Application : public QApplication, public QAbstractNativeEventFilter {
+class Application : public QApplication {
   Q_OBJECT
   Q_PROPERTY(bool desktopManagerEnabled READ desktopManagerEnabled)
 
@@ -75,7 +74,7 @@ public:
   void desktopPrefrences(QString page);
   void editBookmarks();
   void desktopManager(bool enabled);
-  void findFiles(QStringList paths);
+  void findFiles(QStringList paths = QStringList());
 
   bool desktopManagerEnabled() {
     return enableDesktopManager_;
@@ -91,8 +90,6 @@ public:
     return profileName_;
   }
 
-  virtual bool nativeEventFilter(const QByteArray & eventType, void * message, long * result);
-
 protected Q_SLOTS:
   void onAboutToQuit();
   void onSigtermNotified();
@@ -107,6 +104,8 @@ protected Q_SLOTS:
   void onScreenDestroyed(QObject* screenObj);
   void onScreenAdded(QScreen* newScreen);
   void reloadDesktopsAsNeeded();
+
+  void onFindFileAccepted();
 
 protected:
   virtual bool eventFilter(QObject* watched, QEvent* event);

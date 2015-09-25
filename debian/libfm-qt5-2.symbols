@@ -1,8 +1,4 @@
 libfm-qt5.so.2 libfm-qt5-2 #MINVER#
- (arch-bits=32|c++)"Fm::MountOperation::onShowUnmountProgress(_GMountOperation*, char*, long long, long long, Fm::MountOperation*)@Base" 0.9.0+20150903
- (arch-bits=32|c++)"Fm::ThumbnailLoader::readImageFromStream(_GInputStream*, unsigned long long, _GCancellable*)@Base" 0.9.0+20150903
- (arch-bits=64|c++)"Fm::MountOperation::onShowUnmountProgress(_GMountOperation*, char*, long, long, Fm::MountOperation*)@Base" 0.9.0+20150903
- (arch-bits=64|c++)"Fm::ThumbnailLoader::readImageFromStream(_GInputStream*, unsigned long, _GCancellable*)@Base" 0.9.0+20150903
  (c++)"Fm::AppChooserComboBox::~AppChooserComboBox()@Base" 0.9.0+20150903
  (c++)"Fm::AppChooserComboBox::AppChooserComboBox(QWidget*)@Base" 0.9.0+20150903
  (c++)"Fm::AppChooserComboBox::isChanged()@Base" 0.9.0+20150903
@@ -101,8 +97,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::DirTreeModelItem::childFromPath(_FmPath*, bool) const@Base" 0.9.0+20150903
  (c++)"Fm::DirTreeModelItem::~DirTreeModelItem()@Base" 0.9.0+20150903
  (c++)"Fm::DirTreeModelItem::DirTreeModelItem()@Base" 0.9.0+20150903
- (c++)"Fm::DirTreeModelItem::DirTreeModelItem()@Base" 0.9.0+20150903
- (c++)"Fm::DirTreeModelItem::DirTreeModelItem(_FmFileInfo*, Fm::DirTreeModel*, Fm::DirTreeModelItem*)@Base" 0.9.0+20150903
  (c++)"Fm::DirTreeModelItem::DirTreeModelItem(_FmFileInfo*, Fm::DirTreeModel*, Fm::DirTreeModelItem*)@Base" 0.9.0+20150903
  (c++)"Fm::DirTreeModelItem::freeFolder()@Base" 0.9.0+20150903
  (c++)"Fm::DirTreeModel::itemFromIndex(QModelIndex const&) const@Base" 0.9.0+20150903
@@ -178,8 +172,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FileMenu::createMenu(_FmFileInfoList*, _FmFileInfo*, _FmPath*)@Base" 0.9.0+20150903
  (c++)"Fm::FileMenu::~FileMenu()@Base" 0.9.0+20150903
  (c++)"Fm::FileMenu::FileMenu(_FmFileInfoList*, _FmFileInfo*, _FmPath*, QString const&, QWidget*)@Base" 0.9.0+20150903
- (c++)"Fm::FileMenu::FileMenu(_FmFileInfoList*, _FmFileInfo*, _FmPath*, QString const&, QWidget*)@Base" 0.9.0+20150903
- (c++)"Fm::FileMenu::FileMenu(_FmFileInfoList*, _FmFileInfo*, _FmPath*, QWidget*)@Base" 0.9.0+20150903
  (c++)"Fm::FileMenu::FileMenu(_FmFileInfoList*, _FmFileInfo*, _FmPath*, QWidget*)@Base" 0.9.0+20150903
  (c++)"Fm::FileMenu::metaObject() const@Base" 0.9.0+20150903
  (c++)"Fm::FileMenu::onApplicationTriggered()@Base" 0.9.0+20150903
@@ -257,6 +249,11 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FilePropsDialog::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150903
  (c++)"Fm::FilePropsDialog::qt_metacast(char const*)@Base" 0.9.0+20150903
  (c++)"Fm::FilePropsDialog::staticMetaObject@Base" 0.9.0+20150903
+ (c++)"Fm::FileSearchDialog::accept()@Base" 0.9.0+20150925
+ (c++)"Fm::FileSearchDialog::~FileSearchDialog()@Base" 0.9.0+20150925
+ (c++)"Fm::FileSearchDialog::FileSearchDialog(QStringList, QWidget*, QFlags<Qt::WindowType>)@Base" 0.9.0+20150925
+ (c++)"Fm::FileSearchDialog::onAddPath()@Base" 0.9.0+20150925
+ (c++)"Fm::FileSearchDialog::onRemovePath()@Base" 0.9.0+20150925
  (c++)"Fm::FolderItemDelegate::drawText(QPainter*, QStyleOptionViewItem&, QRectF&) const@Base" 0.9.0+20150903
  (c++)"Fm::FolderItemDelegate::~FolderItemDelegate()@Base" 0.9.0+20150903
  (c++)"Fm::FolderItemDelegate::FolderItemDelegate(QAbstractItemView*, QObject*)@Base" 0.9.0+20150903
@@ -301,8 +298,6 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FolderModelItem::findThumbnail(int)@Base" 0.9.0+20150903
  (c++)"Fm::FolderModelItem::~FolderModelItem()@Base" 0.9.0+20150903
  (c++)"Fm::FolderModelItem::FolderModelItem(_FmFileInfo*)@Base" 0.9.0+20150903
- (c++)"Fm::FolderModelItem::FolderModelItem(_FmFileInfo*)@Base" 0.9.0+20150903
- (c++)"Fm::FolderModelItem::FolderModelItem(Fm::FolderModelItem const&)@Base" 0.9.0+20150903
  (c++)"Fm::FolderModelItem::FolderModelItem(Fm::FolderModelItem const&)@Base" 0.9.0+20150903
  (c++)"Fm::FolderModel::itemFromIndex(QModelIndex const&) const@Base" 0.9.0+20150903
  (c++)"Fm::FolderModelItem::removeThumbnail(int)@Base" 0.9.0+20150903
@@ -446,12 +441,8 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::PlacesModel::itemFromVolume(_GVolume*)@Base" 0.9.0+20150903
  (c++)"Fm::PlacesModelItem::~PlacesModelItem()@Base" 0.9.0+20150903
  (c++)"Fm::PlacesModelItem::PlacesModelItem()@Base" 0.9.0+20150903
- (c++)"Fm::PlacesModelItem::PlacesModelItem()@Base" 0.9.0+20150903
- (c++)"Fm::PlacesModelItem::PlacesModelItem(char const*, QString, _FmPath*)@Base" 0.9.0+20150903
  (c++)"Fm::PlacesModelItem::PlacesModelItem(char const*, QString, _FmPath*)@Base" 0.9.0+20150903
  (c++)"Fm::PlacesModelItem::PlacesModelItem(_FmIcon*, QString, _FmPath*)@Base" 0.9.0+20150903
- (c++)"Fm::PlacesModelItem::PlacesModelItem(_FmIcon*, QString, _FmPath*)@Base" 0.9.0+20150903
- (c++)"Fm::PlacesModelItem::PlacesModelItem(QIcon, QString, _FmPath*)@Base" 0.9.0+20150903
  (c++)"Fm::PlacesModelItem::PlacesModelItem(QIcon, QString, _FmPath*)@Base" 0.9.0+20150903
  (c++)"Fm::PlacesModelItem::setFileInfo(_FmFileInfo*)@Base" 0.9.0+20150903
  (c++)"Fm::PlacesModelItem::setIcon(_FmIcon*)@Base" 0.9.0+20150903
@@ -596,6 +587,7 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"non-virtual thunk to Fm::FileMenu::~FileMenu()@Base" 0.9.0+20150903
  (c++)"non-virtual thunk to Fm::FileOperationDialog::~FileOperationDialog()@Base" 0.9.0+20150903
  (c++)"non-virtual thunk to Fm::FilePropsDialog::~FilePropsDialog()@Base" 0.9.0+20150903
+ (c++)"non-virtual thunk to Fm::FileSearchDialog::~FileSearchDialog()@Base" 0.9.0+20150925
  (c++)"non-virtual thunk to Fm::FolderMenu::~FolderMenu()@Base" 0.9.0+20150903
  (c++)"non-virtual thunk to Fm::FolderView::~FolderView()@Base" 0.9.0+20150903
  (c++)"non-virtual thunk to Fm::FontButton::~FontButton()@Base" 0.9.0+20150903
@@ -619,6 +611,7 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"typeinfo for Fm::FileOperation@Base" 0.9.0+20150903
  (c++)"typeinfo for Fm::FileOperationDialog@Base" 0.9.0+20150903
  (c++)"typeinfo for Fm::FilePropsDialog@Base" 0.9.0+20150903
+ (c++)"typeinfo for Fm::FileSearchDialog@Base" 0.9.0+20150925
  (c++)"typeinfo for Fm::FolderItemDelegate@Base" 0.9.0+20150903
  (c++)"typeinfo for Fm::FolderMenu@Base" 0.9.0+20150903
  (c++)"typeinfo for Fm::FolderModel@Base" 0.9.0+20150903
@@ -655,6 +648,7 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"typeinfo name for Fm::FileOperation@Base" 0.9.0+20150903
  (c++)"typeinfo name for Fm::FileOperationDialog@Base" 0.9.0+20150903
  (c++)"typeinfo name for Fm::FilePropsDialog@Base" 0.9.0+20150903
+ (c++)"typeinfo name for Fm::FileSearchDialog@Base" 0.9.0+20150925
  (c++)"typeinfo name for Fm::FolderItemDelegate@Base" 0.9.0+20150903
  (c++)"typeinfo name for Fm::FolderMenu@Base" 0.9.0+20150903
  (c++)"typeinfo name for Fm::FolderModel@Base" 0.9.0+20150903
@@ -691,6 +685,7 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"vtable for Fm::FileOperation@Base" 0.9.0+20150903
  (c++)"vtable for Fm::FileOperationDialog@Base" 0.9.0+20150903
  (c++)"vtable for Fm::FilePropsDialog@Base" 0.9.0+20150903
+ (c++)"vtable for Fm::FileSearchDialog@Base" 0.9.0+20150925
  (c++)"vtable for Fm::FolderItemDelegate@Base" 0.9.0+20150903
  (c++)"vtable for Fm::FolderMenu@Base" 0.9.0+20150903
  (c++)"vtable for Fm::FolderModel@Base" 0.9.0+20150903
@@ -712,3 +707,45 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"vtable for Fm::SidePane@Base" 0.9.0+20150903
  (c++)"vtable for Fm::ThumbnailLoader@Base" 0.9.0+20150903
 
+## some new symbols i dont know
+ fm_search_add_dir@Base 0.9.0+20150925
+ fm_search_add_mime_type@Base 0.9.0+20150925
+ fm_search_dup_path@Base 0.9.0+20150925
+ fm_search_free@Base 0.9.0+20150925
+ fm_search_get_content_ci@Base 0.9.0+20150925
+ fm_search_get_content_pattern@Base 0.9.0+20150925
+ fm_search_get_content_regex@Base 0.9.0+20150925
+ fm_search_get_dirs@Base 0.9.0+20150925
+ fm_search_get_max_mtime@Base 0.9.0+20150925
+ fm_search_get_max_size@Base 0.9.0+20150925
+ fm_search_get_mime_types@Base 0.9.0+20150925
+ fm_search_get_min_mtime@Base 0.9.0+20150925
+ fm_search_get_min_size@Base 0.9.0+20150925
+ fm_search_get_name_ci@Base 0.9.0+20150925
+ fm_search_get_name_patterns@Base 0.9.0+20150925
+ fm_search_get_name_regex@Base 0.9.0+20150925
+ fm_search_get_recursive@Base 0.9.0+20150925
+ fm_search_get_show_hidden@Base 0.9.0+20150925
+ fm_search_new@Base 0.9.0+20150925
+ fm_search_remove_dir@Base 0.9.0+20150925
+ fm_search_remove_mime_type@Base 0.9.0+20150925
+ fm_search_set_content_ci@Base 0.9.0+20150925
+ fm_search_set_content_pattern@Base 0.9.0+20150925
+ fm_search_set_content_regex@Base 0.9.0+20150925
+ fm_search_set_max_mtime@Base 0.9.0+20150925
+ fm_search_set_max_size@Base 0.9.0+20150925
+ fm_search_set_min_mtime@Base 0.9.0+20150925
+ fm_search_set_min_size@Base 0.9.0+20150925
+ fm_search_set_name_ci@Base 0.9.0+20150925
+ fm_search_set_name_patterns@Base 0.9.0+20150925
+ fm_search_set_name_regex@Base 0.9.0+20150925
+ fm_search_set_recursive@Base 0.9.0+20150925
+ fm_search_set_show_hidden@Base 0.9.0+20150925
+
+## arch-bits for 32 bit
+ (arch-bits=32|c++)"Fm::MountOperation::onShowUnmountProgress(_GMountOperation*, char*, long long, long long, Fm::MountOperation*)@Base" 0.9.0+20150903
+ (arch-bits=32|c++)"Fm::ThumbnailLoader::readImageFromStream(_GInputStream*, unsigned long long, _GCancellable*)@Base" 0.9.0+20150903
+
+## arch-bits for 64 bit
+ (arch-bits=64|c++)"Fm::MountOperation::onShowUnmountProgress(_GMountOperation*, char*, long, long, Fm::MountOperation*)@Base" 0.9.0+20150903
+ (arch-bits=64|c++)"Fm::ThumbnailLoader::readImageFromStream(_GInputStream*, unsigned long, _GCancellable*)@Base" 0.9.0+20150903

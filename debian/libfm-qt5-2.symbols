@@ -40,8 +40,8 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::BookmarkAction::BookmarkAction(_FmBookmarkItem*, QObject*)@Base" 0.9.0+20150903
  (c++)"Fm::BrowseHistory::add(_FmPath*, int)@Base" 0.9.0+20150903
  (c++)"Fm::BrowseHistory::backward()@Base" 0.9.0+20150903
- (c++)"Fm::BrowseHistory::~BrowseHistory()@Base" 0.9.0+20150903
  (c++)"Fm::BrowseHistory::BrowseHistory()@Base" 0.9.0+20150903
+ (c++)"Fm::BrowseHistory::~BrowseHistory()@Base" 0.9.0+20150903
  (c++)"Fm::BrowseHistory::canBackward() const@Base" 0.9.0+20150903
  (c++)"Fm::BrowseHistory::canForward() const@Base" 0.9.0+20150903
  (c++)"Fm::BrowseHistory::forward()@Base" 0.9.0+20150903
@@ -95,8 +95,8 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::DirTreeModelItem::addPlaceHolderChild()@Base" 0.9.0+20150903
  (c++)"Fm::DirTreeModelItem::childFromName(char const*, int*)@Base" 0.9.0+20150903
  (c++)"Fm::DirTreeModelItem::childFromPath(_FmPath*, bool) const@Base" 0.9.0+20150903
- (c++)"Fm::DirTreeModelItem::~DirTreeModelItem()@Base" 0.9.0+20150903
  (c++)"Fm::DirTreeModelItem::DirTreeModelItem()@Base" 0.9.0+20150903
+ (c++)"Fm::DirTreeModelItem::~DirTreeModelItem()@Base" 0.9.0+20150903
  (c++)"Fm::DirTreeModelItem::DirTreeModelItem(_FmFileInfo*, Fm::DirTreeModel*, Fm::DirTreeModelItem*)@Base" 0.9.0+20150903
  (c++)"Fm::DirTreeModelItem::freeFolder()@Base" 0.9.0+20150903
  (c++)"Fm::DirTreeModel::itemFromIndex(QModelIndex const&) const@Base" 0.9.0+20150903
@@ -161,8 +161,8 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FileLauncher::ask(char const*, char* const*, int)@Base" 0.9.0+20150903
  (c++)"Fm::FileLauncher::error(_GAppLaunchContext*, _GError*, _FmPath*)@Base" 0.9.0+20150903
  (c++)"Fm::FileLauncher::execFile(_FmFileInfo*)@Base" 0.9.0+20150903
- (c++)"Fm::FileLauncher::~FileLauncher()@Base" 0.9.0+20150903
  (c++)"Fm::FileLauncher::FileLauncher()@Base" 0.9.0+20150903
+ (c++)"Fm::FileLauncher::~FileLauncher()@Base" 0.9.0+20150903
  (c++)"Fm::FileLauncher::funcs@Base" 0.9.0+20150903
  (c++)"Fm::FileLauncher::getApp(_GList*, _FmMimeType*, _GError**)@Base" 0.9.0+20150903
  (c++)"Fm::FileLauncher::launchFiles(QWidget*, _GList*)@Base" 0.9.0+20150903
@@ -290,8 +290,8 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::FolderModel::findItemByName(char const*, int*)@Base" 0.9.0+20150903
  (c++)"Fm::FolderModel::findItemByPath(_FmPath*, int*)@Base" 0.9.0+20150903
  (c++)"Fm::FolderModel::flags(QModelIndex const&) const@Base" 0.9.0+20150903
- (c++)"Fm::FolderModel::~FolderModel()@Base" 0.9.0+20150903
  (c++)"Fm::FolderModel::FolderModel()@Base" 0.9.0+20150903
+ (c++)"Fm::FolderModel::~FolderModel()@Base" 0.9.0+20150903
  (c++)"Fm::FolderModel::headerData(int, Qt::Orientation, int) const@Base" 0.9.0+20150903
  (c++)"Fm::FolderModel::index(int, int, QModelIndex const&) const@Base" 0.9.0+20150903
  (c++)"Fm::FolderModel::insertFiles(int, _FmFileInfoList*)@Base" 0.9.0+20150903
@@ -383,8 +383,8 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::IconTheme::icon(_FmIcon*)@Base" 0.9.0+20150903
  (c++)"Fm::IconTheme::iconFromNames(char const* const*)@Base" 0.9.0+20150903
  (c++)"Fm::IconTheme::icon(_GIcon*)@Base" 0.9.0+20150903
- (c++)"Fm::IconTheme::~IconTheme()@Base" 0.9.0+20150903
  (c++)"Fm::IconTheme::IconTheme()@Base" 0.9.0+20150903
+ (c++)"Fm::IconTheme::~IconTheme()@Base" 0.9.0+20150903
  (c++)"Fm::IconTheme::instance()@Base" 0.9.0+20150903
  (c++)"Fm::IconTheme::metaObject() const@Base" 0.9.0+20150903
  (c++)"Fm::IconTheme::qt_metacall(QMetaObject::Call, int, void**)@Base" 0.9.0+20150903
@@ -524,6 +524,7 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::ProxyFolderModel::sortFilterChanged()@Base" 0.9.0+20150903
  (c++)"Fm::ProxyFolderModel::sort(int, Qt::SortOrder)@Base" 0.9.0+20150903
  (c++)"Fm::ProxyFolderModel::staticMetaObject@Base" 0.9.0+20150903
+ (c++)"Fm::ProxyFolderModel::updateFilters()@Base" 0.9.0+20150929
  (c++)"Fm::RenameDialog::accept()@Base" 0.9.0+20150903
  (c++)"Fm::RenameDialog::metaObject() const@Base" 0.9.0+20150903
  (c++)"Fm::RenameDialog::onFileNameChanged(QString)@Base" 0.9.0+20150903

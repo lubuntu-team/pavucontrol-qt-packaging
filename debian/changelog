@@ -1,11 +1,13 @@
-pcmanfm-qt (0.9.0+20150927-1) experimental; urgency=medium
+pcmanfm-qt (0.9.0+20150929-1) experimental; urgency=medium
 
-  * Cherry-picked upstream version 0.9.0+20150927.
+  * Cherry-picked upstream version 0.9.0+20150929.
+  * New symbol added
   * This snapshot contain:
     - apply button for desktop preferences
     - fix for incidental closing the desktop paint process
+    - Added a filterbar + Handle virtually hidden files
 
- -- Alf Gaida <agaida@siduction.org>  Mon, 28 Sep 2015 00:25:42 +0200
+ -- Alf Gaida <agaida@siduction.org>  Sat, 03 Oct 2015 20:02:52 +0200
 
 pcmanfm-qt (0.9.0+20150925-1) experimental; urgency=medium
 

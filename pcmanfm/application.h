@@ -34,6 +34,8 @@
 
 class QScreen;
 
+class QFileSystemWatcher;
+
 namespace PCManFM {
 
 class DesktopWindow;
@@ -115,7 +117,11 @@ protected:
 
   static void onVolumeAdded(GVolumeMonitor* monitor, GVolume* volume, Application* pThis);
 
+private Q_SLOTS:
+  void onUserDirsChanged();
+
 private:
+  void initWatch();
   void installSigtermHandler();
 
   bool isPrimaryInstance;
@@ -131,6 +137,12 @@ private:
   QTranslator translator;
   QTranslator qtTranslator;
   GVolumeMonitor* volumeMonitor_;
+
+  QFileSystemWatcher *userDirsWatcher_;
+  QString userDirsFile_;
+  QString userDesktopFolder_;
+  bool lxqtRunning_;
+
   int argc_;
   char** argv_;
 };

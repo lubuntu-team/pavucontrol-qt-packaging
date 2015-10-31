@@ -1,4 +1,0 @@
-?package(pcmanfm-qt):needs="X11" section="Applications/File Management"\
-  title="PCManFM-Qt" longtitle="Real Tabbed File Manager"\
-  description="PCMan File Manager is an extremely fast and lightweight Qt based file manager."\
-  command="/usr/bin/pcmanfm-qt" hints="File manager"

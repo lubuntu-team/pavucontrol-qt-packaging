@@ -489,6 +489,7 @@ libfm-qt5.so.2 libfm-qt5-2 #MINVER#
  (c++)"Fm::PlacesView::onEjectButtonClicked(Fm::PlacesModelItem*)@Base" 0.9.0+20150903
  (c++)"Fm::PlacesView::onEjectVolume()@Base" 0.9.0+20150903
  (c++)"Fm::PlacesView::onEmptyTrash()@Base" 0.9.0+20150903
+ (c++)"Fm::PlacesView::onIconSizeChanged(QSize const&)@Base" 0.9.0+20151031
  (c++)"Fm::PlacesView::onMountVolume()@Base" 0.9.0+20150903
  (c++)"Fm::PlacesView::onMoveBookmarkDown()@Base" 0.9.0+20150903
  (c++)"Fm::PlacesView::onMoveBookmarkUp()@Base" 0.9.0+20150903

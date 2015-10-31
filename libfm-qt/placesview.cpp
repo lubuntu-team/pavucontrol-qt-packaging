@@ -49,7 +49,7 @@ PlacesView::PlacesView(QWidget* parent):
 
   QHeaderView* headerView = header();
   headerView->setSectionResizeMode(0, QHeaderView::Stretch);
-  headerView->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+  headerView->setSectionResizeMode(1, QHeaderView::Fixed);
   headerView->setStretchLastSection(false);
   expandAll();
 
@@ -64,6 +64,10 @@ PlacesView::PlacesView(QWidget* parent):
 
   setAcceptDrops(true);
   setDragEnabled(true);
+
+  // update the umount button's column width based on icon size
+  onIconSizeChanged(iconSize());
+  connect(this, &QAbstractItemView::iconSizeChanged, this, &PlacesView::onIconSizeChanged);
 }
 
 PlacesView::~PlacesView() {
@@ -112,6 +116,10 @@ void PlacesView::onPressed(const QModelIndex& index) {
   }
 }
 
+void PlacesView::onIconSizeChanged(const QSize& size) {
+  setColumnWidth(1, size.width() + 5);
+}
+
 void PlacesView::onEjectButtonClicked(PlacesModelItem* item) {
   // The eject button is clicked for a device item (volume or mount)
   if(item->type() == PlacesModelItem::Volume) {
@@ -147,6 +155,8 @@ void PlacesView::onClicked(const QModelIndex& index) {
         onEjectButtonClicked(item);
       }
     }
+    else
+      activateRow(0, index.sibling(index.row(), 0));
   }
 }
 

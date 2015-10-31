@@ -1,27 +1,21 @@
-pcmanfm-qt (0.9.0+20150929-1) experimental; urgency=medium
+pcmanfm-qt (0.9.0+20151031-1) experimental; urgency=medium
 
-  * Cherry-picked upstream version 0.9.0+20150929.
-  * New symbol added
+  * Cherry-picked upstream version 0.9.0+20151031.
+  * Set new minimum versions for liblxqt and libqtxdg.
   * This snapshot contain:
     - apply button for desktop preferences
     - fix for incidental closing the desktop paint process
     - Added a filterbar + Handle virtually hidden files
-
- -- Alf Gaida <agaida@siduction.org>  Sat, 03 Oct 2015 20:02:52 +0200
-
-pcmanfm-qt (0.9.0+20150925-1) experimental; urgency=medium
-
-  * Cherry-picked upstream version 0.9.0+20150925.
   * Fixed source/options - no need to ignore .kdev4, fixed upstream
   * Changed symbols 
+    - new symbols added
     - put the arch bit at the end and comment them
     - put the new search symbols before the arch bits - they need a review
-  * Fixed the copied pdmanfm menu file
   * Fixed rules --fail-missing is enough and will list missed files
   * Switched to experimental because of LXQt namespace change
-  * Added minimum version for liblxqt0-dev (>= 0.9.0+20150911)
-
- -- Alf Gaida <agaida@siduction.org>  Fri, 25 Sep 2015 22:12:50 +0200
+  * remove menu file, see CTTE #741573
+ 
+ -- Alf Gaida <agaida@siduction.org>  Sat, 31 Oct 2015 12:07:25 +0100
 
 pcmanfm-qt (0.9.0+20150908-1) unstable; urgency=medium
 

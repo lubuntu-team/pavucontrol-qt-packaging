@@ -24,9 +24,9 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <libfm/fm.h>
-#include "browsehistory.h"
+#include <libfm-qt/browsehistory.h>
 #include "view.h"
-#include "path.h"
+#include <libfm-qt/path.h>
 
 namespace Fm {
   class FileLauncher;
@@ -69,7 +69,7 @@ public:
   };
 
 public:
-  explicit TabPage(FmPath* path, QWidget* parent = 0);
+  explicit TabPage(FmPath* path, QWidget* parent = nullptr);
   virtual ~TabPage();
 
   void chdir(FmPath* newPath, bool addHistory = true);
@@ -118,7 +118,7 @@ public:
   void setShowHidden(bool showHidden);
 
   FmPath* path() {
-    return folder_ ? fm_folder_get_path(folder_) : NULL;
+    return folder_ ? fm_folder_get_path(folder_) : nullptr;
   }
 
   QString pathName();
@@ -243,6 +243,7 @@ private:
   QString title_;
   QString statusText_[StatusTextNum];
   Fm::BrowseHistory history_; // browsing history
+  Fm::Path lastFolderPath_; // last browsed folder
   bool overrideCursor_;
 };
 

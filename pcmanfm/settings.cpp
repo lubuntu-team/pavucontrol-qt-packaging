@@ -25,10 +25,10 @@
 #include <QSettings>
 #include <QApplication>
 #include "desktopwindow.h"
-#include "utilities.h"
+#include <libfm-qt/utilities.h>
 // #include <QDesktopServices>
 
-using namespace PCManFM;
+namespace PCManFM {
 
 inline static const char* bookmarkOpenMethodToString(OpenDirTargetType value);
 inline static OpenDirTargetType bookmarkOpenMethodFromString(const QString str);
@@ -109,7 +109,11 @@ Settings::~Settings() {
 QString Settings::profileDir(QString profile, bool useFallback) {
   // NOTE: it's a shame that QDesktopServices does not handle XDG_CONFIG_HOME
   // try user-specific config file first
-  QString dirName = QLatin1String(qgetenv("XDG_CONFIG_HOME"));
+  QString dirName;
+  // WARNING: Don't use XDG_CONFIG_HOME with root because it might
+  // give the user config directory if gksu-properties is set to su.
+  if(geteuid())
+    dirName = QLatin1String(qgetenv("XDG_CONFIG_HOME"));
   if (dirName.isEmpty())
     dirName = QDir::homePath() % QLatin1String("/.config");
   dirName = dirName % "/pcmanfm-qt/" % profile;
@@ -156,7 +160,7 @@ bool Settings::loadFile(QString filePath) {
   setSiUnit(settings.value("SIUnit", false).toBool());
 
   setOnlyUserTemplates(settings.value("OnlyUserTemplates", false).toBool());
-  setTemplateTypeOnce(settings.value("OemplateTypeOnce", false).toBool());
+  setTemplateTypeOnce(settings.value("TemplateTypeOnce", false).toBool());
   setTemplateRunApp(settings.value("TemplateRunApp", false).toBool());
 
   settings.endGroup();
@@ -251,7 +255,7 @@ bool Settings::saveFile(QString filePath) {
   settings.setValue("SIUnit", siUnit_);
 
   settings.setValue("OnlyUserTemplates", onlyUserTemplates_);
-  settings.setValue("OemplateTypeOnce", templateTypeOnce_);
+  settings.setValue("TemplateTypeOnce", templateTypeOnce_);
   settings.setValue("TemplateRunApp", templateRunApp_);
 
   settings.endGroup();
@@ -511,4 +515,6 @@ void Settings::setTerminal(QString terminalCommand) {
     g_free(fm_config->terminal);
     fm_config->terminal = g_strdup(terminal_.toLocal8Bit().constData());
     g_signal_emit_by_name(fm_config, "changed::terminal");
-  }
+}
+
+} // namespace PCManFM

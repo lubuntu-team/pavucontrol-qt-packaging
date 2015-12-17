@@ -32,16 +32,16 @@
 #include <QDebug>
 
 #include "tabpage.h"
-#include "filelauncher.h"
-#include "filemenu.h"
-#include "bookmarkaction.h"
-#include "fileoperation.h"
-#include "utilities.h"
-#include "filepropsdialog.h"
-#include "pathedit.h"
+#include "launcher.h"
+#include <libfm-qt/filemenu.h>
+#include <libfm-qt/bookmarkaction.h>
+#include <libfm-qt/fileoperation.h>
+#include <libfm-qt/utilities.h>
+#include <libfm-qt/filepropsdialog.h>
+#include <libfm-qt/pathedit.h>
 #include "ui_about.h"
 #include "application.h"
-#include "../libfm-qt/path.h"
+#include <libfm-qt/path.h>
 
 // #include "qmodeltest/modeltest.h"
 
@@ -51,7 +51,8 @@ namespace PCManFM {
 
 MainWindow::MainWindow(FmPath* path):
   QMainWindow(),
-  fileLauncher_(this) {
+  fileLauncher_(this),
+  rightClickIndex(-1) {
 
   Settings& settings = static_cast<Application*>(qApp)->settings();
   setAttribute(Qt::WA_DeleteOnClose);
@@ -91,9 +92,15 @@ MainWindow::MainWindow(FmPath* path):
   ui.tabBar->setAcceptDrops(true);
 #endif
 
+  ui.tabBar->setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(ui.actionCloseRight, &QAction::triggered, this, &MainWindow::closeRightTabs);
+  connect(ui.actionCloseLeft, &QAction::triggered, this, &MainWindow::closeLeftTabs);
+  connect(ui.actionCloseOther, &QAction::triggered, this, &MainWindow::closeOtherTabs);
+
   connect(ui.tabBar, &QTabBar::currentChanged, this, &MainWindow::onTabBarCurrentChanged);
   connect(ui.tabBar, &QTabBar::tabCloseRequested, this, &MainWindow::onTabBarCloseRequested);
   connect(ui.tabBar, &QTabBar::tabMoved, this, &MainWindow::onTabBarTabMoved);
+  connect(ui.tabBar, &QTabBar::customContextMenuRequested, this, &MainWindow::tabContextMenu);
   connect(ui.stackedWidget, &QStackedWidget::widgetRemoved, this, &MainWindow::onStackedWidgetWidgetRemoved);
 
   // FIXME: should we make the filter bar a per-view configuration?
@@ -171,6 +178,15 @@ MainWindow::MainWindow(FmPath* path):
   shortcut = new QShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_Tab, this);
   connect(shortcut, &QShortcut::activated, this, &MainWindow::onShortcutPrevTab);
 
+  // Add Ctrl+PgUp and Ctrl+PgDown as well, because they are common in Firefox
+  // , Opera, Google Chromium/Google Chrome and most other tab-using
+  // applications.
+  shortcut = new QShortcut(Qt::CTRL + Qt::Key_PageDown, this);
+  connect(shortcut, &QShortcut::activated, this, &MainWindow::onShortcutNextTab);
+
+  shortcut = new QShortcut(Qt::CTRL + Qt::Key_PageUp, this);
+  connect(shortcut, &QShortcut::activated, this, &MainWindow::onShortcutPrevTab);
+
   int i;
   for(i = 0; i < 10; ++i) {
     shortcut = new QShortcut(QKeySequence(Qt::ALT + Qt::Key_0 + i), this);
@@ -204,8 +220,10 @@ MainWindow::MainWindow(FmPath* path):
 }
 
 MainWindow::~MainWindow() {
-  if(bookmarks)
+  if(bookmarks) {
+    g_signal_handlers_disconnect_by_func(bookmarks, (gpointer)G_CALLBACK(onBookmarksChanged), this);
     g_object_unref(bookmarks);
+  }
 }
 
 void MainWindow::chdir(FmPath* path) {
@@ -898,6 +916,39 @@ void MainWindow::onBackForwardContextMenu(QPoint pos) {
     page->jumpToHistory(index);
     updateUIForCurrentPage();
   }
+}
+
+void MainWindow::tabContextMenu(const QPoint& pos) {
+  int tabNum = ui.tabBar->count();
+  if(tabNum <= 1) return;
+
+  rightClickIndex = ui.tabBar->tabAt(pos);
+  if(rightClickIndex < 0) return;
+
+  QMenu menu;
+  if(rightClickIndex > 0)
+      menu.addAction(ui.actionCloseLeft);
+  if(rightClickIndex < tabNum - 1) {
+    menu.addAction(ui.actionCloseRight);
+    if(rightClickIndex > 0) {
+      menu.addSeparator();
+      menu.addAction(ui.actionCloseOther);
+    }
+  }
+  menu.exec(ui.tabBar->mapToGlobal(pos));
+}
+
+void MainWindow::closeLeftTabs() {
+  while(rightClickIndex > 0) {
+    closeTab(rightClickIndex - 1);
+    --rightClickIndex;
+  }
+}
+
+void MainWindow::closeRightTabs() {
+  if(rightClickIndex < 0) return;
+  while(rightClickIndex < ui.tabBar->count() - 1)
+    closeTab(rightClickIndex + 1);
 }
 
 void MainWindow::updateFromSettings(Settings& settings) {

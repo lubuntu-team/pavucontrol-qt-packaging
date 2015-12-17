@@ -1,3 +1,9 @@
+pcmanfm-qt (0.10.1-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Thu, 17 Dec 2015 09:42:03 +0800
+
 pcmanfm-qt (0.10.0-2) unstable; urgency=medium
 
   * Merge from experimental.

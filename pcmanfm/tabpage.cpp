@@ -19,17 +19,17 @@
 
 
 #include "tabpage.h"
-#include "filelauncher.h"
-#include "filemenu.h"
-#include "mountoperation.h"
+#include "launcher.h"
+#include <libfm-qt/filemenu.h>
+#include <libfm-qt/mountoperation.h>
 #include <QApplication>
 #include <QCursor>
 #include <QMessageBox>
 #include <QScrollBar>
-#include "proxyfoldermodel.h"
+#include <libfm-qt/proxyfoldermodel.h>
 #include "settings.h"
 #include "application.h"
-#include "cachedfoldermodel.h"
+#include <libfm-qt/cachedfoldermodel.h>
 #include <QTimer>
 #include <QTextStream>
 
@@ -161,6 +161,16 @@ void TabPage::freeFolder() {
 void TabPage::restoreScrollPos() {
   // scroll to recorded position
   folderView_->childView()->verticalScrollBar()->setValue(browseHistory().currentScrollPos());
+
+  // if the current folder is the parent folder of the last browsed folder,
+  // select the folder item in current view.
+  if(lastFolderPath_.parent() == path()) {
+    QModelIndex index = folderView_->indexFromFolderPath(lastFolderPath_.data());
+    if(index.isValid()) {
+      folderView_->childView()->scrollTo(index, QAbstractItemView::EnsureVisible);
+      folderView_->childView()->setCurrentIndex(index);
+    }
+  }
 }
 
 /*static*/ void TabPage::onFolderFinishLoading(FmFolder* _folder, TabPage* pThis) {
@@ -329,6 +339,9 @@ void TabPage::chdir(FmPath* newPath, bool addHistory) {
     if(fm_path_equal(newPath, fm_folder_get_path(folder_)))
       return;
 
+    // remember the previous folder path that we have browsed.
+    lastFolderPath_ = fm_folder_get_path(folder_);
+
     if(addHistory) {
       // store current scroll pos in the browse history
       BrowseHistoryItem& item = history_.currentItem();
@@ -493,8 +506,9 @@ void TabPage::up() {
   FmPath* _path = path();
   if(_path) {
     FmPath* parent = fm_path_get_parent(_path);
-    if(parent)
+    if(parent) {
       chdir(parent, true);
+    }
   }
 }
 
@@ -521,4 +535,4 @@ void TabPage:: applyFilter() {
   Q_EMIT statusChanged(StatusTextNormal, statusText_[StatusTextNormal]);
 }
 
-};
+} // namespace PCManFM

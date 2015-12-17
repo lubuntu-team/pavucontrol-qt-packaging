@@ -26,9 +26,9 @@
 #include <QStringBuilder>
 #include <QSettings>
 
-#include "folderview.h"
+#include <libfm-qt/folderview.h>
 
-using namespace PCManFM;
+namespace PCManFM {
 
 static int bigIconSizes[] = {96, 72, 64, 48, 36, 32, 24, 20};
 static int smallIconSizes[] = {48, 36, 32, 24, 20, 16, 12};
@@ -362,3 +362,4 @@ void PreferencesDialog::accept() {
   QDialog::accept();
 }
 
+} // namespace PCManFM

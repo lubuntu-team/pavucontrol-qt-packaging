@@ -19,12 +19,12 @@
 
 
 #include "autorundialog.h"
-#include "icontheme.h"
+#include <libfm-qt/icontheme.h>
 #include <QListWidgetItem>
 #include "application.h"
 #include "mainwindow.h"
 
-using namespace PCManFM;
+namespace PCManFM {
 
 AutoRunDialog::AutoRunDialog(GVolume* volume, GMount* mount, QWidget* parent, Qt::WindowFlags f):
   cancellable(g_cancellable_new()),
@@ -135,3 +135,5 @@ void AutoRunDialog::onContentTypeFinished(GMount* mount, GAsyncResult* res, Auto
   // select the first item
   pThis->ui.listWidget->item(0)->setSelected(true);
 }
+
+} // namespace PCManFM

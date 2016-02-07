@@ -10,5 +10,4 @@ override_dh_install:
 	dh_install --exclude=pcmanfm-qt.1 --fail-missing
 
 override_dh_strip:
-	dh_strip -ppcmanfm-qt --dbg-package=pcmanfm-qt-dbg
-	dh_strip -plibfm-qt5-2 --dbg-package=libfm-qt5-dbg
+	dh_strip --ddeb-migration='pcmanfm-qt-dbg (<< 0.10.1-1~)'

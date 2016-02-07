@@ -1,7 +1,7 @@
 pcmanfm-qt (0.10.1-1) unstable; urgency=medium
 
   * New upstream release.
-  * Remove libfm-qt as upstream moves it into another source repository.
+  * Remove libfm-qt as upstream moved it into another source repository.
   * Remove dbg package in favor of dbgsym.
   * Update Vcs-Browser.
 

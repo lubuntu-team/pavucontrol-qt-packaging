@@ -1,8 +1,10 @@
-pcmanfm-qt (0.10.1-1) UNRELEASED; urgency=medium
+pcmanfm-qt (0.10.1-1) unstable; urgency=medium
 
   * New upstream release.
+  * Remove libfm-qt as upstream moves it into another source repository.
+  * Remove dbg package in favor of dbgsym.
 
- -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Thu, 17 Dec 2015 09:42:03 +0800
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sun, 07 Feb 2016 16:13:27 +0800
 
 pcmanfm-qt (0.10.0-2) unstable; urgency=medium
 

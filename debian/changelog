@@ -1,3 +1,14 @@
+pcmanfm-qt (0.10.1-2) unstable; urgency=medium
+
+  * Bump Standards to 3.9.7
+  * Fix years in copyright
+  * Add hardending=+all
+  * simplify rules
+  * make pcmanfm-qt reproducible again, thanks to Eduard Sanou for the
+    bugreport and the patch, but it was fixed before (Closes: #815818)
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 26 Feb 2016 00:16:22 +0100
+
 pcmanfm-qt (0.10.1-1) unstable; urgency=medium
 
   * New upstream release.

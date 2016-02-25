@@ -1,13 +1,9 @@
 #!/usr/bin/make -f
 #DH_VERBOSE = 1
 
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 %:
-	dh ${@} --buildsystem cmake --parallel
-
-override_dh_install:
-	dh_install --exclude=pcmanfm-qt.1 --fail-missing
-
-override_dh_strip:
-	dh_strip --ddeb-migration='pcmanfm-qt-dbg (<< 0.10.1-1~)'
+	dh ${@} --buildsystem cmake \
+		--parallel 

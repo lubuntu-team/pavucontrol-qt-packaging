@@ -9,7 +9,7 @@ Priority: optional
 Build-Depends: debhelper (>= 9.20151219),
                cmake (>= 3.0.2),
                libfm-dev (>= 1.2.0),
-               libfm-qt-dev (>= 0.10.0+20151214),
+               libfm-qt-dev (>= 0.11.0),
                libglib2.0-dev,
                liblxqt0-dev (>= 0.10.0),
                libmenu-cache-dev,

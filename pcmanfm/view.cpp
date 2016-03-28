@@ -118,8 +118,10 @@ void View::prepareFileMenu(Fm::FileMenu* menu) {
     }
   }
   else {
-    menu->pasteAction()->setVisible(false);
-    menu->createAction()->setVisible(false);
+    if(menu->pasteAction()) // NULL for trash
+      menu->pasteAction()->setVisible(false);
+    if(menu->createAction())
+      menu->createAction()->setVisible(false);
   }
 }
 
@@ -132,6 +134,8 @@ void View::updateFromSettings(Settings& settings) {
   setIconSize(Fm::FolderView::CompactMode, QSize(settings.smallIconSize(), settings.smallIconSize()));
   setIconSize(Fm::FolderView::ThumbnailMode, QSize(settings.thumbnailIconSize(), settings.thumbnailIconSize()));
   setIconSize(Fm::FolderView::DetailedListMode, QSize(settings.smallIconSize(), settings.smallIconSize()));
+
+  setMargins(settings.folderViewCellMargins());
 
   setAutoSelectionDelay(settings.autoSelectionDelay());
 

@@ -45,13 +45,7 @@ PreferencesDialog::PreferencesDialog (QString activePage, QWidget* parent):
 
   initFromSettings();
 
-  if(!activePage.isEmpty()) {
-    QWidget* page = findChild<QWidget*>(activePage + "Page");
-    if(page) {
-      int index = ui.stackedWidget->indexOf(page);
-      ui.listWidget->setCurrentRow(index);
-    }
-  }
+  selectPage(activePage);
   adjustSize();
 }
 
@@ -118,6 +112,10 @@ void PreferencesDialog::initIconThemes(Settings& settings) {
     ui.iconThemeLabel->hide();
     ui.iconTheme->hide();
   }
+
+  ui.hMargin->setValue(settings.folderViewCellMargins().width());
+  ui.vMargin->setValue(settings.folderViewCellMargins().height());
+  connect(ui.lockMargins, &QAbstractButton::clicked, this, &PreferencesDialog::lockMargins);
 }
 
 void PreferencesDialog::initArchivers(Settings& settings) {
@@ -172,6 +170,7 @@ void PreferencesDialog::initDisplayPage(Settings& settings) {
 
 void PreferencesDialog::initUiPage(Settings& settings) {
   ui.alwaysShowTabs->setChecked(settings.alwaysShowTabs());
+  ui.fullWidthTabbar->setChecked(settings.fullWidthTabBar());
   ui.showTabClose->setChecked(settings.showTabClose());
   ui.rememberWindowSize->setChecked(settings.rememberWindowSize());
   ui.fixedWindowWidth->setValue(settings.fixedWindowWidth());
@@ -289,10 +288,12 @@ void PreferencesDialog::applyDisplayPage(Settings& settings) {
   settings.setBackupAsHidden(ui.backupAsHidden->isChecked());
   settings.setShowFullNames(ui.showFullNames->isChecked());
   settings.setShadowHidden(ui.shadowHidden->isChecked());
+  settings.setFolderViewCellMargins(QSize(ui.hMargin->value(), ui.vMargin->value()));
 }
 
 void PreferencesDialog::applyUiPage(Settings& settings) {
   settings.setAlwaysShowTabs(ui.alwaysShowTabs->isChecked());
+  settings.setFullWidthTabBar(ui.fullWidthTabbar->isChecked());
   settings.setShowTabClose(ui.showTabClose->isChecked());
   settings.setRememberWindowSize(ui.rememberWindowSize->isChecked());
   settings.setFixedWindowWidth(ui.fixedWindowWidth->value());
@@ -360,6 +361,26 @@ void PreferencesDialog::applySettings() {
 void PreferencesDialog::accept() {
   applySettings();
   QDialog::accept();
+}
+
+void PreferencesDialog::selectPage(QString name) {
+  if(!name.isEmpty()) {
+    QWidget* page = findChild<QWidget*>(name + "Page");
+    if(page) {
+      int index = ui.stackedWidget->indexOf(page);
+      ui.listWidget->setCurrentRow(index);
+    }
+  }
+}
+
+void PreferencesDialog::lockMargins(bool lock) {
+  ui.vMargin->setDisabled(lock);
+  if(lock) {
+    ui.vMargin->setValue(ui.hMargin->value());
+    connect(ui.hMargin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), ui.vMargin, &QSpinBox::setValue);
+  }
+  else
+    disconnect(ui.hMargin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), ui.vMargin, &QSpinBox::setValue);
 }
 
 } // namespace PCManFM

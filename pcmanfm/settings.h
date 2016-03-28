@@ -306,6 +306,22 @@ public:
     sidePaneMode_ = sidePaneMode;
   }
 
+  bool showMenuBar() const {
+    return showMenuBar_;
+  }
+
+  void setShowMenuBar(bool showMenuBar) {
+    showMenuBar_ = showMenuBar;
+  }
+
+  bool fullWidthTabBar() const {
+    return fullWidthTabBar_;
+  }
+
+  void setFullWidthTabBar(bool fullWith) {
+    fullWidthTabBar_ = fullWith;
+  }
+
   Fm::FolderView::ViewMode viewMode() const {
     return viewMode_;
   }
@@ -321,6 +337,63 @@ public:
   void setShowHidden(bool showHidden) {
     showHidden_ = showHidden;
   }
+
+  bool placesHome() const {
+      return placesHome_;
+  }
+
+  void setPlacesHome(bool placesHome) {
+      placesHome_ = placesHome;
+  }
+
+  bool placesDesktop() const {
+      return placesDesktop_;
+  }
+
+  void setPlacesDesktop(bool placesDesktop) {
+      placesDesktop_ = placesDesktop;
+  }
+
+  bool placesApplications() const {
+      return placesApplications_;
+  }
+
+  void setPlacesApplications(bool placesApplications) {
+      placesApplications_ = placesApplications;
+  }
+
+  bool placesTrash() const {
+      return placesTrash_;
+  }
+
+  void setPlacesTrash(bool placesTrash) {
+      placesTrash_ = placesTrash;
+  }
+
+  bool placesRoot() const {
+      return placesRoot_;
+  }
+
+  void setPlacesRoot(bool placesRoot) {
+      placesRoot_ = placesRoot;
+  }
+
+  bool placesComputer() const {
+      return placesComputer_;
+  }
+
+  void setPlacesComputer(bool placesComputer) {
+      placesComputer_ = placesComputer;
+  }
+
+  bool placesNetwork() const {
+      return placesNetwork_;
+  }
+
+  void setPlacesNetwork(bool placesNetwork) {
+      placesNetwork_ = placesNetwork;
+  }
+
 
   Qt::SortOrder sortOrder() const {
     return sortOrder_;
@@ -446,6 +519,23 @@ public:
     return thumbnailIconSize_;
   }
 
+  QSize folderViewCellMargins() const {
+    return folderViewCellMargins_;
+  }
+
+  void setFolderViewCellMargins(QSize size) {
+    folderViewCellMargins_ = size;
+  }
+
+  QSize desktopCellMargins() const {
+    return desktopCellMargins_;
+  }
+
+  void setDesktopCellMargins(QSize size) {
+    desktopCellMargins_ = size;
+  }
+
+
   bool showThumbnails() {
     return showThumbnails_;
   }
@@ -536,6 +626,7 @@ public:
     fm_config->template_run_app = templateRunApp_;
   }
 
+
 private:
   QString profileName_;
   bool supportTrash_;
@@ -574,6 +665,8 @@ private:
   bool lastWindowMaximized_;
   int splitterPos_;
   Fm::SidePane::Mode sidePaneMode_;
+  bool showMenuBar_;
+  bool fullWidthTabBar_;
 
   Fm::FolderView::ViewMode viewMode_;
   bool showHidden_;
@@ -599,6 +692,14 @@ private:
   bool showFullNames_;
   bool shadowHidden_;
 
+  bool placesHome_;
+  bool placesDesktop_;
+  bool placesApplications_;
+  bool placesTrash_;
+  bool placesRoot_;
+  bool placesComputer_;
+  bool placesNetwork_;
+
   int bigIconSize_;
   int smallIconSize_;
   int sidePaneIconSize_;
@@ -607,6 +708,9 @@ private:
   bool onlyUserTemplates_;
   bool templateTypeOnce_;
   bool templateRunApp_;
+
+  QSize folderViewCellMargins_;
+  QSize desktopCellMargins_;
 };
 
 }

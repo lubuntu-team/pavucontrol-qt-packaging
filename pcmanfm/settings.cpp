@@ -79,6 +79,8 @@ Settings::Settings():
   lastWindowMaximized_(false),
   splitterPos_(120),
   sidePaneMode_(Fm::SidePane::ModePlaces),
+  showMenuBar_(true),
+  fullWidthTabBar_(true),
   viewMode_(Fm::FolderView::IconMode),
   showHidden_(false),
   sortOrder_(Qt::AscendingOrder),
@@ -96,10 +98,19 @@ Settings::Settings():
   showThumbnails_(true),
   archiver_(),
   siUnit_(false),
+  placesHome_(true),
+  placesDesktop_(true),
+  placesApplications_(true),
+  placesTrash_(true),
+  placesRoot_(true),
+  placesComputer_(true),
+  placesNetwork_(true),
   bigIconSize_(48),
   smallIconSize_(24),
   sidePaneIconSize_(24),
-  thumbnailIconSize_(128) {
+  thumbnailIconSize_(128),
+  folderViewCellMargins_(QSize(3, 3)),
+  desktopCellMargins_(QSize(3, 1)) {
 }
 
 Settings::~Settings() {
@@ -154,7 +165,7 @@ bool Settings::loadFile(QString filePath) {
     // the value from XSETTINGS instead of hard code a fallback value.
     fallbackIconThemeName_ = "elementary"; // fallback icon theme name
   }
-  suCommand_ = settings.value("SuCommand", "gksu %s").toString();
+  suCommand_ = settings.value("SuCommand", "lxqt-sudo %s").toString();
   setTerminal(settings.value("Terminal", "xterm").toString());
   setArchiver(settings.value("Archiver", "file-roller").toString());
   setSiUnit(settings.value("SIUnit", false).toBool());
@@ -194,6 +205,9 @@ bool Settings::loadFile(QString filePath) {
 
   desktopSortOrder_ = sortOrderFromString(settings.value("SortOrder").toString());
   desktopSortColumn_ = sortColumnFromString(settings.value("SortColumn").toString());
+
+  desktopCellMargins_ = (settings.value("DesktopCellMargins", QSize(3, 1)).toSize()
+                         .expandedTo(QSize(0, 0))).boundedTo(QSize(48, 48));
   settings.endGroup();
 
   settings.beginGroup("Volume");
@@ -226,6 +240,19 @@ bool Settings::loadFile(QString filePath) {
   smallIconSize_ = settings.value("SmallIconSize", 24).toInt();
   sidePaneIconSize_ = settings.value("SidePaneIconSize", 24).toInt();
   thumbnailIconSize_ = settings.value("ThumbnailIconSize", 128).toInt();
+
+  folderViewCellMargins_ = (settings.value("FolderViewCellMargins", QSize(3, 3)).toSize()
+                            .expandedTo(QSize(0, 0))).boundedTo(QSize(48, 48));
+  settings.endGroup();
+
+  settings.beginGroup("Places");
+  placesHome_ = settings.value("PlacesHome", true).toBool();
+  placesDesktop_ = settings.value("PlacesDesktop", true).toBool();
+  placesApplications_ = settings.value("PlacesApplications", true).toBool();
+  placesTrash_ = settings.value("PlacesTrash", true).toBool();
+  placesRoot_ = settings.value("PlacesRoot", true).toBool();
+  placesComputer_ = settings.value("PlacesComputer", true).toBool();
+  placesNetwork_ = settings.value("PlacesNetwork", true).toBool();
   settings.endGroup();
 
   settings.beginGroup("Window");
@@ -239,6 +266,8 @@ bool Settings::loadFile(QString filePath) {
   showTabClose_ = settings.value("ShowTabClose", true).toBool();
   splitterPos_ = settings.value("SplitterPos", 150).toInt();
   sidePaneMode_ = sidePaneModeFromString(settings.value("SidePaneMode").toString());
+  showMenuBar_ = settings.value("ShowMenuBar", true).toBool();
+  fullWidthTabBar_ = settings.value("FullWidthTabBar", true).toBool();
   settings.endGroup();
 
   return true;
@@ -285,6 +314,7 @@ bool Settings::saveFile(QString filePath) {
   settings.setValue("ShowHidden", desktopShowHidden_);
   settings.setValue("SortOrder", sortOrderToString(desktopSortOrder_));
   settings.setValue("SortColumn", sortColumnToString(desktopSortColumn_));
+  settings.setValue("DesktopCellMargins", desktopCellMargins_);
   settings.endGroup();
 
   settings.beginGroup("Volume");
@@ -317,6 +347,18 @@ bool Settings::saveFile(QString filePath) {
   settings.setValue("SmallIconSize", smallIconSize_);
   settings.setValue("SidePaneIconSize", sidePaneIconSize_);
   settings.setValue("ThumbnailIconSize", thumbnailIconSize_);
+
+  settings.setValue("FolderViewCellMargins", folderViewCellMargins_);
+  settings.endGroup();
+
+  settings.beginGroup("Places");
+  settings.setValue("PlacesHome", placesHome_);
+  settings.setValue("PlacesDesktop", placesDesktop_);
+  settings.setValue("PlacesApplications", placesApplications_);
+  settings.setValue("PlacesTrash", placesTrash_);
+  settings.setValue("PlacesRoot", placesRoot_);
+  settings.setValue("PlacesComputer", placesComputer_);
+  settings.setValue("PlacesNetwork", placesNetwork_);
   settings.endGroup();
 
   settings.beginGroup("Window");
@@ -330,6 +372,8 @@ bool Settings::saveFile(QString filePath) {
   settings.setValue("ShowTabClose", showTabClose_);
   settings.setValue("SplitterPos", splitterPos_);
   settings.setValue("SidePaneMode", sidePaneModeToString(sidePaneMode_));
+  settings.setValue("ShowMenuBar", showMenuBar_);
+  settings.setValue("FullWidthTabBar", fullWidthTabBar_);
   settings.endGroup();
   return true;
 }
@@ -516,5 +560,6 @@ void Settings::setTerminal(QString terminalCommand) {
     fm_config->terminal = g_strdup(terminal_.toLocal8Bit().constData());
     g_signal_emit_by_name(fm_config, "changed::terminal");
 }
+
 
 } // namespace PCManFM

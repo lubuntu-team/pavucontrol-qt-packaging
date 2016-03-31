@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pl_PL">
+<TS version="2.0" language="tr_TR">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../../build/pcmanfm/ui_about.h" line="134"/>
         <source>About</source>
-        <translation>O programie</translation>
+        <translation>Hakkında</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_about.h" line="135"/>
@@ -16,7 +16,25 @@
     <message>
         <location filename="../../build/pcmanfm/ui_about.h" line="137"/>
         <source>Lightweight file manager</source>
-        <translation>Lekki menedżer plików</translation>
+        <translation>Hafif bir dosya yöneticisi</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_about.h" line="138"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://lxqt.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://lxqt.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://lxqt.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://lxqt.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_about.h" line="139"/>
+        <source>Programming:
+* Hong Jen Yee (PCMan) &lt;pcman.tw@gmail.com&gt;
+</source>
+        <translation>Programcı:
+* Hong Jen Yee (PCMan) &lt;pcman.tw@gmail.com&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_about.h" line="142"/>
+        <source>Authors</source>
+        <translation>Sahiplik</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_about.h" line="143"/>
@@ -37,31 +55,29 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_about.h" line="139"/>
-        <source>Programming:
-* Hong Jen Yee (PCMan) &lt;pcman.tw@gmail.com&gt;
-</source>
-        <translation>Programowanie:
-* Hong Jen Yee (PCMan) &lt;pcman.tw@gmail.com&gt;
-</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_about.h" line="138"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://lxqt.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://lxqt.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://lxqt.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://lxqt.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_about.h" line="142"/>
-        <source>Authors</source>
-        <translation>Autorzy</translation>
+        <translation>PCMan Dosya Yöneticisi
+
+Telif Hakkı (C) 2009 - 2014 洪任諭 (Hong Jen Yee)
+
+Bu program ücretsiz bir yazılımdır; bunu dağıtabilir veya
+GNU Genel Kamu Lisansı kapsamında değiştirebilirsiniz
+Özgür Yazılım Vakfı lisansı altında yada
+benzeri başka bir lisans altında bir sürüm çatallayabilirsiniz.
+
+Bu program faydalı olacağı amacıyla geliştirilmiştir,
+fakat size hiçbir kullanım garantisi vermez.
+Belirli bir amaca katkı vermek için kamu yararına geliştirildi.
+Daha fazla bilgi edinmek için GNU Genel Kamu Lisansını inceleyin.
+
+Bu program ile birlikte GNU Genel Kamu Lisansını 
+kabul etmiş varsayılırsınız.
+VAKIF, Inc., 51 Franklin Caddesi, Beşinci Kat, Boston, MA  02110-1301, ABD.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_about.h" line="160"/>
         <source>License</source>
-        <translation>Licencja</translation>
+        <translation>Lisans</translation>
     </message>
 </context>
 <context>
@@ -69,27 +85,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_autorun.h" line="110"/>
         <source>Removable medium is inserted</source>
-        <translation>Wykryto nośnik wymienny</translation>
+        <translation>Harici bir bellek takıldı</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_autorun.h" line="112"/>
         <source>&lt;b&gt;Removable medium is inserted&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Wykryto nośnik wymienny&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;Harici Bellek Takıldı&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_autorun.h" line="113"/>
         <source>Type of medium:</source>
-        <translation>Typ nośnika:</translation>
+        <translation>Bellek tipi:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_autorun.h" line="114"/>
         <source>Detecting...</source>
-        <translation>Wykrywanie...</translation>
+        <translation>Taranıyor...</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_autorun.h" line="115"/>
         <source>Please select the action you want to perform:</source>
-        <translation>Wybierz działanie, które chcesz wykonać:</translation>
+        <translation>Gerçekleştireceğiniz eylemi seçiniz:</translation>
     </message>
 </context>
 <context>
@@ -97,32 +113,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-folder.h" line="75"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-folder.h" line="76"/>
         <source>Desktop</source>
-        <translation>Pulpit</translation>
+        <translation>Masaüstü</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-folder.h" line="77"/>
         <source>Desktop folder:</source>
-        <translation>Katalog Pulpitu:</translation>
+        <translation>Masaüstü:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-folder.h" line="79"/>
         <source>Image file</source>
-        <translation>Plik obrazka</translation>
+        <translation>Görsel dosyası</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-folder.h" line="84"/>
         <source>Folder path</source>
-        <translation>Ścieżka katalogu</translation>
+        <translation>Dosya yolu</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-folder.h" line="85"/>
         <source>&amp;Browse</source>
-        <translation>&amp;Wybierz</translation>
+        <translation>&amp;Gözat</translation>
     </message>
 </context>
 <context>
@@ -130,205 +146,82 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="254"/>
         <source>Desktop Preferences</source>
-        <translation>Ustawienia pulpitu</translation>
+        <translation>Masaüstü Seçenekleri</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="255"/>
         <source>Background</source>
-        <translation>Tło</translation>
+        <translation>Arkaplan</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="256"/>
         <source>Wallpaper mode:</source>
-        <translation>Tryb:</translation>
+        <translation>Duvarkağıdı yerleşim biçimi:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="257"/>
         <source>Wallpaper image file:</source>
-        <translation>Obraz tła:</translation>
+        <translation>Duvarkağıdı:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="259"/>
         <source>Select background color:</source>
-        <translation>Kolor tła:</translation>
+        <translation>Duvarkağıdı olarak arkaplan rengi seç:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="261"/>
         <source>Image file</source>
-        <translation>Plik obrazka</translation>
+        <translation>Görsel dosyası</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="266"/>
         <source>Image file path</source>
-        <translation>Ścieżka obrazka</translation>
+        <translation>Görsel dosyası yolu</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="267"/>
         <source>&amp;Browse</source>
-        <translation>&amp;Wybierz</translation>
+        <translation>&amp;Gözat</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="268"/>
         <source>Label Text</source>
-        <translation>Tekst</translation>
+        <translation>Metin Etiketi</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="271"/>
         <source>Select  text color:</source>
-        <translation>Kolor tekstu:</translation>
+        <translation>Metin için renk seç:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="272"/>
         <source>Select shadow color:</source>
-        <translation>Kolor cienia:</translation>
+        <translation>Metin gölgesi için renk seç:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="273"/>
         <source>Select font:</source>
-        <translation>Czcionka:</translation>
+        <translation>Font biçimini seç:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="275"/>
         <source>General</source>
-        <translation>Wygląd</translation>
+        <translation>Genel</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="276"/>
         <source>Window Manager</source>
-        <translation>Menedżer Okien</translation>
+        <translation>Pencere Yönetici</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="277"/>
         <source>Show menus provided by window managers when desktop is clicked</source>
-        <translation>Wyświetlanie menu menedżera okien po kliknięciu na pulpicie</translation>
-    </message>
-    <message>
-        <source>Desktop</source>
-        <translation type="vanished">Pulpit</translation>
-    </message>
-    <message>
-        <source>Desktop folder:</source>
-        <translation type="vanished">Katalog Pulpitu:</translation>
-    </message>
-    <message>
-        <source>Folder path</source>
-        <translation type="vanished">Ścieżka katalogu</translation>
+        <translation>Masaüstüne sağ tıklandığında Lxqt Uygulama Menüsünü göster</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_desktop-preferences.h" line="278"/>
         <source>Advanced</source>
-        <translation>Zaawansowane</translation>
-    </message>
-</context>
-<context>
-    <name>FindFilesDialog</name>
-    <message>
-        <source>Find Files</source>
-        <translation type="vanished">Znajdź pliki</translation>
-    </message>
-    <message>
-        <source>Name/Location</source>
-        <translation type="vanished">Nazwa/Lokalizacja</translation>
-    </message>
-    <message>
-        <source>File name patterns</source>
-        <translation type="vanished">Wzorce nazwy pliku</translation>
-    </message>
-    <message>
-        <source>Pattern:</source>
-        <translation type="vanished">Wzorzec:</translation>
-    </message>
-    <message>
-        <source>Case insensitive</source>
-        <translation type="vanished">Ignoruj wielkość liter</translation>
-    </message>
-    <message>
-        <source>Use regular expression</source>
-        <translation type="vanished">Użyj wyrażeń regularnych</translation>
-    </message>
-    <message>
-        <source>Places to search</source>
-        <translation type="vanished">Szukaj w</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">Dodaj</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Usuń</translation>
-    </message>
-    <message>
-        <source>Search in sub directories</source>
-        <translation type="vanished">Szukaj w podkatalogach</translation>
-    </message>
-    <message>
-        <source>Search hidden files</source>
-        <translation type="vanished">Szukaj wśród ukrytych plików</translation>
-    </message>
-    <message>
-        <source>File Type</source>
-        <translation type="vanished">Typ pliku</translation>
-    </message>
-    <message>
-        <source>Only search for files of following types:</source>
-        <translation type="vanished">Szukaj tylko plików o podanym typie:</translation>
-    </message>
-    <message>
-        <source>Text files</source>
-        <translation type="vanished">Pliki tekstowe</translation>
-    </message>
-    <message>
-        <source>Image files</source>
-        <translation type="vanished">Obrazy</translation>
-    </message>
-    <message>
-        <source>Audio files</source>
-        <translation type="vanished">Pliki dźwiękowe</translation>
-    </message>
-    <message>
-        <source>Video files</source>
-        <translation type="vanished">Pliki wideo</translation>
-    </message>
-    <message>
-        <source>Documents</source>
-        <translation type="vanished">Dokumenty</translation>
-    </message>
-    <message>
-        <source>Content</source>
-        <translation type="vanished">Zawartość</translation>
-    </message>
-    <message>
-        <source>File contains</source>
-        <translation type="vanished">Pliki zawierające</translation>
-    </message>
-    <message>
-        <source>Properties</source>
-        <translation type="vanished">Ustawienia</translation>
-    </message>
-    <message>
-        <source>File Size</source>
-        <translation type="vanished">Rozmiar pliku</translation>
-    </message>
-    <message>
-        <source>Bigger than:</source>
-        <translation type="vanished">Większy niż:</translation>
-    </message>
-    <message>
-        <source>Smaller than:</source>
-        <translation type="vanished">Mniejszy niż:</translation>
-    </message>
-    <message>
-        <source>Last Modified Time</source>
-        <translation type="vanished">Czas ostatniej modyfikacji</translation>
-    </message>
-    <message>
-        <source>Earlier than:</source>
-        <translation type="vanished">Wcześniejszy niż:</translation>
-    </message>
-    <message>
-        <source>Later than:</source>
-        <translation type="vanished">Późniejszy niż:</translation>
+        <translation>Gelişmiş</translation>
     </message>
 </context>
 <context>
@@ -336,21 +229,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="557"/>
         <source>File Manager</source>
-        <translation>Menedżer plików</translation>
+        <translation>Dosya Yönetici</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="558"/>
+        <source>Go &amp;Up</source>
+        <translation>Üst &amp;Dizin</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="560"/>
         <source>Go Up</source>
-        <translation>Katalog nadrzędny</translation>
+        <translation>Üst Dizin</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="562"/>
         <source>Alt+Up</source>
-        <translation>Alt+Góra</translation>
+        <translation>Alt+Yukarı</translation>
     </message>
     <message>
-        <source>Home</source>
-        <translation type="vanished">Katalog użytkownika</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="563"/>
+        <source>&amp;Home</source>
+        <translation>&amp;Ev Dizini</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="564"/>
@@ -358,9 +257,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
         <translation>Alt+Home</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="583"/>
-        <source>Reload</source>
-        <translation>Odśwież</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="565"/>
+        <source>&amp;Reload</source>
+        <translation>&amp;Yeniden Yükle</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="566"/>
@@ -368,34 +267,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="563"/>
-        <source>&amp;Home</source>
-        <translation>Katalog &amp;użytkownika</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="565"/>
-        <source>&amp;Reload</source>
-        <translation>&amp;Odśwież</translation>
-    </message>
-    <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="567"/>
         <source>Go</source>
-        <translation>Przejdź</translation>
+        <translation>Git</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="568"/>
         <source>Quit</source>
-        <translation>Zamknij</translation>
+        <translation>Çıkış</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="569"/>
         <source>&amp;About</source>
-        <translation>&amp;O programie</translation>
+        <translation>&amp;Hakkında</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="570"/>
+        <source>&amp;New Window</source>
+        <translation>&amp;Yeni Pencere</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="572"/>
         <source>New Window</source>
-        <translation>Nowe okno</translation>
+        <translation>Yeni Pencere</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="574"/>
@@ -405,7 +299,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="575"/>
         <source>Show &amp;Hidden</source>
-        <translation>Wyświetl &amp;ukryte pliki</translation>
+        <translation>Göster &amp;Gizle</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="576"/>
@@ -415,32 +309,62 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="577"/>
         <source>&amp;Computer</source>
-        <translation>&amp;Komputer</translation>
+        <translation>&amp;Bilgisayar</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="578"/>
         <source>&amp;Trash</source>
-        <translation>Ko&amp;sz</translation>
+        <translation>&amp;Çöp</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="579"/>
         <source>&amp;Network</source>
-        <translation>&amp;Sieć</translation>
+        <translation>&amp;Ağ</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="580"/>
         <source>&amp;Desktop</source>
-        <translation>&amp;Pulpit</translation>
+        <translation>&amp;Masaüstü</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="581"/>
         <source>&amp;Add to Bookmarks</source>
-        <translation>&amp;Dodaj zakładkę</translation>
+        <translation>&amp;Yer İmlerine Ekle</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="582"/>
         <source>&amp;Applications</source>
-        <translation>P&amp;rogramy</translation>
+        <translation>&amp;Uygulamalar</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="583"/>
+        <source>Reload</source>
+        <translation>Yeniden Yükle</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="584"/>
+        <source>&amp;Icon View</source>
+        <translation>&amp;Simgeler</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="585"/>
+        <source>&amp;Compact View</source>
+        <translation>&amp;Kompakt Görünüm</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="586"/>
+        <source>&amp;Detailed List</source>
+        <translation>&amp;Detaylı Liste</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="587"/>
+        <source>&amp;Thumbnail View</source>
+        <translation>&amp;Önizleme</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="588"/>
+        <source>Cu&amp;t</source>
+        <translation>Ke&amp;s</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="589"/>
@@ -450,7 +374,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="590"/>
         <source>&amp;Copy</source>
-        <translation>&amp;Kopiuj</translation>
+        <translation>&amp;Kopyala</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="591"/>
@@ -460,7 +384,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="592"/>
         <source>&amp;Paste</source>
-        <translation>&amp;Wklej</translation>
+        <translation>&amp;Yapıştır</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="593"/>
@@ -470,77 +394,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="594"/>
         <source>Select &amp;All</source>
-        <translation>Zazn&amp;acz wszystko </translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="596"/>
-        <source>Pr&amp;eferences</source>
-        <translation>Pr&amp;eferencje</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="597"/>
-        <source>&amp;Ascending</source>
-        <translation>&amp;Rosnąco</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="598"/>
-        <source>&amp;Descending</source>
-        <translation>&amp;Malejąco</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="599"/>
-        <source>&amp;By File Name</source>
-        <translation>&amp;Nazwa</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="600"/>
-        <source>By &amp;Modification Time</source>
-        <translation>Data &amp;modyfikacji</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="601"/>
-        <source>By File &amp;Type</source>
-        <translation>&amp;Typ pliku</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="602"/>
-        <source>By &amp;Owner</source>
-        <translation>W&amp;łaściciel</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="603"/>
-        <source>&amp;Folder First</source>
-        <translation>Najpierw &amp;katalogi</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="619"/>
-        <source>&amp;Invert Selection</source>
-        <translation>&amp;Odwróć zaznaczenie</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="620"/>
-        <source>&amp;Delete</source>
-        <translation>&amp;Usuń</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="622"/>
-        <source>&amp;Rename</source>
-        <translation>&amp;Zmień nazwę</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="629"/>
-        <source>&amp;Case Sensitive</source>
-        <translation>Uwzględniaj wielkość &amp;liter</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="630"/>
-        <source>By File &amp;Size</source>
-        <translation>Według &amp;rozmiaru</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="631"/>
-        <source>&amp;Close Window</source>
-        <translation>&amp;Zamknij okno</translation>
+        <translation>Tümünü &amp;Seç</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="595"/>
@@ -548,77 +402,79 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
         <translation>Ctrl+A</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="558"/>
-        <source>Go &amp;Up</source>
-        <translation>Do &amp;góry</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="596"/>
+        <source>Pr&amp;eferences</source>
+        <translation>Ter&amp;cihler</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="570"/>
-        <source>&amp;New Window</source>
-        <translation>&amp;Nowe okno</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="597"/>
+        <source>&amp;Ascending</source>
+        <translation>&amp;Artan</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="584"/>
-        <source>&amp;Icon View</source>
-        <translation>&amp;Ikony</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="598"/>
+        <source>&amp;Descending</source>
+        <translation>&amp;Azalan</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="585"/>
-        <source>&amp;Compact View</source>
-        <translation>Lista &amp;zwarta</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="599"/>
+        <source>&amp;By File Name</source>
+        <translation>&amp;Dosya Adı</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="586"/>
-        <source>&amp;Detailed List</source>
-        <translation>Lista &amp;szczegółowa</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="600"/>
+        <source>By &amp;Modification Time</source>
+        <translation>&amp;Değiştirme Zamanı</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="587"/>
-        <source>&amp;Thumbnail View</source>
-        <translation>&amp;Miniatury</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="601"/>
+        <source>By File &amp;Type</source>
+        <translation>&amp;Dosya Tipi</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="588"/>
-        <source>Cu&amp;t</source>
-        <translation>W&amp;ytnij</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="602"/>
+        <source>By &amp;Owner</source>
+        <translation>&amp;Sahiplik</translation>
     </message>
     <message>
-        <source>Ascending</source>
-        <translation type="vanished">Rosnąco</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="603"/>
+        <source>&amp;Folder First</source>
+        <translation>&amp;Önce Klasörler</translation>
     </message>
     <message>
-        <source>Descending</source>
-        <translation type="vanished">Malejąco</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="629"/>
+        <source>&amp;Case Sensitive</source>
+        <translation>&amp;Alfabetik</translation>
     </message>
     <message>
-        <source>By File Name</source>
-        <translation type="vanished">Według nazwy</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="630"/>
+        <source>By File &amp;Size</source>
+        <translation>Dosya &amp;Boyutu</translation>
     </message>
     <message>
-        <source>By Modification Time</source>
-        <translation type="vanished">Według czasu modyfikacji</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="631"/>
+        <source>&amp;Close Window</source>
+        <translation>&amp;Pencereyi Kapat</translation>
     </message>
     <message>
-        <source>By File Type</source>
-        <translation type="vanished">Według typu</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="637"/>
+        <source>&amp;Folder</source>
+        <translation>&amp;Klasör</translation>
     </message>
     <message>
-        <source>By Owner</source>
-        <translation type="vanished">Według właściciela</translation>
-    </message>
-    <message>
-        <source>Folder First</source>
-        <translation type="vanished">Najpierw katalogi</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="639"/>
+        <source>&amp;Blank File</source>
+        <translation>&amp;Boş Dosya</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="604"/>
         <source>New &amp;Tab</source>
-        <translation>Nowa &amp;karta</translation>
+        <translation>Yeni &amp;Sekme</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="606"/>
         <source>New Tab</source>
-        <translation>Nowa karta</translation>
+        <translation>Yeni Sekme</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="608"/>
@@ -628,37 +484,52 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="609"/>
         <source>Go &amp;Back</source>
-        <translation>&amp;Poprzedni katalog</translation>
+        <translation>Geri &amp;Git</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="611"/>
         <source>Go Back</source>
-        <translation>Poprzedni katalog</translation>
+        <translation>Geri Git</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="613"/>
         <source>Alt+Left</source>
-        <translation>Alt+Lewo</translation>
+        <translation>Alt+Left</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="614"/>
         <source>Go &amp;Forward</source>
-        <translation>&amp;Następny katalog</translation>
+        <translation>&amp;İleri</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="616"/>
         <source>Go Forward</source>
-        <translation>Następny katalog</translation>
+        <translation>İleri</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="618"/>
         <source>Alt+Right</source>
-        <translation>Alt+Prawo</translation>
+        <translation>Alt+Right</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="619"/>
+        <source>&amp;Invert Selection</source>
+        <translation>&amp;Tersini Seç</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="620"/>
+        <source>&amp;Delete</source>
+        <translation>&amp;Sil</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="621"/>
         <source>Del</source>
-        <translation>Del</translation>
+        <translation>Sil</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="622"/>
+        <source>&amp;Rename</source>
+        <translation>&amp;Adını değiştir</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="623"/>
@@ -668,50 +539,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="624"/>
         <source>C&amp;lose Tab</source>
-        <translation>&amp;Zamknij kartę</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="626"/>
-        <source>File &amp;Properties</source>
-        <translation>Właściwości &amp;pliku</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="628"/>
-        <source>&amp;Folder Properties</source>
-        <translation>Właściwości &amp;katalogu</translation>
-    </message>
-    <message>
-        <source>Folder</source>
-        <translation type="vanished">Katalog</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="638"/>
-        <source>Ctrl+Shift+N</source>
-        <translation>Ctrl+Shift+N</translation>
-    </message>
-    <message>
-        <source>Blank File</source>
-        <translation type="vanished">Pusty plik</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="640"/>
-        <source>Ctrl+Alt+N</source>
-        <translation>Ctrl+Alt+N</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="646"/>
-        <source>C&amp;reate New</source>
-        <translation>&amp;Nowy</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="649"/>
-        <source>&amp;Sorting</source>
-        <translation>&amp;Uszereguj według</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="654"/>
-        <source>Main Toolbar</source>
-        <translation>Pasek narzędziowy</translation>
+        <translation>S&amp;ekmeyi Kapat</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="625"/>
@@ -719,31 +547,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
         <translation>Ctrl+W</translation>
     </message>
     <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="626"/>
+        <source>File &amp;Properties</source>
+        <translation>Dosya &amp;Özellikleri</translation>
+    </message>
+    <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="627"/>
         <source>Alt+Return</source>
-        <translation>Alt+Return</translation>
+        <translation>Alt+Enter</translation>
     </message>
     <message>
-        <source>Case Sensitive</source>
-        <translation type="vanished">Uwzględniaj wielkość liter</translation>
-    </message>
-    <message>
-        <source>By File Size</source>
-        <translation type="vanished">Według rozmiaru</translation>
-    </message>
-    <message>
-        <source>Close Window</source>
-        <translation type="vanished">Zamknij okno</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="628"/>
+        <source>&amp;Folder Properties</source>
+        <translation>&amp;Klasör Özellikleri</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="632"/>
         <source>Edit Bookmarks</source>
-        <translation>Edytuj zakładki</translation>
+        <translation>Yer İmlerini Düzenle</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="633"/>
         <source>Open &amp;Terminal</source>
-        <translation>Otwórz w &amp;terminalu</translation>
+        <translation>Uçbirim &amp;Aç</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="634"/>
@@ -753,27 +579,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="635"/>
         <source>Open as &amp;Root</source>
-        <translation>Otwórz jako &amp;Root</translation>
+        <translation>&amp;Yetkili Olarak PCManFM Aç</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="636"/>
         <source>&amp;Edit Bookmarks</source>
-        <translation>Edytuj &amp;Zakładki</translation>
+        <translation>&amp;Yer İmlerini Düzenle</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="637"/>
-        <source>&amp;Folder</source>
-        <translation>&amp;Katalog</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="638"/>
+        <source>Ctrl+Shift+N</source>
+        <translation>Ctrl+Shift+N</translation>
     </message>
     <message>
-        <location filename="../../build/pcmanfm/ui_main-win.h" line="639"/>
-        <source>&amp;Blank File</source>
-        <translation>&amp;Pusty plik</translation>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="640"/>
+        <source>Ctrl+Alt+N</source>
+        <translation>Ctrl+Alt+N</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="641"/>
         <source>&amp;Find Files</source>
-        <translation>&amp;Znajdź pliki</translation>
+        <translation>Dosya &amp;Bul</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="642"/>
@@ -783,47 +609,62 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="643"/>
         <source>Filter</source>
-        <translation>Filtruj</translation>
+        <translation>Filtre</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="644"/>
         <source>Filter by string...</source>
-        <translation>Wpisz część nazwy pliku...</translation>
+        <translation>Satırları filtrele...</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="645"/>
         <source>&amp;File</source>
-        <translation>&amp;Plik</translation>
+        <translation>&amp;Dosya</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="646"/>
+        <source>C&amp;reate New</source>
+        <translation>Y&amp;eni Oluştur</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="647"/>
         <source>&amp;Help</source>
-        <translation>Po&amp;moc</translation>
+        <translation>&amp;Yardım</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="648"/>
         <source>&amp;View</source>
-        <translation>&amp;Widok</translation>
+        <translation>&amp;Görünüm</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="649"/>
+        <source>&amp;Sorting</source>
+        <translation>&amp;Sıralama</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="650"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Edycja</translation>
+        <translation>&amp;Düzenle</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="651"/>
         <source>&amp;Bookmarks</source>
-        <translation>&amp;Zakładki</translation>
+        <translation>&amp;Yer imleri</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="652"/>
         <source>&amp;Go</source>
-        <translation>P&amp;rzejdź</translation>
+        <translation>&amp;Git</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_main-win.h" line="653"/>
         <source>&amp;Tool</source>
-        <translation>&amp;Narzędzia</translation>
+        <translation>&amp;Araçlar</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_main-win.h" line="654"/>
+        <source>Main Toolbar</source>
+        <translation>Araç Çubuğu</translation>
     </message>
 </context>
 <context>
@@ -831,99 +672,99 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../application.cpp" line="162"/>
         <source>Name of configuration profile</source>
-        <translation>Nazwa profilu konfiguracji</translation>
+        <translation>Profil yapılandırma adı</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="162"/>
         <source>PROFILE</source>
-        <translation>PROFIL</translation>
+        <translation>PROFİL</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="165"/>
         <source>Run PCManFM as a daemon</source>
-        <translation>Uruchom PCManFM jako daemon</translation>
+        <translation>Daemon olarak PCManFM çalıştırın</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="168"/>
         <source>Quit PCManFM</source>
-        <translation>Zakończ PCManFM</translation>
+        <translation>PCManFM den Çık</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="171"/>
         <source>Launch desktop manager</source>
-        <translation>Uruchom menedżera pulpitu</translation>
+        <translation>Masaüstü yöneticiyi başlat</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="174"/>
         <source>Turn off desktop manager if it&apos;s running</source>
-        <translation>Wyłądż menedżera pulpitu jeżeli jest uruchomiony</translation>
+        <translation>Eğer masaüstü yönetici çalışıyorsa kapat</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="177"/>
         <source>Open desktop preference dialog on the page with the specified name</source>
-        <translation type="unfinished"></translation>
+        <translation>Aynı adı taşıyan sayfa yada dosya varsa masaüstünde bir tercih öner</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="177"/>
         <location filename="../application.cpp" line="193"/>
         <source>NAME</source>
-        <translation>NAZWA</translation>
+        <translation>İSİM</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="180"/>
         <source>Open new window</source>
-        <translation>Otwórz nowe okno</translation>
+        <translation>Yeni pencere aç</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="183"/>
         <source>Open Find Files utility</source>
-        <translation>Otwórz narzędzie wyszukiwania</translation>
+        <translation>Açık Dosya Bulmaya yarar</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="186"/>
         <source>Set desktop wallpaper from image FILE</source>
-        <translation>Ustaw tło pulpitu z obrazka PLIK</translation>
+        <translation>DOSYA masaüstü duvarkağıdı olarak ayarlansın</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="186"/>
         <source>FILE</source>
-        <translation>PLIK</translation>
+        <translation>DOSYA</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="190"/>
         <source>Set mode of desktop wallpaper. MODE=(color|stretch|fit|center|tile)</source>
-        <translation>Ustaw tryb tapety pulpitu. TRYB=(color|stretch|fit|center|tile)</translation>
+        <translation>Masaüstü duvarkağıdı ayarı. MOD=(color|stretch|fit|center|tile)</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="190"/>
         <source>MODE</source>
-        <translation>TRYB</translation>
+        <translation>MOD</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="193"/>
         <source>Open Preferences dialog on the page with the specified name</source>
-        <translation type="unfinished"></translation>
+        <translation>Aynı adı taşıyan sayfa yada dosya varsa bir tercih öner</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="196"/>
         <source>Files or directories to open</source>
-        <translation>Pliki lub katalogi do otwarcia</translation>
+        <translation>Dosya veya dizin aç</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="196"/>
         <source>[FILE1, FILE2,...]</source>
-        <translation>[PLIK1, PLIK2,...]</translation>
+        <translation>[DOSYA1, DOSYA,...]</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="500"/>
         <location filename="../application.cpp" line="507"/>
         <source>Error</source>
-        <translation>Błąd</translation>
+        <translation>Hata</translation>
     </message>
     <message>
         <location filename="../application.cpp" line="507"/>
         <source>Terminal emulator is not set.</source>
-        <translation>Nie ustawiono emulatora terminala.</translation>
+        <translation>Uçbirim uygulaması ayarlanmadı.</translation>
     </message>
 </context>
 <context>
@@ -931,12 +772,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../autorundialog.cpp" line="43"/>
         <source>Open in file manager</source>
-        <translation>Otwórz w menedżerze plików</translation>
+        <translation>Dosya yöneticisinde aç</translation>
     </message>
     <message>
         <location filename="../autorundialog.cpp" line="133"/>
         <source>Removable Disk</source>
-        <translation>Nośnik wymienny</translation>
+        <translation>Çıkarılabilir Bellek</translation>
     </message>
 </context>
 <context>
@@ -944,32 +785,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../desktoppreferencesdialog.cpp" line="50"/>
         <source>Fill with background color only</source>
-        <translation>Wypełnij tylko kolorem</translation>
+        <translation>Arkaplan sadece renk dolgusu olsun</translation>
     </message>
     <message>
         <location filename="../desktoppreferencesdialog.cpp" line="51"/>
         <source>Stretch to fill the entire screen</source>
-        <translation>Rozciągnij do rozmiaru ekranu</translation>
+        <translation>Tüm ekranı kaplayacak şekilde uzat</translation>
     </message>
     <message>
         <location filename="../desktoppreferencesdialog.cpp" line="52"/>
         <source>Stretch to fit the screen</source>
-        <translation>Dopasuj do rozmiaru ekranu</translation>
+        <translation>Ekran boyutuna uzat ve uydur</translation>
     </message>
     <message>
         <location filename="../desktoppreferencesdialog.cpp" line="53"/>
         <source>Center on the screen</source>
-        <translation>Wyśrodkuj</translation>
+        <translation>Ekranı ortala</translation>
     </message>
     <message>
         <location filename="../desktoppreferencesdialog.cpp" line="54"/>
         <source>Tile the image to fill the entire screen</source>
-        <translation>Sąsiadująco</translation>
+        <translation>Tüm ekranı dolduracak şekilde döşe</translation>
     </message>
     <message>
         <location filename="../desktoppreferencesdialog.cpp" line="157"/>
         <source>Image Files</source>
-        <translation>Pliki obrazków</translation>
+        <translation>Görsel Dosyası</translation>
     </message>
 </context>
 <context>
@@ -977,12 +818,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../desktopwindow.cpp" line="366"/>
         <source>Stic&amp;k to Current Position</source>
-        <translation>Przyp&amp;nij do aktualnej pozycji</translation>
+        <translation>Geçerli Konuma Sa&amp;bitle</translation>
     </message>
     <message>
         <location filename="../desktopwindow.cpp" line="388"/>
         <source>Desktop Preferences</source>
-        <translation>Ustawienia pulpitu</translation>
+        <translation>Masaüstü Tercihleri</translation>
     </message>
 </context>
 <context>
@@ -990,33 +831,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../mainwindow.cpp" line="190"/>
         <source>Clear text (Ctrl+K)</source>
-        <translation>Usuń tekst (Ctrl+K)</translation>
+        <translation>Metni temizle (Ctrl+K)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="455"/>
         <source>Version: %1</source>
-        <translation>Wersja: %1</translation>
+        <translation>Sürüm: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="907"/>
         <source>&amp;Move to Trash</source>
-        <translation>&amp;Przenieś do kosza</translation>
+        <translation>&amp;Çöpe Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="907"/>
         <source>&amp;Delete</source>
-        <translation>&amp;Usuń</translation>
+        <translation>&amp;Sil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="969"/>
         <location filename="../mainwindow.cpp" line="980"/>
         <source>Error</source>
-        <translation>Błąd</translation>
+        <translation>Hata</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="980"/>
         <source>Switch user command is not set.</source>
-        <translation>Nie ustawiono polecenia do przełączania użytkowników.</translation>
+        <translation>Kullanıcı değişitirme-komutu ayarlı değil.</translation>
     </message>
 </context>
 <context>
@@ -1024,22 +865,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../preferencesdialog.cpp" line="190"/>
         <source>Icon View</source>
-        <translation>Ikony</translation>
+        <translation>Simgeler</translation>
     </message>
     <message>
         <location filename="../preferencesdialog.cpp" line="191"/>
         <source>Compact Icon View</source>
-        <translation>Lista zwarta</translation>
+        <translation>Kompakt Simgeler</translation>
     </message>
     <message>
         <location filename="../preferencesdialog.cpp" line="192"/>
         <source>Thumbnail View</source>
-        <translation>Miniatury</translation>
+        <translation>Önizleme</translation>
     </message>
     <message>
         <location filename="../preferencesdialog.cpp" line="193"/>
         <source>Detailed List View</source>
-        <translation>Lista szczegółowa</translation>
+        <translation>Detaylı Liste</translation>
     </message>
 </context>
 <context>
@@ -1047,35 +888,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../tabpage.cpp" line="248"/>
         <source>Error</source>
-        <translation>Błąd</translation>
+        <translation>Hata</translation>
     </message>
     <message>
         <location filename="../tabpage.cpp" line="261"/>
         <source>Free space: %1 (Total: %2)</source>
-        <translation>Wolna przestrzeń: %1 (całkowita: %2)</translation>
+        <translation>Boş alan: %1 (Toplam %2)</translation>
     </message>
     <message numerus="yes">
         <location filename="../tabpage.cpp" line="276"/>
         <source>%n item(s)</source>
         <translation>
-            <numerusform>%n elementów</numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n nesne(ler)</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../tabpage.cpp" line="278"/>
         <source> (%n hidden)</source>
         <translation>
-            <numerusform>(%n ukrytych)</numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform> (%n gizli)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../tabpage.cpp" line="426"/>
         <source>%1 item(s) selected</source>
-        <translation>Zaznaczono %1 elementy</translation>
+        <translation>%1 nesne(ler) seçildi</translation>
     </message>
 </context>
 <context>
@@ -1083,17 +920,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../view.cpp" line="103"/>
         <source>Open in New T&amp;ab</source>
-        <translation>Otwórz w nowej &amp;karcie</translation>
+        <translation>Yeni S&amp;ekmede Aç</translation>
     </message>
     <message>
         <location filename="../view.cpp" line="107"/>
         <source>Open in New Win&amp;dow</source>
-        <translation>Otwórz w nowym &amp;oknie</translation>
+        <translation>Yeni Pen&amp;cerede Aç</translation>
     </message>
     <message>
         <location filename="../view.cpp" line="114"/>
         <source>Open in Termina&amp;l</source>
-        <translation>Otwórz w &amp;terminalu</translation>
+        <translation>Uçbirim&amp;de Aç</translation>
     </message>
 </context>
 <context>
@@ -1101,356 +938,340 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="706"/>
         <source>Preferences</source>
-        <translation>Preferencje</translation>
+        <translation>Tercihler</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="715"/>
         <source>User Interface</source>
-        <translation>Wyświetlanie</translation>
+        <translation>Kullanıcı Arayüzü</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="711"/>
         <source>Behavior</source>
-        <translation>Zachowanie</translation>
+        <translation>Davranış</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="717"/>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="779"/>
         <source>Thumbnail</source>
-        <translation>Miniatury</translation>
+        <translation>Önizleme</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="719"/>
         <source>Volume</source>
-        <translation>Wolumen</translation>
+        <translation>Disk Yönetimi</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="721"/>
         <source>Advanced</source>
-        <translation>Zaawansowane</translation>
+        <translation>Gelişmiş</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="742"/>
         <source>Icons</source>
-        <translation>Ikony</translation>
+        <translation>Simgeler</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="744"/>
         <source>Size of big icons:</source>
-        <translation>Rozmiar dużych ikon:</translation>
+        <translation>Büyük simge boyutu:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="745"/>
         <source>Size of small icons:</source>
-        <translation>Rozmiar małych ikon:</translation>
+        <translation>Küçük simge boyutu:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="746"/>
         <source>Size of thumbnails:</source>
-        <translation>Rozmiar miniatur:</translation>
+        <translation>Önizleme boyutu:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="747"/>
         <source>Size of side pane icons:</source>
-        <translation>Rozmiar ikon panelu bocznego:</translation>
+        <translation>Yan bölme simgelerinin boyutu:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="743"/>
         <source>Icon theme:</source>
-        <translation>Motyw ikon:</translation>
+        <translation>Simge teması:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="753"/>
         <source>Window</source>
-        <translation>Okno</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="757"/>
-        <source>Default width of new windows:</source>
-        <translation>Domyślna szerokość nowych okien:</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="758"/>
-        <source>Default height of new windows:</source>
-        <translation>Domyślna wysokość nowych okien:</translation>
+        <translation>Pencere</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="754"/>
         <source>Always show the tab bar</source>
-        <translation>Zawsze pokazuj pasek kart</translation>
+        <translation>Daima sekme çubuğunu göster</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="755"/>
         <source>Show &apos;Close&apos; buttons on tabs	</source>
-        <translation>Pokaż przycisk &apos;Zamknij&apos; na kartach</translation>
+        <translation>Sekmelerde &apos;Kapat&apos; düğmesi göster	</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="756"/>
         <source>Remember the size of the last closed window</source>
-        <translation>Pamiętaj rozmiar ostatnio zamkniętego okna</translation>
+        <translation>Son kapatılan pencere boyutunu anımsa</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="757"/>
+        <source>Default width of new windows:</source>
+        <translation>Yeni pencereleri varsayılan genişlikte aç:</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="758"/>
+        <source>Default height of new windows:</source>
+        <translation>Yeni pencereleri varsayılan yükseklikte aç:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="724"/>
         <source>Browsing</source>
-        <translation>Przeglądanie</translation>
+        <translation>Gözat</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="725"/>
         <source>Open files with single click</source>
-        <translation>Otwórz pliki pojedynczym kliknięciem</translation>
+        <translation>Dosyaları çift tıklama ile aç</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="726"/>
         <source>Delay of auto-selection in single click mode (0 to disable)</source>
-        <translation>Opóźnienie zaznaczania (0 aby wyłączyć)</translation>
+        <translation>İmleç üzerinde bekleyince kendiliğinden seç ve tek tıkla (0 etkisizleştirir)</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="727"/>
         <source>Default view mode:</source>
-        <translation>Domyślny tryb widoku:</translation>
+        <translation>Varsayılan görünüm modu:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="728"/>
         <source> sec</source>
-        <translation> s</translation>
+        <translation>.san</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="736"/>
         <source>File Operations</source>
-        <translation>Operacje na plikach</translation>
+        <translation>Dosya İşlemleri</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="737"/>
         <source>Confirm before deleting files</source>
-        <translation>Potwierdź przed usunięciem plików</translation>
+        <translation>Dosyaları silmeden önce onayla</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="738"/>
         <source>Move deleted files to &quot;trash bin&quot; instead of erasing from disk.</source>
-        <translation>Przenoszenie plików do &quot;Kosza&quot; zamiast usuwania z dysku</translation>
+        <translation>Silinen dosyaları &quot;çöpe atmadan&quot; diskten sil.</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="783"/>
         <source>Show thumbnails of files</source>
-        <translation>Wyświetl miniatury zawartości plików</translation>
+        <translation>Dosya önizlemelerini göster</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="782"/>
         <source>Only show thumbnails for local files</source>
-        <translation>Wyświetl miniatury zawartości tylko lokalnych plików</translation>
+        <translation>Yerel dosyalar için önizleme göster</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="713"/>
         <source>Display</source>
-        <translation>Wygląd</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="729"/>
         <source>Bookmarks:</source>
-        <translation>Zakładki:</translation>
+        <translation>Yerimleri:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="732"/>
         <source>Open in current tab</source>
-        <translation>Otwórz w aktualnej zakładce</translation>
+        <translation>Geçerli sekmede aç</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="733"/>
         <source>Open in new tab</source>
-        <translation>Otwórz w nowej zakładce</translation>
+        <translation>Yeni sekmede aç</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="734"/>
         <source>Open in new window</source>
-        <translation>Otwórz w nowym oknie</translation>
+        <translation>Yeni pencerede aç</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="739"/>
         <source>Erase files on removable media instead of &quot;trash can&quot; creation</source>
-        <translation>Usuwaj pliki na urządzeniach wymiennych zamiast przenosić je do kosza</translation>
+        <translation>Çıkarılabilir bellek takılınca kendiliğinden oluşan &quot;kalıntıları&quot; sil</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="740"/>
         <source>Confirm before moving files into &quot;trash can&quot;</source>
-        <translation>Potwierdź przed przeniesieniem plików do &quot;Kosza&quot;</translation>
+        <translation>Dosyalar &quot;çöpe&quot; gönderilmeden önce onay iste</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="741"/>
         <source>Don&apos;t ask options on launch executable file</source>
-        <translation>Nie pytaj o parametry przy uruchamianiu plików wykonywalnych</translation>
+        <translation>Çalıştırılabilir dosya seçeneklerini sorma</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="748"/>
         <source>User interface</source>
-        <translation>Wyświetlanie</translation>
+        <translation>Kullanıcı arayüzü</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="750"/>
         <source>Treat backup files as hidden</source>
-        <translation>Traktuj pliki kopii zapasowych jako ukryte</translation>
+        <translation>Yedekleme dosyalarını gizle</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="751"/>
         <source>Always show full file names</source>
-        <translation>Zawsze wyświetlaj pełne nazwy plików</translation>
+        <translation>Her zaman dosya adının tamamını göster</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="752"/>
         <source>Show icons of hidden files shadowed</source>
-        <translation>Przytłumione ikony dla plików ukrytych</translation>
+        <translation>Gizli dosyaların simgesini gölgele</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="759"/>
         <source>Show in places</source>
-        <translation>Pokaż w położeniach</translation>
+        <translation>Alan göster</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="764"/>
         <source>Home</source>
-        <translation>Katalog użytkownika</translation>
+        <translation>Ev Dizini</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="766"/>
         <source>Desktop</source>
-        <translation>Pulpit</translation>
+        <translation>Masaüstü</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="768"/>
         <source>Trash can</source>
-        <translation>Kosz</translation>
+        <translation>Çöp Kutusu</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="770"/>
         <source>Computer</source>
-        <translation>Komputer</translation>
+        <translation>Bilgisayar</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="772"/>
         <source>Applications</source>
-        <translation>Aplikacje</translation>
+        <translation>Uygualamalar</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="774"/>
         <source>Devices</source>
-        <translation>Urządzenia</translation>
+        <translation>Aygıtlar</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="776"/>
         <source>Network</source>
-        <translation>Sieć</translation>
+        <translation>Ağ</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="780"/>
         <source>Do not generate thumbnails for image files exceeding this size:</source>
-        <translation>Nie generuj miniatur dla plików większych niż:</translation>
+        <translation>Şundan büyük boyuttaki dosyalar için önizleme oluşturma:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="781"/>
         <source> KB</source>
-        <translation> KB</translation>
+        <translation>.KB</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="784"/>
         <source>Auto Mount</source>
-        <translation>Automatyczne montowanie</translation>
+        <translation>Otomatik bağla</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="785"/>
         <source>Mount mountable volumes automatically on program startup</source>
-        <translation>Montowanie wolumenów podczas uruchamiania programu</translation>
+        <translation>Uygulama başlarken diskleri otomatik bağla</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="786"/>
         <source>Mount removable media automatically when they are inserted</source>
-        <translation>Montowanie nośników wymiennych po wsunięciu</translation>
+        <translation>Çıkarılabilir bellek takıldığında otomatik olarak bağla</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="787"/>
         <source>Show available options for removable media when they are inserted</source>
-        <translation>Wyświetlanie możliwych czynności po wsunięciu nośnika wymiennego</translation>
+        <translation>Çıkarılabilir bellek takıldığında seçenekleri göster</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="788"/>
         <source>When removable medium unmounted:</source>
-        <translation>Działania po odmontowaniu nośnika wymiennego:</translation>
+        <translation>Çıkarılabilir disk ayrıldığında:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="789"/>
         <source>Close &amp;tab containing removable medium</source>
-        <translation>Zamknij &amp;kartę nośnika wymiennego</translation>
+        <translation>Bellek çıkarılınca &amp;sekme kapansın</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="790"/>
         <source>Chan&amp;ge folder in the tab to home folder</source>
-        <translation>Z&amp;mień katalog w karcie na katalog użytkownika</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="793"/>
-        <source>Switch &amp;user command:</source>
-        <translation>Polecenie przełączania &amp;użytkownika:</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="796"/>
-        <source>Archiver in&amp;tegration:</source>
-        <translation>Menedżer &amp;archiwów:</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="797"/>
-        <source>Templates</source>
-        <translation>Szablony</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="798"/>
-        <source>Show only user defined templates in menu</source>
-        <translation>Pokazuj w menu tylko szablony zdefiniowane przez użytkownika</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="799"/>
-        <source>Show only one template for each MIME type</source>
-        <translation>Pokazuj tylko jeden szablon dla każdego typu MIME</translation>
-    </message>
-    <message>
-        <location filename="../../build/pcmanfm/ui_preferences.h" line="800"/>
-        <source>Run default application after creation from template</source>
-        <translation>Uruchom domyślną aplikację po utworzeniu pliku z szablonu</translation>
-    </message>
-    <message>
-        <source>Close tab containing removable medium</source>
-        <translation type="vanished">Zamknięcie karty</translation>
-    </message>
-    <message>
-        <source>Change folder in the tab to home folder</source>
-        <translation type="vanished">Przejście do katalogu użytkownika</translation>
+        <translation>Sek&amp;me konumu kullanıcı klasörü olarak değişsin</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="791"/>
         <source>Programs</source>
-        <translation>Programy</translation>
+        <translation>Uygulamalar</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="792"/>
         <source>Terminal emulator:</source>
-        <translation>Emulator terminala:</translation>
+        <translation>Uçbirim emülatörü:</translation>
     </message>
     <message>
-        <source>Switch user command:</source>
-        <translation type="vanished">Przełączanie użytkowników:</translation>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="793"/>
+        <source>Switch &amp;user command:</source>
+        <translation>&amp;Kullanıcı değiştirme-komutu:</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="794"/>
         <source>Examples: &quot;xterm -e %s&quot; for terminal or &quot;gksu %s&quot; for switching user.
 %s = the command line you want to execute with terminal or su.</source>
-        <translation>Przykład: &quot;xterm -e %s&quot; dla terminala lub &quot;gksu %s&quot; dla przełączania użytkownika.
-%s = polecenie, które chcesz wykonać za pomocą terminala lub su.</translation>
+        <translation>Örnek: uçbirim için &quot;xterm -e %s&quot; veya kullanıcı değiştirmek için &quot;gksu %s&quot;.
+%s = komut satırı veya uçbirimde su komutu ile.</translation>
     </message>
     <message>
-        <source>Archiver integration:</source>
-        <translation type="vanished">Menedżer archiwów:</translation>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="796"/>
+        <source>Archiver in&amp;tegration:</source>
+        <translation>Sıkıştırma uy&amp;gulaması:</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="797"/>
+        <source>Templates</source>
+        <translation>Şablonlar</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="798"/>
+        <source>Show only user defined templates in menu</source>
+        <translation>Menüde sadece kullanıcı şablonlarını göster</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="799"/>
+        <source>Show only one template for each MIME type</source>
+        <translation>Her MIME türü için tek bir şablon göster</translation>
+    </message>
+    <message>
+        <location filename="../../build/pcmanfm/ui_preferences.h" line="800"/>
+        <source>Run default application after creation from template</source>
+        <translation>Şablonu uygulama çalıştıktan sonra oluştur</translation>
     </message>
     <message>
         <location filename="../../build/pcmanfm/ui_preferences.h" line="749"/>
         <source>Use SI decimal prefixes instead of IEC binary prefixes</source>
-        <translation>Używanie dziesiętnych prefiksów SI zamiast binarnych IEC</translation>
+        <translation>SI  onluk önekleri yerine IEC ikili önekleri kullan</translation>
     </message>
 </context>
 </TS>

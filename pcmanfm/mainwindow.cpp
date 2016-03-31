@@ -85,6 +85,10 @@ MainWindow::MainWindow(FmPath* path):
   ui.tabBar->setElideMode(Qt::ElideRight);
   ui.tabBar->setExpanding(false);
   ui.tabBar->setMovable(true); // reorder the tabs by dragging
+  if(!settings.fullWidthTabBar()) {
+    ui.verticalLayout->removeWidget(ui.tabBar);
+    ui.verticalLayout_2->insertWidget(0, ui.tabBar);
+  }
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 4, 0)
   // switch to the tab under the cursor during dnd.
@@ -164,13 +168,44 @@ MainWindow::MainWindow(FmPath* path):
   group->addAction(ui.actionAscending);
   group->addAction(ui.actionDescending);
 
+  // Add menubar actions to the main window this is necessary so that actions
+  // shortcuts are still working when the menubar is hidden.
+  addActions(ui.menubar->actions());
+
+  // Show or hide the menu bar
+  QMenu *menu = new QMenu();
+  menu->addMenu(ui.menu_File);
+  menu->addMenu(ui.menu_Editw);
+  menu->addMenu(ui.menu_View);
+  menu->addMenu(ui.menu_Go);
+  menu->addMenu(ui.menu_Bookmarks);
+  menu->addMenu(ui.menu_Tool);
+  menu->addMenu(ui.menu_Help);
+  ui.actionMenu->setMenu(menu);
+  if(ui.actionMenu->icon().isNull())
+    ui.actionMenu->setIcon(QIcon::fromTheme("applications-system"));
+  QList<QToolButton *> list = ui.toolBar->findChildren<QToolButton *>();
+  if (!list.isEmpty())
+    list.at(list.count() - 1)->setPopupMode(QToolButton::InstantPopup);
+  Q_FOREACH(QAction *action, ui.toolBar->actions()) {
+    if(action->isSeparator())
+      action->setVisible(!settings.showMenuBar());
+  }
+  ui.actionMenu->setVisible(!settings.showMenuBar());
+  ui.menubar->setVisible(settings.showMenuBar());
+  ui.actionMenu_bar->setChecked(settings.showMenuBar());
+  connect(ui.actionMenu_bar, &QAction::triggered, this, &MainWindow::toggleMenuBar);
+
   // create shortcuts
   QShortcut* shortcut;
+  shortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+  connect(shortcut, &QShortcut::activated, this, &MainWindow::onResetFocus);
+
   shortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_L), this);
-  connect(shortcut, &QShortcut::activated, pathEntry, static_cast<void (QWidget::*)()>(&Fm::PathEdit::setFocus));
+  connect(shortcut, &QShortcut::activated, this, &MainWindow::focusPathEntry);
 
   shortcut = new QShortcut(Qt::ALT + Qt::Key_D, this);
-  connect(shortcut, &QShortcut::activated, pathEntry, static_cast<void (QWidget::*)()>(&QWidget::setFocus));
+  connect(shortcut, &QShortcut::activated, this, &MainWindow::focusPathEntry);
 
   shortcut = new QShortcut(Qt::CTRL + Qt::Key_Tab, this);
   connect(shortcut, &QShortcut::activated, this, &MainWindow::onShortcutNextTab);
@@ -201,6 +236,13 @@ MainWindow::MainWindow(FmPath* path):
 
   shortcut = new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Delete), this);
   connect(shortcut, &QShortcut::activated, this, &MainWindow::on_actionDelete_triggered);
+
+  shortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_I), this);
+  connect(shortcut, &QShortcut::activated, this, &MainWindow::focusFilterBar);
+
+  // in addition to F3, for convenience
+  shortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_F), this);
+  connect(shortcut, &QShortcut::activated, ui.actionFindFiles, &QAction::trigger);
 
   if(QToolButton* clearButton = ui.filterBar->findChild<QToolButton*>()) {
     clearButton->setToolTip(tr("Clear text (Ctrl+K)"));
@@ -237,7 +279,7 @@ void MainWindow::chdir(FmPath* path) {
 }
 
 // add a new tab
-void MainWindow::addTab(FmPath* path) {
+int MainWindow::addTab(FmPath* path) {
   Settings& settings = static_cast<Application*>(qApp)->settings();
 
   TabPage* newPage = new TabPage(path, this);
@@ -255,6 +297,32 @@ void MainWindow::addTab(FmPath* path) {
   if(!settings.alwaysShowTabs()) {
     ui.tabBar->setVisible(ui.tabBar->count() > 1);
   }
+
+  return index;
+}
+
+void MainWindow::toggleMenuBar(bool checked) {
+  Settings& settings = static_cast<Application*>(qApp)->settings();
+  bool showMenuBar = !settings.showMenuBar();
+
+  if (!showMenuBar) {
+    if (QMessageBox::Cancel == QMessageBox::warning(this,
+          tr("Hide menu bar"),
+          tr("This will hide the menu bar completely, use Ctrl+M to show it again."),
+          QMessageBox::Ok | QMessageBox::Cancel)) {
+      ui.actionMenu_bar->setChecked(true);
+      return;
+    }
+  }
+
+  ui.menubar->setVisible(showMenuBar);
+  ui.actionMenu_bar->setChecked(showMenuBar);
+  Q_FOREACH(QAction *action, ui.toolBar->actions()) {
+    if(action->isSeparator())
+      action->setVisible(!showMenuBar);
+  }
+  ui.actionMenu->setVisible(!showMenuBar);
+  settings.setShowMenuBar(showMenuBar);
 }
 
 void MainWindow::onPathEntryReturnPressed() {
@@ -309,7 +377,8 @@ void MainWindow::on_actionGo_triggered() {
 
 void MainWindow::on_actionNewTab_triggered() {
   FmPath* path = currentPage()->path();
-  addTab(path);
+  int index = addTab(path);
+  ui.tabBar->setCurrentIndex(index);
 }
 
 void MainWindow::on_actionNewWin_triggered() {
@@ -418,6 +487,21 @@ void MainWindow::on_actionFolderFirst_triggered(bool checked) {
 
 void MainWindow::on_actionFilter_triggered(bool checked) {
   ui.filterBar->setVisible(checked);
+  if(checked)
+    ui.filterBar->setFocus();
+  else if(TabPage* tabPage = currentPage()) {
+    ui.filterBar->clear();
+    tabPage->folderView()->childView()->setFocus();
+    // clear filter string for all tabs
+    int n = ui.stackedWidget->count();
+    for(int i = 0; i < n; ++i) {
+      TabPage* page = static_cast<TabPage*>(ui.stackedWidget->widget(i));
+      if(!page->getFilterStr().isEmpty()) {
+        page->setFilterStr(QString());
+        page->applyFilter();
+      }
+    }
+  }
   static_cast<Application*>(qApp)->settings().setShowFilter(checked);
 }
 
@@ -499,6 +583,12 @@ void MainWindow::onTabBarCloseRequested(int index) {
   closeTab(index);
 }
 
+void MainWindow::onResetFocus() {
+  if(TabPage* page = currentPage()) {
+    currentPage()->folderView()->childView()->setFocus();
+  }
+}
+
 void MainWindow::onTabBarTabMoved(int from, int to) {
   // a tab in the tab bar is moved by the user, so we have to move the
   //  corredponding tab page in the stacked widget to the new position, too.
@@ -513,6 +603,13 @@ void MainWindow::onTabBarTabMoved(int from, int to) {
     ui.stackedWidget->blockSignals(false); // unblock signals
     ui.stackedWidget->setCurrentWidget(page);
   }
+}
+
+void MainWindow::focusFilterBar() {
+  if(!ui.filterBar->isVisible())
+    ui.actionFilter->trigger();
+  else
+    ui.filterBar->setFocus();
 }
 
 void MainWindow::onFilterStringChanged(QString str) {
@@ -951,6 +1048,13 @@ void MainWindow::closeRightTabs() {
     closeTab(rightClickIndex + 1);
 }
 
+void MainWindow::focusPathEntry() {
+  if(pathEntry != nullptr) {
+    pathEntry->setFocus();
+    pathEntry->selectAll();
+  }
+}
+
 void MainWindow::updateFromSettings(Settings& settings) {
   // apply settings
 
@@ -963,9 +1067,16 @@ void MainWindow::updateFromSettings(Settings& settings) {
 
   // tabs
   ui.tabBar->setTabsClosable(settings.showTabClose());
-
-  if(!settings.alwaysShowTabs()) {
-    ui.tabBar->setVisible(ui.tabBar->count() > 1);
+  ui.tabBar->setVisible(settings.alwaysShowTabs() || (ui.tabBar->count() > 1));
+  if(ui.verticalLayout->indexOf(ui.tabBar) > -1) {
+    if(!settings.fullWidthTabBar()) {
+      ui.verticalLayout->removeWidget(ui.tabBar);
+      ui.verticalLayout_2->insertWidget(0, ui.tabBar);
+    }
+  }
+  else if (ui.verticalLayout_2->indexOf(ui.tabBar) > -1 && settings.fullWidthTabBar()) {
+    ui.verticalLayout_2->removeWidget(ui.tabBar);
+    ui.verticalLayout->insertWidget(0, ui.tabBar);
   }
 
   // all tab pages

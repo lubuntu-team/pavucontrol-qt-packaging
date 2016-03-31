@@ -62,6 +62,7 @@ set_property(
 
 target_include_directories(pcmanfm-qt
     PRIVATE "${LIB_XCB_INDLUDE_DIRS}"
+    "${Qt5Gui_PRIVATE_INCLUDE_DIRS}"
 )
 
 target_link_libraries(pcmanfm-qt

@@ -3,7 +3,8 @@ Maintainer: LXQt Packaging Team <pkg-lxqt-devel@lists.alioth.debian.org>
 Uploaders: Alf Gaida <agaida@siduction.org>,
            ChangZhuo Chen (陳昌倬) <czchen@debian.org>,
            Andrew Lee (李健秋) <ajqlee@debian.org>,
-           Shih-Yuan Lee (FourDollars) <fourdollars@gmail.com>
+           Shih-Yuan Lee (FourDollars) <fourdollars@gmail.com>,
+           Yuan CHAO <yuanchao@gmail.com>
 Section: x11
 Priority: optional
 Build-Depends: debhelper (>= 9.20151219),
@@ -28,6 +29,7 @@ Package: pcmanfm-qt
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
+         dbus-x11,
          libfm-modules
 Recommends: gvfs-backends,
             lxqt-sudo | gksu

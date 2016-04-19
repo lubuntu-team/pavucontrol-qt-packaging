@@ -1,3 +1,9 @@
+pcmanfm-qt (0.11.0-3) unstable; urgency=low
+
+  * Adding "Depends: dbus-x11". Closes: #820079
+
+ -- Yuan CHAO <yuanchao@gmail.com>  Tue, 19 Apr 2016 20:30:00 +0800
+
 pcmanfm-qt (0.11.0-2) unstable; urgency=medium
 
   * Merge experimental to unstable 

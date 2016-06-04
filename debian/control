@@ -20,7 +20,7 @@ Build-Depends: debhelper (>= 9.20151219),
                pkg-config,
                qttools5-dev,
                qttools5-dev-tools
-Standards-Version: 3.9.7
+Standards-Version: 3.9.8
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-lxqt/pcmanfm-qt.git/?h=debian/sid
 Vcs-Git: https://anonscm.debian.org/cgit/pkg-lxqt/pcmanfm-qt.git -b debian/sid
 Homepage: https://github.com/lxde/pcmanfm-qt

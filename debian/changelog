@@ -1,3 +1,9 @@
+pcmanfm-qt (0.11.0-6) unstable; urgency=medium
+
+  * Set LC_ALL for reproducible builds.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sat, 16 Jul 2016 11:16:41 +0800
+
 pcmanfm-qt (0.11.0-5) unstable; urgency=medium
 
   * Backported temporary upstream fix for #826311 

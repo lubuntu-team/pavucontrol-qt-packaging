@@ -65,10 +65,12 @@ Settings::Settings():
   desktopBgColor_(),
   desktopFgColor_(),
   desktopShadowColor_(),
+  desktopIconSize_(48),
   showWmMenu_(false),
   desktopShowHidden_(false),
   desktopSortOrder_(Qt::AscendingOrder),
-  desktopSortColumn_(Fm::FolderModel::ColumnFileName),
+  desktopSortColumn_(Fm::FolderModel::ColumnFileMTime),
+  desktopSortFolderFirst_(true),
   alwaysShowTabs_(true),
   showTabClose_(true),
   rememberWindowSize_(true),
@@ -163,7 +165,7 @@ bool Settings::loadFile(QString filePath) {
   if(fallbackIconThemeName_.isEmpty()) {
     // FIXME: we should choose one from installed icon themes or get
     // the value from XSETTINGS instead of hard code a fallback value.
-    fallbackIconThemeName_ = "elementary"; // fallback icon theme name
+    fallbackIconThemeName_ = "oxygen"; // fallback icon theme name
   }
   suCommand_ = settings.value("SuCommand", "lxqt-sudo %s").toString();
   setTerminal(settings.value("Terminal", "xterm").toString());
@@ -200,11 +202,13 @@ bool Settings::loadFile(QString filePath) {
     desktopFont_.fromString(settings.value("Font").toString());
   else
     desktopFont_ = QApplication::font();
+  desktopIconSize_ = settings.value("DesktopIconSize", 48).toInt();
   showWmMenu_ = settings.value("ShowWmMenu", false).toBool();
   desktopShowHidden_ = settings.value("ShowHidden", false).toBool();
 
   desktopSortOrder_ = sortOrderFromString(settings.value("SortOrder").toString());
   desktopSortColumn_ = sortColumnFromString(settings.value("SortColumn").toString());
+  desktopSortFolderFirst_ = settings.value("SortFolderFirst", true).toBool();
 
   desktopCellMargins_ = (settings.value("DesktopCellMargins", QSize(3, 1)).toSize()
                          .expandedTo(QSize(0, 0))).boundedTo(QSize(48, 48));
@@ -310,10 +314,12 @@ bool Settings::saveFile(QString filePath) {
   settings.setValue("FgColor", desktopFgColor_.name());
   settings.setValue("ShadowColor", desktopShadowColor_.name());
   settings.setValue("Font", desktopFont_.toString());
+  settings.setValue("DesktopIconSize", desktopIconSize_);
   settings.setValue("ShowWmMenu", showWmMenu_);
   settings.setValue("ShowHidden", desktopShowHidden_);
   settings.setValue("SortOrder", sortOrderToString(desktopSortOrder_));
   settings.setValue("SortColumn", sortColumnToString(desktopSortColumn_));
+  settings.setValue("SortFolderFirst", desktopSortFolderFirst_);
   settings.setValue("DesktopCellMargins", desktopCellMargins_);
   settings.endGroup();
 

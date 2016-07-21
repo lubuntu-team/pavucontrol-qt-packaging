@@ -69,8 +69,8 @@ void ProxyFilter::setVirtHidden(FmFolder* folder) {
 
 TabPage::TabPage(FmPath* path, QWidget* parent):
   QWidget(parent),
-  folder_(NULL),
   folderModel_(NULL),
+  folder_(NULL),
   overrideCursor_(false) {
 
   Settings& settings = static_cast<Application*>(qApp)->settings();
@@ -434,7 +434,7 @@ void TabPage::onSelChanged(int numSel) {
     else {
       goffset sum;
       GList* l;
-      msg = tr("%1 item(s) selected", NULL, numSel).arg(numSel);
+      msg = tr("%n item(s) selected", nullptr, numSel).arg(numSel);
       /* don't count if too many files are selected, that isn't lightweight */
       if(numSel < 1000) {
         sum = 0;

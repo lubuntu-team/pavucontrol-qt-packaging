@@ -1,3 +1,20 @@
+pcmanfm-qt (0.11.1~11-g537bfc2-1) experimental; urgency=medium
+
+  * Cherry-picking upstream version 0.11.1~11-g537bfc2.
+  * Preparing the upcoming release, switch to experimental
+  * Added build dependencies:
+    - gcc (>= 4:6)
+    - g++ (>= 4:6) 
+    - libkf5windowsystem-dev
+  * Fixed VCS fields, using plain /git/ 
+  * Added Recommends pcmanfm-qt-l10n
+  * Fixed copyright Format field, using https
+  * Dropped patches, applied upstream
+  * Added translation controls 
+  * Set CMAKE_BUILD_TYPE=RelWithDebInfo
+
+ -- Alf Gaida <agaida@siduction.org>  Thu, 21 Jul 2016 15:31:18 +0200
+
 pcmanfm-qt (0.11.0-6) unstable; urgency=medium
 
   * Set LC_ALL for reproducible builds.

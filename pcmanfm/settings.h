@@ -185,6 +185,14 @@ public:
     desktopFont_ = font;
   }
 
+  int desktopIconSize() const {
+    return desktopIconSize_;
+  }
+
+  void setDesktopIconSize(int desktopIconSize) {
+    desktopIconSize_ = desktopIconSize;
+  }
+
   bool showWmMenu() const {
     return showWmMenu_;
   }
@@ -215,6 +223,14 @@ public:
 
   void setDesktopSortColumn(Fm::FolderModel::ColumnId desktopSortColumn) {
     desktopSortColumn_ = desktopSortColumn;
+  }
+
+  bool desktopSortFolderFirst() const {
+    return desktopSortFolderFirst_;
+  }
+
+  void setSesktopSortFolderFirst(bool desktopFolderFirst) {
+    desktopSortFolderFirst_ = desktopFolderFirst;
   }
 
   bool alwaysShowTabs() const {
@@ -649,11 +665,13 @@ private:
   QColor desktopFgColor_;
   QColor desktopShadowColor_;
   QFont desktopFont_;
+  int desktopIconSize_;
   bool showWmMenu_;
 
   bool desktopShowHidden_;
   Qt::SortOrder desktopSortOrder_;
   Fm::FolderModel::ColumnId desktopSortColumn_;
+  bool desktopSortFolderFirst_;
 
   bool alwaysShowTabs_;
   bool showTabClose_;

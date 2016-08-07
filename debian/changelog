@@ -1,3 +1,11 @@
+pcmanfm-qt (0.11.0-7) unstable; urgency=medium
+
+  * Fixed VCS fields, use plain /git/
+  * Reworked icon-theme recommends (Closes: #833590)
+    Thanks Pino Toscano <pino@debian.org>
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 07 Aug 2016 11:14:08 +0200
+
 pcmanfm-qt (0.11.0-6) unstable; urgency=medium
 
   * Set LC_ALL for reproducible builds.

@@ -1,3 +1,11 @@
+pcmanfm-qt (0.11.0-8) unstable; urgency=medium
+
+  * Replace dep. dbus-x11 with default-dbus-session-bus | dbus-session-bus
+    (Closes: #836284)
+  * Set CMAKE_BUILD_TYPE=RelWithDebInfo
+
+ -- Alf Gaida <agaida@siduction.org>  Thu, 01 Sep 2016 22:56:35 +0200
+
 pcmanfm-qt (0.11.0-7) unstable; urgency=medium
 
   * Fixed VCS fields, use plain /git/

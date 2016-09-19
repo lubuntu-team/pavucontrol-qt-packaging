@@ -33,7 +33,7 @@ Depends: ${misc:Depends},
          libfm-modules
 Recommends: gvfs-backends,
             lxqt-sudo | gksu,
-            breeze-icon-theme | oyxgen-icon-theme | faenza-icon-theme | gnome-icon-theme
+            breeze-icon-theme | oxygen-icon-theme | faenza-icon-theme | gnome-icon-theme
 Description: extremely fast and lightweight file and desktop icon manager
  PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
  .

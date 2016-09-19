@@ -1,3 +1,11 @@
+pcmanfm-qt (0.11.0-9) unstable; urgency=medium
+
+  * Bumped compat to 10
+  * Bumped build dependency debhelper (>=10)
+  * Fixed typo in Recommends: faenza--icon-theme > faenza-icon-theme
+
+ -- Alf Gaida <agaida@siduction.org>  Mon, 19 Sep 2016 04:23:26 +0200
+
 pcmanfm-qt (0.11.0-8) unstable; urgency=medium
 
   * Replace dep. dbus-x11 with default-dbus-session-bus | dbus-session-bus

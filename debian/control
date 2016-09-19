@@ -7,7 +7,7 @@ Uploaders: Alf Gaida <agaida@siduction.org>,
            Yuan CHAO <yuanchao@gmail.com>
 Section: x11
 Priority: optional
-Build-Depends: debhelper (>= 9.20151219),
+Build-Depends: debhelper (>= 10),
                cmake (>= 3.0.2),
                libfm-dev (>= 1.2.0),
                libfm-qt-dev (>= 0.11.0),
@@ -21,7 +21,7 @@ Build-Depends: debhelper (>= 9.20151219),
                qttools5-dev,
                qttools5-dev-tools
 Standards-Version: 3.9.8
-Vcs-Browser: https://anonscm.debian.org/git/pkg-lxqt/pcmanfm-qt.git/?h=debian/sid
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-lxqt/pcmanfm-qt.git/?h=debian/sid
 Vcs-Git: https://anonscm.debian.org/git/pkg-lxqt/pcmanfm-qt.git -b debian/sid
 Homepage: https://github.com/lxde/pcmanfm-qt
 
@@ -33,7 +33,7 @@ Depends: ${misc:Depends},
          libfm-modules
 Recommends: gvfs-backends,
             lxqt-sudo | gksu,
-            breeze-icon-theme |oyxgen-icon-theme | faenza--icon-theme | gnome-icon-theme
+            breeze-icon-theme | oyxgen-icon-theme | faenza-icon-theme | gnome-icon-theme
 Description: extremely fast and lightweight file and desktop icon manager
  PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
  .

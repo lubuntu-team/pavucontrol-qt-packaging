@@ -20,6 +20,7 @@
 
 #include "desktopitemdelegate.h"
 #include <libfm-qt/foldermodel.h>
+#include <libfm-qt/fileinfo.h>
 #include <QApplication>
 #include <QListView>
 #include <QPainter>
@@ -41,7 +42,7 @@ DesktopItemDelegate::DesktopItemDelegate(QListView* view, QObject* parent):
 // FIXME: we need to figure out a way to derive from Fm::FolderItemDelegate to avoid code duplication.
 void DesktopItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
   Q_ASSERT(index.isValid());
-  QStyleOptionViewItemV4 opt = option;
+  QStyleOptionViewItem opt = option;
   initStyleOption(&opt, index);
 
   painter->save();
@@ -67,9 +68,9 @@ void DesktopItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& o
 
   // draw some emblems for the item if needed
   // we only support symlink emblem at the moment
-  FmFileInfo* file = static_cast<FmFileInfo*>(index.data(Fm::FolderModel::FileInfoRole).value<void*>());
-  if(file) {
-    if(fm_file_info_is_symlink(file)) {
+  Fm::FileInfo file = static_cast<FmFileInfo*>(index.data(Fm::FolderModel::FileInfoRole).value<void*>());
+  if(!file.isNull()) {
+    if(file.isSymlink()) {
       painter->drawPixmap(iconPos, symlinkIcon_.pixmap(opt.decorationSize / 2, iconMode));
     }
   }
@@ -88,7 +89,7 @@ void DesktopItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& o
   painter->restore();
 }
 
-void DesktopItemDelegate::drawText(QPainter* painter, QStyleOptionViewItemV4& opt, QRectF& textRect) const {
+void DesktopItemDelegate::drawText(QPainter* painter, QStyleOptionViewItem& opt, QRectF& textRect) const {
   QTextLayout layout(opt.text, opt.font);
 
   QTextOption textOption;
@@ -137,7 +138,7 @@ void DesktopItemDelegate::drawText(QPainter* painter, QStyleOptionViewItemV4& op
   if (opt.state & QStyle::State_Selected || opt.state & QStyle::State_MouseOver) {
     if (const QWidget* widget = opt.widget) { // let the style engine do it
       QStyle* style = widget->style() ? widget->style() : qApp->style();
-      QStyleOptionViewItemV4 o(opt);
+      QStyleOptionViewItem o(opt);
       o.text = QString();
       o.rect = selRect.toAlignedRect().intersected(opt.rect); // due to clipping and rounding, we might lose 1px
       o.showDecorationSelected = true;
@@ -185,7 +186,7 @@ QSize DesktopItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
   QVariant value = index.data(Qt::SizeHintRole);
   if(value.isValid())
     return qvariant_cast<QSize>(value);
-  QStyleOptionViewItemV4 opt = option;
+  QStyleOptionViewItem opt = option;
   initStyleOption(&opt, index);
   opt.decorationAlignment = Qt::AlignHCenter|Qt::AlignTop;
   opt.displayAlignment = Qt::AlignTop|Qt::AlignHCenter;

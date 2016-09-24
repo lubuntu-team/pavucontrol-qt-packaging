@@ -32,6 +32,8 @@
 #include <QStackedWidget>
 #include <QSplitter>
 #include "launcher.h"
+#include <libfm-qt/bookmarks.h>
+#include <libfm-qt/path.h>
 
 namespace PCManFM {
 
@@ -41,11 +43,11 @@ class Settings;
 class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
-  MainWindow(FmPath* path = NULL);
+  MainWindow(Fm::Path path = Fm::Path());
   virtual ~MainWindow();
 
-  void chdir(FmPath* path);
-  int addTab(FmPath* path);
+  void chdir(Fm::Path path);
+  int addTab(Fm::Path path);
 
   TabPage* currentPage() {
     return reinterpret_cast<TabPage*>(ui.stackedWidget->currentWidget());
@@ -56,6 +58,7 @@ public:
 protected Q_SLOTS:
 
   void onPathEntryReturnPressed();
+  void onPathEntryEdited(const QString& text);
 
   void on_actionNewTab_triggered();
   void on_actionNewWin_triggered();
@@ -88,6 +91,7 @@ protected Q_SLOTS:
 
   void on_actionGo_triggered();
   void on_actionShowHidden_triggered(bool check);
+  void on_actionPreserveView_triggered(bool checked);
 
   void on_actionByFileName_triggered(bool checked);
   void on_actionByMTime_triggered(bool checked);
@@ -173,9 +177,10 @@ private:
   Ui::MainWindow ui;
   QLineEdit* pathEntry;
   QLabel* fsInfoLabel;
-  FmBookmarks* bookmarks;
+  Fm::Bookmarks bookmarks;
   Launcher fileLauncher_;
   int rightClickIndex;
+  bool updatingViewMenu_;
 };
 
 }

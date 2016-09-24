@@ -22,16 +22,18 @@
 #include "launcher.h"
 #include <libfm-qt/filemenu.h>
 #include <libfm-qt/mountoperation.h>
+#include <libfm-qt/proxyfoldermodel.h>
+#include <libfm-qt/cachedfoldermodel.h>
+#include <libfm-qt/fileinfo.h>
 #include <QApplication>
 #include <QCursor>
 #include <QMessageBox>
 #include <QScrollBar>
-#include <libfm-qt/proxyfoldermodel.h>
 #include "settings.h"
 #include "application.h"
-#include <libfm-qt/cachedfoldermodel.h>
 #include <QTimer>
 #include <QTextStream>
+#include <QDebug>
 
 using namespace Fm;
 
@@ -48,14 +50,17 @@ bool ProxyFilter::filterAcceptsRow(const Fm::ProxyFolderModel* model, FmFileInfo
   return true;
 }
 
-void ProxyFilter::setVirtHidden(FmFolder* folder) {
+void ProxyFilter::setVirtHidden(Fm::Folder folder) {
   virtHiddenList_ = QStringList(); // reset the list
-  if(!folder) return;
-  if(FmPath* path = fm_folder_get_path(folder)) {
-    char* pathStr = fm_path_to_str(path);
+  if(folder.isNull())
+      return;
+  Fm::Path path = folder.getPath();
+  if(!path.isNull()) {
+    char* pathStr = path.toStr();
     if(pathStr) {
-      QString dotHidden = QString(pathStr) + QString("/.hidden");
+      QString dotHidden = QString::fromUtf8(pathStr) + QString("/.hidden");
       g_free(pathStr);
+      // FIXME: this does not work for non-local filesystems
       QFile file(dotHidden);
       if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
@@ -67,10 +72,9 @@ void ProxyFilter::setVirtHidden(FmFolder* folder) {
   }
 }
 
-TabPage::TabPage(FmPath* path, QWidget* parent):
+TabPage::TabPage(Fm::Path path, QWidget* parent):
   QWidget(parent),
   folderModel_(NULL),
-  folder_(NULL),
   overrideCursor_(false) {
 
   Settings& settings = static_cast<Application*>(qApp)->settings();
@@ -79,7 +83,7 @@ TabPage::TabPage(FmPath* path, QWidget* parent):
   proxyModel_ = new ProxyFolderModel();
   proxyModel_->setShowHidden(settings.showHidden());
   proxyModel_->setShowThumbnails(settings.showThumbnails());
-  connect(proxyModel_, &ProxyFolderModel::sortFilterChanged, this, &TabPage::onModelSortFilterChanged);
+  connect(proxyModel_, &ProxyFolderModel::sortFilterChanged, this, &TabPage::sortFilterChanged);
 
   verticalLayout = new QVBoxLayout(this);
   verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -117,7 +121,11 @@ TabPage::~TabPage() {
 }
 
 void TabPage::freeFolder() {
-  if(folder_) {
+  if(!folder_.isNull()) {
+    if(folderSettings_.isCustomized()) {
+      // save custom view settings for this folder
+      static_cast<Application*>(qApp)->settings().saveFolderSettings(folder_.getPath(), folderSettings_);
+    }
     g_signal_handlers_disconnect_by_func(folder_, (gpointer)onFolderStartLoading, this);
     g_signal_handlers_disconnect_by_func(folder_, (gpointer)onFolderFinishLoading, this);
     g_signal_handlers_disconnect_by_func(folder_, (gpointer)onFolderError, this);
@@ -125,8 +133,7 @@ void TabPage::freeFolder() {
     g_signal_handlers_disconnect_by_func(folder_, (gpointer)onFolderRemoved, this);
     g_signal_handlers_disconnect_by_func(folder_, (gpointer)onFolderUnmount, this);
     g_signal_handlers_disconnect_by_func(folder_, (gpointer)onFolderContentChanged, this);
-    g_object_unref(folder_);
-    folder_ = NULL;
+    folder_ = nullptr;
   }
 }
 
@@ -165,8 +172,8 @@ void TabPage::restoreScrollPos() {
 
   // if the current folder is the parent folder of the last browsed folder,
   // select the folder item in current view.
-  if(lastFolderPath_.parent() == path()) {
-    QModelIndex index = folderView_->indexFromFolderPath(lastFolderPath_.data());
+  if(!lastFolderPath_.isNull() && lastFolderPath_.getParent() == path()) {
+    QModelIndex index = folderView_->indexFromFolderPath(lastFolderPath_);
     if(index.isValid()) {
       folderView_->childView()->scrollTo(index, QAbstractItemView::EnsureVisible);
       folderView_->childView()->setCurrentIndex(index);
@@ -276,8 +283,8 @@ void TabPage::restoreScrollPos() {
 }
 
 QString TabPage::formatStatusText() {
-  if(proxyModel_ && folder_) {
-    FmFileInfoList* files = fm_folder_get_files(folder_);
+  if(proxyModel_ && !folder_.isNull()) {
+    Fm::FileInfoList files = folder_.getFiles();
     int total_files = fm_file_info_list_get_length(files);
     int shown_files = proxyModel_->rowCount();
     int hidden_files = total_files - shown_files;
@@ -300,7 +307,7 @@ QString TabPage::formatStatusText() {
   if(settings.closeOnUnmount())
     QTimer::singleShot(0, pThis, SLOT(deleteLater()));
   else
-    pThis->chdir(fm_path_get_home());
+    pThis->chdir(Fm::Path::getHome());
 }
 
 /*static*/ void TabPage::onFolderUnmount(FmFolder* _folder, TabPage* pThis) {
@@ -318,7 +325,7 @@ QString TabPage::formatStatusText() {
   if(settings.closeOnUnmount())
     QTimer::singleShot(0, pThis, SLOT(deleteLater()));
   else
-    pThis->chdir(fm_path_get_home());
+    pThis->chdir(Fm::Path::getHome());
 }
 
 /*static */ void TabPage::onFolderContentChanged(FmFolder* _folder, TabPage* pThis) {
@@ -328,20 +335,20 @@ QString TabPage::formatStatusText() {
 }
 
 QString TabPage::pathName() {
-  char* disp_path = fm_path_display_name(path(), TRUE);
+  char* disp_path = path().displayName(true);
   QString ret = QString::fromUtf8(disp_path);
   g_free(disp_path);
   return ret;
 }
 
-void TabPage::chdir(FmPath* newPath, bool addHistory) {
-  if(folder_) {
+void TabPage::chdir(Path newPath, bool addHistory) {
+  if(!folder_.isNull()) {
     // we're already in the specified dir
-    if(fm_path_equal(newPath, fm_folder_get_path(folder_)))
+    if(newPath == fm_folder_get_path(folder_))
       return;
 
     // remember the previous folder path that we have browsed.
-    lastFolderPath_ = fm_folder_get_path(folder_);
+    lastFolderPath_ = folder_.getPath();
 
     if(addHistory) {
       // store current scroll pos in the browse history
@@ -360,12 +367,12 @@ void TabPage::chdir(FmPath* newPath, bool addHistory) {
     freeFolder();
   }
 
-  char* disp_name = fm_path_display_basename(newPath);
+  char* disp_name = newPath.displayBasename();
   title_ = QString::fromUtf8(disp_name);
   Q_EMIT titleChanged(title_);
   g_free(disp_name);
 
-  folder_ = fm_folder_from_path(newPath);
+  folder_ = Fm::Folder::fromPath(newPath);
   proxyFilter_->setVirtHidden(folder_);
   if(addHistory) {
     // add current path to browse history
@@ -381,13 +388,19 @@ void TabPage::chdir(FmPath* newPath, bool addHistory) {
   g_signal_connect(folder_, "content-changed", G_CALLBACK(onFolderContentChanged), this);
 
   folderModel_ = CachedFolderModel::modelFromFolder(folder_);
-  proxyModel_->setSourceModel(folderModel_);
-  proxyModel_->sort(proxyModel_->sortColumn(), proxyModel_->sortOrder());
-  Settings& settings = static_cast<Application*>(qApp)->settings();
-  proxyModel_->setFolderFirst(settings.sortFolderFirst());
-  proxyModel_->sort(settings.sortColumn(), settings.sortOrder());
 
-  if(fm_folder_is_loaded(folder_)) {
+  // set sorting, considering customized folders
+  Settings& settings = static_cast<Application*>(qApp)->settings();
+  folderSettings_ = settings.loadFolderSettings(path());
+  proxyModel_->sort(folderSettings_.sortColumn(), folderSettings_.sortOrder());
+  proxyModel_->setFolderFirst(folderSettings_.sortFolderFirst());
+  proxyModel_->setShowHidden(folderSettings_.showHidden());
+  proxyModel_->setSortCaseSensitivity(folderSettings_.sortCaseSensitive() ? Qt::CaseSensitive : Qt::CaseInsensitive);
+  proxyModel_->setSourceModel(folderModel_);
+
+  folderView_->setViewMode(folderSettings_.viewMode());
+
+  if(folder_.isLoaded()) {
     onFolderStartLoading(folder_, this);
     onFolderFinishLoading(folder_, this);
     onFolderFsInfo(folder_, this);
@@ -414,48 +427,51 @@ void TabPage::onSelChanged(int numSel) {
   if(numSel > 0) {
     /* FIXME: display total size of all selected files. */
     if(numSel == 1) { /* only one file is selected */
-      FmFileInfoList* files = folderView_->selectedFiles();
-      FmFileInfo* fi = fm_file_info_list_peek_head(files);
-      const char* size_str = fm_file_info_get_disp_size(fi);
-      if(size_str) {
-        msg = QString("\"%1\" (%2) %3")
-                        .arg(QString::fromUtf8(fm_file_info_get_disp_name(fi)))
-                        .arg(QString::fromUtf8(size_str ? size_str : ""))
-                        .arg(QString::fromUtf8(fm_file_info_get_desc(fi)));
-      }
-      else {
-        msg = QString("\"%1\" %2")
-                        .arg(QString::fromUtf8(fm_file_info_get_disp_name(fi)))
-                        .arg(QString::fromUtf8(fm_file_info_get_desc(fi)));
-      }
+      Fm::FileInfoList files = folderView_->selectedFiles();
+      if(!files.isNull()) {
+        Fm::FileInfo fi = fm_file_info_list_peek_head(files);
+        const char* size_str = fi.getDispSize();
+        if(size_str) {
+          msg = QString("\"%1\" (%2) %3")
+                         .arg(QString::fromUtf8(fi.getDispName()))
+                         .arg(QString::fromUtf8(size_str))
+                         .arg(QString::fromUtf8(fi.getDesc()));
+        }
+        else {
+            msg = QString("\"%1\" %2")
+                            .arg(QString::fromUtf8(fi.getDispName()))
+                            .arg(QString::fromUtf8(fi.getDesc()));
+        }
       /* FIXME: should we support statusbar plugins as in the gtk+ version? */
-      fm_file_info_list_unref(files);
+      }
     }
     else {
       goffset sum;
       GList* l;
-      msg = tr("%n item(s) selected", nullptr, numSel).arg(numSel);
+      msg = tr("%n item(s) selected", nullptr, numSel);
       /* don't count if too many files are selected, that isn't lightweight */
       if(numSel < 1000) {
         sum = 0;
-        FmFileInfoList* files = folderView_->selectedFiles();
-        for(l = fm_file_info_list_peek_head_link(files); l; l = l->next) {
-          if(fm_file_info_is_dir(FM_FILE_INFO(l->data))) {
-            /* if we got a directory then we cannot tell it's size
-            unless we do deep count but we cannot afford it */
-            sum = -1;
-            break;
+        Fm::FileInfoList files = folderView_->selectedFiles();
+        if(!files.isNull()) {
+          for(l = files.peekHeadLink(); l; l = l->next) {
+            Fm::FileInfo fi = FM_FILE_INFO(l->data);
+            if(fi.isDir()) {
+              /* if we got a directory then we cannot tell it's size
+              unless we do deep count but we cannot afford it */
+              sum = -1;
+              break;
+            }
+            sum += fi.getSize();
           }
-          sum += fm_file_info_get_size(FM_FILE_INFO(l->data));
         }
         if(sum >= 0) {
           char size_str[128];
           fm_file_size_to_str(size_str, sizeof(size_str), sum,
                               fm_config->si_unit);
-	  msg += QString(" (%1)").arg(QString::fromUtf8(size_str));
+          msg += QString(" (%1)").arg(QString::fromUtf8(size_str));
         }
-      /* FIXME: should we support statusbar plugins as in the gtk+ version? */
-        fm_file_info_list_unref(files);
+        /* FIXME: should we support statusbar plugins as in the gtk+ version? */
       }
       /* FIXME: can we show some more info on selection?
           that isn't lightweight if a lot of files are selected */
@@ -500,28 +516,74 @@ void TabPage::jumpToHistory(int index)
 }
 
 bool TabPage::canUp() {
-  return (path() != NULL && fm_path_get_parent(path()) != NULL);
+  Fm::Path _path = path();
+  return (!_path.isNull() && !_path.getParent().isNull());
 }
 
 void TabPage::up() {
-  FmPath* _path = path();
-  if(_path) {
-    FmPath* parent = fm_path_get_parent(_path);
-    if(parent) {
+  Fm::Path _path = path();
+  if(!_path.isNull()) {
+    Fm::Path parent = _path.getParent();
+    if(!parent.isNull()) {
       chdir(parent, true);
     }
   }
-}
-
-void TabPage::onModelSortFilterChanged() {
-  Q_EMIT sortFilterChanged();
 }
 
 void TabPage::updateFromSettings(Settings& settings) {
   folderView_->updateFromSettings(settings);
 }
 
+void TabPage::setViewMode(Fm::FolderView::ViewMode mode) {
+  if(folderSettings_.viewMode() != mode) {
+    folderSettings_.setViewMode(mode);
+    if(folderSettings_.isCustomized()) {
+      static_cast<Application*>(qApp)->settings().saveFolderSettings(path(), folderSettings_);
+    }
+  }
+  folderView_->setViewMode(mode);
+}
+
+void TabPage::sort(int col, Qt::SortOrder order) {
+  if(folderSettings_.sortColumn() != col || folderSettings_.sortOrder() != order) {
+    folderSettings_.setSortColumn(Fm::FolderModel::ColumnId(col));
+    folderSettings_.setSortOrder(order);
+    if(folderSettings_.isCustomized()) {
+      static_cast<Application*>(qApp)->settings().saveFolderSettings(path(), folderSettings_);
+    }
+  }
+  if(proxyModel_)
+    proxyModel_->sort(col, order);
+}
+
+void TabPage::setSortFolderFirst(bool value) {
+  if(folderSettings_.sortFolderFirst() != value) {
+    folderSettings_.setSortFolderFirst(value);
+    if(folderSettings_.isCustomized()) {
+      static_cast<Application*>(qApp)->settings().saveFolderSettings(path(), folderSettings_);
+    }
+  }
+  proxyModel_->setFolderFirst(value);
+}
+
+void TabPage::setSortCaseSensitive(bool value) {
+  if(folderSettings_.sortCaseSensitive() != value) {
+    folderSettings_.setSortCaseSensitive(value);
+    if(folderSettings_.isCustomized()) {
+      static_cast<Application*>(qApp)->settings().saveFolderSettings(path(), folderSettings_);
+    }
+  }
+  proxyModel_->setSortCaseSensitivity(value ? Qt::CaseSensitive : Qt::CaseInsensitive);
+}
+
+
 void TabPage::setShowHidden(bool showHidden) {
+  if(folderSettings_.showHidden() != showHidden) {
+    folderSettings_.setShowHidden(showHidden);
+    if(folderSettings_.isCustomized()) {
+      static_cast<Application*>(qApp)->settings().saveFolderSettings(path(), folderSettings_);
+    }
+  }
   if(!proxyModel_ || showHidden == proxyModel_->showHidden())
     return;
   proxyModel_->setShowHidden(showHidden);
@@ -529,11 +591,30 @@ void TabPage::setShowHidden(bool showHidden) {
   Q_EMIT statusChanged(StatusTextNormal, statusText_[StatusTextNormal]);
 }
 
-void TabPage:: applyFilter() {
-  if(!proxyModel_) return;
+void TabPage::applyFilter() {
+  if(!proxyModel_)
+    return;
   proxyModel_->updateFilters();
   statusText_[StatusTextNormal] = formatStatusText();
   Q_EMIT statusChanged(StatusTextNormal, statusText_[StatusTextNormal]);
+}
+
+void TabPage::setCustomizedView(bool value) {
+  if(folderSettings_.isCustomized() == value)
+    return;
+
+  Settings& settings = static_cast<Application*>(qApp)->settings();
+  folderSettings_.setCustomized(value);
+  if(value) { // save customized folder view settings
+    settings.saveFolderSettings(path(), folderSettings_);
+  }
+  else { // use default folder view settings
+    settings.clearFolderSettings(path());
+    setShowHidden(settings.showHidden());
+    setSortCaseSensitive(settings.sortCaseSensitive());
+    setSortFolderFirst(settings.sortFolderFirst());
+    sort(settings.sortColumn(), settings.sortOrder());
+  }
 }
 
 } // namespace PCManFM

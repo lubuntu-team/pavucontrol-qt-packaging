@@ -29,6 +29,8 @@
 #include <QToolButton>
 #include <QShortcut>
 #include <QKeySequence>
+#include <QDir>
+#include <QSettings>
 #include <QDebug>
 
 #include "tabpage.h"
@@ -39,9 +41,11 @@
 #include <libfm-qt/utilities.h>
 #include <libfm-qt/filepropsdialog.h>
 #include <libfm-qt/pathedit.h>
+#include <libfm-qt/path.h>
+#include <libfm-qt/fileinfo.h>
+#include <libfm-qt/folder.h>
 #include "ui_about.h"
 #include "application.h"
-#include <libfm-qt/path.h>
 
 // #include "qmodeltest/modeltest.h"
 
@@ -49,10 +53,11 @@ using namespace Fm;
 
 namespace PCManFM {
 
-MainWindow::MainWindow(FmPath* path):
+MainWindow::MainWindow(Path path):
   QMainWindow(),
   fileLauncher_(this),
-  rightClickIndex(-1) {
+  rightClickIndex(-1),
+  updatingViewMenu_(false) {
 
   Settings& settings = static_cast<Application*>(qApp)->settings();
   setAttribute(Qt::WA_DeleteOnClose);
@@ -128,6 +133,7 @@ MainWindow::MainWindow(FmPath* path):
   // path bar
   pathEntry = new Fm::PathEdit(this);
   connect(pathEntry, &Fm::PathEdit::returnPressed, this, &MainWindow::onPathEntryReturnPressed);
+  connect(pathEntry, &QLineEdit::textEdited, this, &MainWindow::onPathEntryEdited);
   ui.toolBar->insertWidget(ui.actionGo, pathEntry);
 
   // add filesystem info to status bar
@@ -142,7 +148,7 @@ MainWindow::MainWindow(FmPath* path):
   ui.splitter->setSizes(sizes);
 
   // load bookmark menu
-  bookmarks = fm_bookmarks_dup();
+  bookmarks = Fm::Bookmarks::dup();
   g_signal_connect(bookmarks, "changed", G_CALLBACK(onBookmarksChanged), this);
   loadBookmarksMenu();
 
@@ -250,7 +256,7 @@ MainWindow::MainWindow(FmPath* path):
     connect(shortcut, &QShortcut::activated, ui.filterBar, &QLineEdit::clear);
   }
 
-  if(path)
+  if(!path.isNull())
     addTab(path);
 
   // size from settings
@@ -265,13 +271,12 @@ MainWindow::MainWindow(FmPath* path):
 }
 
 MainWindow::~MainWindow() {
-  if(bookmarks) {
+  if(!bookmarks.isNull()) {
     g_signal_handlers_disconnect_by_func(bookmarks, (gpointer)G_CALLBACK(onBookmarksChanged), this);
-    g_object_unref(bookmarks);
   }
 }
 
-void MainWindow::chdir(FmPath* path) {
+void MainWindow::chdir(Path path) {
   TabPage* page = currentPage();
 
   if(page) {
@@ -282,7 +287,7 @@ void MainWindow::chdir(FmPath* path) {
 }
 
 // add a new tab
-int MainWindow::addTab(FmPath* path) {
+int MainWindow::addTab(Path path) {
   Settings& settings = static_cast<Application*>(qApp)->settings();
 
   TabPage* newPage = new TabPage(path, this);
@@ -331,9 +336,15 @@ void MainWindow::toggleMenuBar(bool checked) {
 void MainWindow::onPathEntryReturnPressed() {
   QString text = pathEntry->text();
   QByteArray utext = text.toUtf8();
-  FmPath* path = fm_path_new_for_display_name(utext);
-  chdir(path);
-  fm_path_unref(path);
+  chdir(Fm::Path::newForDisplayName(utext));
+}
+
+void MainWindow::onPathEntryEdited(const QString& text) {
+  QString realText(text);
+  if(realText == "~" || realText.startsWith("~/")) {
+    realText.replace(0, 1, QDir::homePath());
+    pathEntry->setText(realText);
+  }
 }
 
 void MainWindow::on_actionGoUp_triggered() {
@@ -367,11 +378,12 @@ void MainWindow::on_actionGoForward_triggered() {
 }
 
 void MainWindow::on_actionHome_triggered() {
-  chdir(fm_path_get_home());
+  chdir(Fm::Path::getHome());
 }
 
 void MainWindow::on_actionReload_triggered() {
   currentPage()->reload();
+  pathEntry->setText(currentPage()->pathName());
 }
 
 void MainWindow::on_actionGo_triggered() {
@@ -379,19 +391,19 @@ void MainWindow::on_actionGo_triggered() {
 }
 
 void MainWindow::on_actionNewTab_triggered() {
-  FmPath* path = currentPage()->path();
+  Fm::Path path = currentPage()->path();
   int index = addTab(path);
   ui.tabBar->setCurrentIndex(index);
 }
 
 void MainWindow::on_actionNewWin_triggered() {
-  FmPath* path = currentPage()->path();
+  Fm::Path path = currentPage()->path();
   (new MainWindow(path))->show();
 }
 
 void MainWindow::on_actionNewFolder_triggered() {
   if(TabPage* tabPage = currentPage()) {
-    FmPath* dirPath = tabPage->folderView()->path();
+    Fm::Path dirPath = tabPage->folderView()->path();
 
     if(dirPath)
       createFileOrFolder(CreateNewFolder, dirPath);
@@ -400,7 +412,7 @@ void MainWindow::on_actionNewFolder_triggered() {
 
 void MainWindow::on_actionNewBlankFile_triggered() {
   if(TabPage* tabPage = currentPage()) {
-    FmPath* dirPath = tabPage->folderView()->path();
+    Fm::Path dirPath = tabPage->folderView()->path();
 
     if(dirPath)
       createFileOrFolder(CreateNewTextFile, dirPath);
@@ -419,13 +431,10 @@ void MainWindow::on_actionCloseWindow_triggered() {
 
 void MainWindow::on_actionFileProperties_triggered() {
   TabPage* page = currentPage();
-
   if(page) {
-    FmFileInfoList* files = page->selectedFiles();
-
-    if(files) {
+    Fm::FileInfoList files = page->selectedFiles();
+    if(!files.isNull()) {
       Fm::FilePropsDialog::showForFiles(files);
-      fm_file_info_list_unref(files);
     }
   }
 }
@@ -434,22 +443,18 @@ void MainWindow::on_actionFolderProperties_triggered() {
   TabPage* page = currentPage();
 
   if(page) {
-    FmFolder* folder = page->folder();
-
-    if(folder) {
-      FmFileInfo* info = fm_folder_get_info(folder);
-
-      if(info)
+    Fm::Folder folder = page->folder();
+    if(!folder.isNull()) {
+      Fm::FileInfo info = folder.getInfo();
+      if(!info.isNull())
         Fm::FilePropsDialog::showForFile(info);
     }
   }
 }
 
 void MainWindow::on_actionShowHidden_triggered(bool checked) {
-  TabPage* tabPage = currentPage();
-  tabPage->setShowHidden(checked);
+  currentPage()->setShowHidden(checked);
   ui.sidePane->setShowHidden(checked);
-  static_cast<Application*>(qApp)->settings().setShowHidden(checked);
 }
 
 void MainWindow::on_actionByFileName_triggered(bool checked) {
@@ -488,6 +493,11 @@ void MainWindow::on_actionFolderFirst_triggered(bool checked) {
   currentPage()->setSortFolderFirst(checked);
 }
 
+void MainWindow::on_actionPreserveView_triggered(bool checked) {
+  TabPage* page = currentPage();
+  page->setCustomizedView(!page->hasCustomizedView());
+}
+
 void MainWindow::on_actionFilter_triggered(bool checked) {
   ui.filterBar->setVisible(checked);
   if(checked)
@@ -509,38 +519,32 @@ void MainWindow::on_actionFilter_triggered(bool checked) {
 }
 
 void MainWindow::on_actionComputer_triggered() {
-  FmPath* path = fm_path_new_for_uri("computer:///");
-  chdir(path);
-  fm_path_unref(path);
+  chdir(Fm::Path::newForUri("computer:///"));
 }
 
 void MainWindow::on_actionApplications_triggered() {
-  chdir(fm_path_get_apps_menu());
+  chdir(Fm::Path::getAppsMenu());
 }
 
 void MainWindow::on_actionTrash_triggered() {
-  chdir(fm_path_get_trash());
+  chdir(Fm::Path::getTrash());
 }
 
 void MainWindow::on_actionNetwork_triggered() {
-  FmPath* path = fm_path_new_for_uri("network:///");
-  chdir(path);
-  fm_path_unref(path);
+  chdir(Fm::Path::newForUri("network:///"));
 }
 
 void MainWindow::on_actionDesktop_triggered() {
-  chdir(fm_path_get_desktop());
+  chdir(Fm::Path::getDesktop());
 }
 
 void MainWindow::on_actionAddToBookmarks_triggered() {
   TabPage* page = currentPage();
-
   if(page) {
-    FmPath* cwd = page->path();
-
-    if(cwd) {
-      char* dispName = fm_path_display_basename(cwd);
-      fm_bookmarks_insert(bookmarks, cwd, dispName, -1);
+    Fm::Path cwd = page->path();
+    if(!cwd.isNull()) {
+      char* dispName = cwd.displayBasename();
+      bookmarks.insert(cwd, dispName, -1);
       g_free(dispName);
     }
   }
@@ -682,11 +686,14 @@ void MainWindow::updateStatusBarForCurrentPage() {
 }
 
 void MainWindow::updateViewMenuForCurrentPage() {
+  if(updatingViewMenu_)  // prevent recursive calls
+    return;
+  updatingViewMenu_ = true;
   TabPage* tabPage = currentPage();
-
   if(tabPage) {
     // update menus. FIXME: should we move this to another method?
     ui.actionShowHidden->setChecked(tabPage->showHidden());
+    ui.actionPreserveView->setChecked(tabPage->hasCustomizedView());
 
     // view mode
     QAction* modeAction = NULL;
@@ -725,10 +732,10 @@ void MainWindow::updateViewMenuForCurrentPage() {
       ui.actionAscending->setChecked(true);
     else
       ui.actionDescending->setChecked(true);
-
     ui.actionCaseSensitive->setChecked(tabPage->sortCaseSensitive());
     ui.actionFolderFirst->setChecked(tabPage->sortFolderFirst());
   }
+  updatingViewMenu_ = false;
 }
 
 void MainWindow::updateUIForCurrentPage() {
@@ -814,22 +821,23 @@ void MainWindow::onTabPageOpenDirRequested(FmPath* path, int target) {
     addTab(path);
     break;
 
-  case OpenInNewWindow: {
+  case OpenInNewWindow:
     (new MainWindow(path))->show();
     break;
-  }
   }
 }
 
 void MainWindow::onTabPageSortFilterChanged() {
   TabPage* tabPage = static_cast<TabPage*>(sender());
-
   if(tabPage == currentPage()) {
     updateViewMenuForCurrentPage();
-    Settings& settings = static_cast<Application*>(qApp)->settings();
-    settings.setSortColumn(static_cast<Fm::FolderModel::ColumnId>(tabPage->sortColumn()));
-    settings.setSortOrder(tabPage->sortOrder());
-    settings.setSortFolderFirst(tabPage->sortFolderFirst());
+    if(!tabPage->hasCustomizedView()) {
+      Settings& settings = static_cast<Application*>(qApp)->settings();
+      settings.setSortColumn(static_cast<Fm::FolderModel::ColumnId>(tabPage->sortColumn()));
+      settings.setSortOrder(tabPage->sortOrder());
+      settings.setSortFolderFirst(tabPage->sortFolderFirst());
+      settings.setSortCaseSensitive(tabPage->sortCaseSensitive());
+    }
   }
 }
 
@@ -871,7 +879,7 @@ void MainWindow::onSplitterMoved(int pos, int index) {
 }
 
 void MainWindow::loadBookmarksMenu() {
-  GList* allBookmarks = fm_bookmarks_get_all(bookmarks);
+  GList* allBookmarks = bookmarks.getAll();
   QAction* before = ui.actionAddToBookmarks;
 
   for(GList* l = allBookmarks; l; l = l->next) {
@@ -902,7 +910,7 @@ void MainWindow::onBookmarksChanged(FmBookmarks* bookmarks, MainWindow* pThis) {
 
 void MainWindow::onBookmarkActionTriggered() {
   BookmarkAction* action = static_cast<BookmarkAction*>(sender());
-  FmPath* path = action->path();
+  Fm::Path path = action->path();
   if(path) {
     Application* app = static_cast<Application*>(qApp);
     Settings& settings = app->settings();
@@ -923,16 +931,14 @@ void MainWindow::onBookmarkActionTriggered() {
 
 void MainWindow::on_actionCopy_triggered() {
   TabPage* page = currentPage();
-  FmPathList* paths = page->selectedFilePaths();
+  Fm::PathList paths = page->selectedFilePaths();
   copyFilesToClipboard(paths);
-  fm_path_list_unref(paths);
 }
 
 void MainWindow::on_actionCut_triggered() {
   TabPage* page = currentPage();
-  FmPathList* paths = page->selectedFilePaths();
+  Fm::PathList paths = page->selectedFilePaths();
   cutFilesToClipboard(paths);
-  fm_path_list_unref(paths);
 }
 
 void MainWindow::on_actionPaste_triggered() {
@@ -943,26 +949,22 @@ void MainWindow::on_actionDelete_triggered() {
   Application* app = static_cast<Application*>(qApp);
   Settings& settings = app->settings();
   TabPage* page = currentPage();
-  FmPathList* paths = page->selectedFilePaths();
+  Fm::PathList paths = page->selectedFilePaths();
 
   bool shiftPressed = (qApp->keyboardModifiers() & Qt::ShiftModifier ? true : false);
   if(settings.useTrash() && !shiftPressed)
     FileOperation::trashFiles(paths, settings.confirmTrash(), this);
   else
     FileOperation::deleteFiles(paths, settings.confirmDelete(), this);
-
-  fm_path_list_unref(paths);
 }
 
 void MainWindow::on_actionRename_triggered() {
   TabPage* page = currentPage();
-  FmFileInfoList* files = page->selectedFiles();
-
+  Fm::FileInfoList files = page->selectedFiles();
   for(GList* l = fm_file_info_list_peek_head_link(files); l; l = l->next) {
     FmFileInfo* file = FM_FILE_INFO(l->data);
     Fm::renameFile(file, NULL);
   }
-  fm_file_info_list_unref(files);
 }
 
 
@@ -1018,7 +1020,9 @@ void MainWindow::onBackForwardContextMenu(QPoint pos) {
   for(int i = 0; i < history.size(); ++i) {
     const BrowseHistoryItem& item = history.at(i);
     Fm::Path path = item.path();
-    QAction* action = menu.addAction(path.displayName());
+    char* name = path.displayName(true);
+    QAction* action = menu.addAction(QString::fromUtf8(name));
+    g_free(name);
     if(i == current) {
       // make the current path bold and checked
       action->setCheckable(true);
@@ -1144,9 +1148,9 @@ void MainWindow::on_actionOpenAsRoot_triggered() {
       g_free(cmd);
 
       if(appInfo) {
-        FmPath* cwd = page->path();
+        Fm::Path cwd = page->path();
         GError* err = NULL;
-        char* uri = fm_path_to_uri(cwd);
+        char* uri = cwd.toUri();
         GList* uris = g_list_prepend(NULL, uri);
 
         if(!g_app_info_launch_uris(appInfo, uris, NULL, &err)) {
@@ -1169,16 +1173,15 @@ void MainWindow::on_actionOpenAsRoot_triggered() {
 
 void MainWindow::on_actionFindFiles_triggered() {
   Application* app = static_cast<Application*>(qApp);
-  FmPathList* selectedPaths = currentPage()->selectedFilePaths();
+  Fm::PathList selectedPaths = currentPage()->selectedFilePaths();
   QStringList paths;
-  if(selectedPaths) {
+  if(!selectedPaths.isNull()) {
     for(GList* l = fm_path_list_peek_head_link(selectedPaths); l; l = l->next) {
       // FIXME: is it ok to use display name here?
       // This might be broken on filesystems with non-UTF-8 filenames.
       Fm::Path path(FM_PATH(l->data));
       paths.append(path.displayName(false));
     }
-    fm_path_list_unref(selectedPaths);
   }
   else {
     paths.append(currentPage()->pathName());

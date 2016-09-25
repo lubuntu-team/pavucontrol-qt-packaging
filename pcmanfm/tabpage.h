@@ -27,6 +27,9 @@
 #include <libfm-qt/browsehistory.h>
 #include "view.h"
 #include <libfm-qt/path.h>
+#include <libfm-qt/folder.h>
+#include <libfm-qt/fileinfo.h>
+#include "settings.h"
 
 namespace Fm {
   class FileLauncher;
@@ -37,14 +40,13 @@ namespace Fm {
 
 namespace PCManFM {
 
-class Settings;
 class Launcher;
 
 class ProxyFilter : public Fm::ProxyFolderModelFilter {
 public:
   bool filterAcceptsRow(const Fm::ProxyFolderModel* model, FmFileInfo* info) const;
   virtual ~ProxyFilter() {}
-  void setVirtHidden(FmFolder* folder);
+  void setVirtHidden(Fm::Folder folder);
   QString getFilterStr() {
     return filterStr_;
   }
@@ -69,61 +71,51 @@ public:
   };
 
 public:
-  explicit TabPage(FmPath* path, QWidget* parent = nullptr);
+  explicit TabPage(Fm::Path path, QWidget* parent = nullptr);
   virtual ~TabPage();
 
-  void chdir(FmPath* newPath, bool addHistory = true);
+  void chdir(Fm::Path newPath, bool addHistory = true);
 
   Fm::FolderView::ViewMode viewMode() {
-    return folderView_->viewMode();
+    return folderSettings_.viewMode();
   }
 
-  void setViewMode(Fm::FolderView::ViewMode mode) {
-    folderView_->setViewMode(mode);
-  }
+  void setViewMode(Fm::FolderView::ViewMode mode);
 
-  void sort(int col, Qt::SortOrder order = Qt::AscendingOrder) {
-    // if(folderModel_)
-    //  folderModel_->sort(col, order);
-    if(proxyModel_)
-      proxyModel_->sort(col, order);
-  }
+  void sort(int col, Qt::SortOrder order = Qt::AscendingOrder);
 
   int sortColumn() {
-    return proxyModel_->sortColumn();
+    return folderSettings_.sortColumn();
   }
 
   Qt::SortOrder sortOrder() {
-    return proxyModel_->sortOrder();
+    return folderSettings_.sortOrder();
   }
 
   bool sortFolderFirst() {
-    return proxyModel_->folderFirst();
+    return folderSettings_.sortFolderFirst();
   }
-  void setSortFolderFirst(bool value) {
-    proxyModel_->setFolderFirst(value);
-  }
+  void setSortFolderFirst(bool value);
 
   bool sortCaseSensitive() {
-    return proxyModel_->sortCaseSensitivity();
-  }
-  void setSortCaseSensitive(bool value) {
-    proxyModel_->setSortCaseSensitivity(value ? Qt::CaseSensitive : Qt::CaseInsensitive);
+    return folderSettings_.sortCaseSensitive();
   }
 
+  void setSortCaseSensitive(bool value);
+
   bool showHidden() {
-    return proxyModel_->showHidden();
+    return folderSettings_.showHidden();
   }
 
   void setShowHidden(bool showHidden);
 
-  FmPath* path() {
-    return folder_ ? fm_folder_get_path(folder_) : nullptr;
+  Fm::Path path() {
+    return Fm::Path(!folder_.isNull() ? folder_.getPath() : nullptr);
   }
 
   QString pathName();
 
-  FmFolder* folder() {
+  Fm::Folder& folder() {
     return folder_;
   }
 
@@ -139,11 +131,11 @@ public:
     return history_;
   }
 
-  FmFileInfoList* selectedFiles() {
+  Fm::FileInfoList selectedFiles() {
     return folderView_->selectedFiles();
   }
 
-  FmPathList* selectedFilePaths() {
+  Fm::PathList selectedFilePaths() {
     return folderView_->selectedFilePaths();
   }
 
@@ -152,9 +144,9 @@ public:
   void invertSelection();
 
   void reload() {
-    if(folder_) {
+    if(!folder_.isNull()) {
       proxyFilter_->setVirtHidden(folder_); // reread ".hidden"
-      fm_folder_reload(folder_);
+      folder_.reload();
     }
   }
 
@@ -207,6 +199,12 @@ public:
 
   void applyFilter();
 
+  bool hasCustomizedView() {
+    return folderSettings_.isCustomized();
+  }
+
+  void setCustomizedView(bool value);
+
 Q_SIGNALS:
   void statusChanged(int type, QString statusText);
   void titleChanged(QString title);
@@ -217,7 +215,6 @@ Q_SIGNALS:
 
 protected Q_SLOTS:
   void onOpenDirRequested(FmPath* path, int target);
-  void onModelSortFilterChanged();
   void onSelChanged(int numSel);
   void restoreScrollPos();
 
@@ -239,12 +236,13 @@ private:
   Fm::ProxyFolderModel* proxyModel_;
   ProxyFilter* proxyFilter_;
   QVBoxLayout* verticalLayout;
-  FmFolder* folder_;
+  Fm::Folder folder_;
   QString title_;
   QString statusText_[StatusTextNum];
   Fm::BrowseHistory history_; // browsing history
   Fm::Path lastFolderPath_; // last browsed folder
   bool overrideCursor_;
+  FolderSettings folderSettings_;
 };
 
 }

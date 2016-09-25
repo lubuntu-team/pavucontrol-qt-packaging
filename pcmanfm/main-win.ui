@@ -86,14 +86,14 @@
         </item>
         <item>
          <widget class="QLineEdit" name="filterBar">
+          <property name="toolTip">
+           <string>Focus with Ctrl+I</string>
+          </property>
           <property name="placeholderText">
            <string>Filter by string...</string>
           </property>
           <property name="clearButtonEnabled">
            <bool>true</bool>
-          </property>
-          <property name="toolTip">
-           <string>Focus with Ctrl+I</string>
           </property>
          </widget>
         </item>
@@ -109,7 +109,7 @@
      <x>0</x>
      <y>0</y>
      <width>460</width>
-     <height>23</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -160,15 +160,23 @@
      <addaction name="actionFolderFirst"/>
      <addaction name="actionCaseSensitive"/>
     </widget>
+    <widget class="QMenu" name="menu_View_2">
+     <property name="title">
+      <string>&amp;View</string>
+     </property>
+     <addaction name="actionIconView"/>
+     <addaction name="actionThumbnailView"/>
+     <addaction name="actionCompactView"/>
+     <addaction name="actionDetailedList"/>
+     <addaction name="separator"/>
+    </widget>
     <addaction name="actionReload"/>
+    <addaction name="separator"/>
     <addaction name="actionShowHidden"/>
-    <addaction name="separator"/>
-    <addaction name="actionIconView"/>
-    <addaction name="actionThumbnailView"/>
-    <addaction name="actionCompactView"/>
-    <addaction name="actionDetailedList"/>
-    <addaction name="separator"/>
     <addaction name="menuSorting"/>
+    <addaction name="menu_View_2"/>
+    <addaction name="actionPreserveView"/>
+    <addaction name="separator"/>
     <addaction name="actionFilter"/>
     <addaction name="actionMenu_bar"/>
    </widget>
@@ -531,6 +539,14 @@
     <string>&amp;Folder First</string>
    </property>
   </action>
+  <action name="actionPreserveSorting">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Preserve sorting for this folder</string>
+   </property>
+  </action>
   <action name="actionNewTab">
    <property name="icon">
     <iconset theme="window-new">
@@ -751,13 +767,22 @@
   </action>
   <action name="actionMenu">
    <property name="icon">
-    <iconset theme="application-menu"/>
+    <iconset theme="application-menu">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Menu</string>
    </property>
    <property name="toolTip">
     <string>Menu</string>
+   </property>
+  </action>
+  <action name="actionPreserveView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Preserve Settings for This Folder</string>
    </property>
   </action>
  </widget>

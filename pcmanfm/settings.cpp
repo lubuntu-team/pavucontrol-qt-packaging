@@ -26,7 +26,8 @@
 #include <QApplication>
 #include "desktopwindow.h"
 #include <libfm-qt/utilities.h>
-// #include <QDesktopServices>
+#include <libfm-qt/folderconfig.h>
+#include <QStandardPaths>
 
 namespace PCManFM {
 
@@ -65,10 +66,12 @@ Settings::Settings():
   desktopBgColor_(),
   desktopFgColor_(),
   desktopShadowColor_(),
+  desktopIconSize_(48),
   showWmMenu_(false),
   desktopShowHidden_(false),
   desktopSortOrder_(Qt::AscendingOrder),
-  desktopSortColumn_(Fm::FolderModel::ColumnFileName),
+  desktopSortColumn_(Fm::FolderModel::ColumnFileMTime),
+  desktopSortFolderFirst_(true),
   alwaysShowTabs_(true),
   showTabClose_(true),
   rememberWindowSize_(true),
@@ -86,6 +89,7 @@ Settings::Settings():
   sortOrder_(Qt::AscendingOrder),
   sortColumn_(Fm::FolderModel::ColumnFileName),
   sortFolderFirst_(true),
+  sortCaseSensitive_(false),
   showFilter_(false),
   // settings for use with libfm
   singleClick_(false),
@@ -117,16 +121,20 @@ Settings::~Settings() {
 
 }
 
-QString Settings::profileDir(QString profile, bool useFallback) {
-  // NOTE: it's a shame that QDesktopServices does not handle XDG_CONFIG_HOME
-  // try user-specific config file first
+QString Settings::xdgUserConfigDir() {
   QString dirName;
   // WARNING: Don't use XDG_CONFIG_HOME with root because it might
   // give the user config directory if gksu-properties is set to su.
-  if(geteuid())
-    dirName = QLatin1String(qgetenv("XDG_CONFIG_HOME"));
+  if(geteuid() != 0)  // non-root user
+    dirName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
   if (dirName.isEmpty())
     dirName = QDir::homePath() % QLatin1String("/.config");
+  return dirName;
+}
+
+QString Settings::profileDir(QString profile, bool useFallback) {
+  // try user-specific config file first
+  QString dirName = xdgUserConfigDir();
   dirName = dirName % "/pcmanfm-qt/" % profile;
   QDir dir(dirName);
 
@@ -163,7 +171,7 @@ bool Settings::loadFile(QString filePath) {
   if(fallbackIconThemeName_.isEmpty()) {
     // FIXME: we should choose one from installed icon themes or get
     // the value from XSETTINGS instead of hard code a fallback value.
-    fallbackIconThemeName_ = "elementary"; // fallback icon theme name
+    fallbackIconThemeName_ = "oxygen"; // fallback icon theme name
   }
   suCommand_ = settings.value("SuCommand", "lxqt-sudo %s").toString();
   setTerminal(settings.value("Terminal", "xterm").toString());
@@ -200,11 +208,13 @@ bool Settings::loadFile(QString filePath) {
     desktopFont_.fromString(settings.value("Font").toString());
   else
     desktopFont_ = QApplication::font();
+  desktopIconSize_ = settings.value("DesktopIconSize", 48).toInt();
   showWmMenu_ = settings.value("ShowWmMenu", false).toBool();
   desktopShowHidden_ = settings.value("ShowHidden", false).toBool();
 
   desktopSortOrder_ = sortOrderFromString(settings.value("SortOrder").toString());
   desktopSortColumn_ = sortColumnFromString(settings.value("SortColumn").toString());
+  desktopSortFolderFirst_ = settings.value("SortFolderFirst", true).toBool();
 
   desktopCellMargins_ = (settings.value("DesktopCellMargins", QSize(3, 1)).toSize()
                          .expandedTo(QSize(0, 0))).boundedTo(QSize(48, 48));
@@ -229,6 +239,7 @@ bool Settings::loadFile(QString filePath) {
   sortOrder_ = sortOrderFromString(settings.value("SortOrder").toString());
   sortColumn_ = sortColumnFromString(settings.value("SortColumn").toString());
   sortFolderFirst_ = settings.value("SortFolderFirst", true).toBool();
+  sortCaseSensitive_ = settings.value("SortCaseSensitive", false).toBool();
   showFilter_ = settings.value("ShowFilter", false).toBool();
 
   setBackupAsHidden(settings.value("BackupAsHidden", false).toBool());
@@ -310,10 +321,12 @@ bool Settings::saveFile(QString filePath) {
   settings.setValue("FgColor", desktopFgColor_.name());
   settings.setValue("ShadowColor", desktopShadowColor_.name());
   settings.setValue("Font", desktopFont_.toString());
+  settings.setValue("DesktopIconSize", desktopIconSize_);
   settings.setValue("ShowWmMenu", showWmMenu_);
   settings.setValue("ShowHidden", desktopShowHidden_);
   settings.setValue("SortOrder", sortOrderToString(desktopSortOrder_));
   settings.setValue("SortColumn", sortColumnToString(desktopSortColumn_));
+  settings.setValue("SortFolderFirst", desktopSortFolderFirst_);
   settings.setValue("DesktopCellMargins", desktopCellMargins_);
   settings.endGroup();
 
@@ -336,6 +349,7 @@ bool Settings::saveFile(QString filePath) {
   settings.setValue("SortOrder", sortOrderToString(sortOrder_));
   settings.setValue("SortColumn", sortColumnToString(sortColumn_));
   settings.setValue("SortFolderFirst", sortFolderFirst_);
+  settings.setValue("SortCaseSensitive", sortCaseSensitive_);
   settings.setValue("ShowFilter", showFilter_);
 
   settings.setValue("BackupAsHidden", backupAsHidden_);
@@ -375,6 +389,10 @@ bool Settings::saveFile(QString filePath) {
   settings.setValue("ShowMenuBar", showMenuBar_);
   settings.setValue("FullWidthTabBar", fullWidthTabBar_);
   settings.endGroup();
+
+  // save per-folder settings
+  Fm::FolderConfig::saveCache();
+
   return true;
 }
 
@@ -559,6 +577,85 @@ void Settings::setTerminal(QString terminalCommand) {
     g_free(fm_config->terminal);
     fm_config->terminal = g_strdup(terminal_.toLocal8Bit().constData());
     g_signal_emit_by_name(fm_config, "changed::terminal");
+}
+
+
+// per-folder settings
+FolderSettings Settings::loadFolderSettings(Fm::Path path) const {
+  FolderSettings settings;
+  Fm::FolderConfig cfg(path);
+  // set defaults
+  settings.setSortOrder(sortOrder());
+  settings.setSortColumn(sortColumn());
+  settings.setViewMode(viewMode());
+  settings.setShowHidden(showHidden());
+  settings.setSortFolderFirst(sortFolderFirst());
+  settings.setSortCaseSensitive(sortCaseSensitive());
+  // columns?
+  if(!cfg.isEmpty()) {
+    // load folder-specific settings
+    settings.setCustomized(true);
+
+    char* str;
+    // load sorting
+    str = cfg.getString("SortOrder");
+    if(str != nullptr) {
+      settings.setSortOrder(sortOrderFromString(str));
+      g_free(str);
+    }
+
+    str = cfg.getString("SortColumn");
+    if(str != nullptr) {
+      settings.setSortColumn(sortColumnFromString(str));
+      g_free(str);
+    }
+
+    str = cfg.getString("ViewMode");
+    if(str != nullptr) {
+      // set view mode
+      settings.setViewMode(viewModeFromString(str));
+      g_free(str);
+    }
+
+    gboolean show_hidden;
+    if(cfg.getBoolean("ShowHidden", &show_hidden)) {
+      settings.setShowHidden(show_hidden);
+    }
+
+    gboolean folder_first;
+    if(cfg.getBoolean("SortFolderFirst", &folder_first)) {
+      settings.setSortFolderFirst(folder_first);
+    }
+
+    gboolean case_sensitive;
+    if(cfg.getBoolean("SortCaseSensitive", &case_sensitive)) {
+      settings.setSortCaseSensitive(case_sensitive);
+    }
+  }
+  return settings;
+}
+
+void Settings::saveFolderSettings(Fm::Path path, const FolderSettings& settings) {
+  if(!path.isNull()) {
+    // ensure that we have the libfm dir
+    QString dirName = xdgUserConfigDir() % QStringLiteral("/libfm");
+    QDir().mkpath(dirName);  // if libfm config dir does not exist, create it
+
+    Fm::FolderConfig cfg(path);
+    cfg.setString("SortOrder", sortOrderToString(settings.sortOrder()));
+    cfg.setString("SortColumn", sortColumnToString(settings.sortColumn()));
+    cfg.setString("ViewMode", viewModeToString(settings.viewMode()));
+    cfg.setBoolean("ShowHidden", settings.showHidden());
+    cfg.setBoolean("SortFolderFirst", settings.sortFolderFirst());
+    cfg.setBoolean("SortCaseSensitive", settings.sortCaseSensitive());
+  }
+}
+
+void Settings::clearFolderSettings(Fm::Path path) const {
+  if(!path.isNull()) {
+    Fm::FolderConfig cfg(path);
+    cfg.purge();
+  }
 }
 
 

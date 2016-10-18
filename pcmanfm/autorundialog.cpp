@@ -27,10 +27,10 @@
 namespace PCManFM {
 
 AutoRunDialog::AutoRunDialog(GVolume* volume, GMount* mount, QWidget* parent, Qt::WindowFlags f):
+  QDialog(parent, f),
   cancellable(g_cancellable_new()),
   applications(NULL),
-  mount_(G_MOUNT(g_object_ref(mount))),
-  QDialog(parent, f) {
+  mount_(G_MOUNT(g_object_ref(mount))) {
 
   setAttribute(Qt::WA_DeleteOnClose);
   ui.setupUi(this);
@@ -74,11 +74,10 @@ void AutoRunDialog::accept() {
       // the default action, open the mounted folder in the file manager
       Application* app = static_cast<Application*>(qApp);
       Settings& settings = app->settings();
-      FmPath* path = fm_path_new_for_gfile(gf);
+      Fm::Path path = Fm::Path::newForGfile(gf);
       // open the path in a new window
       // FIXME: or should we open it in a new tab? Make this optional later
       MainWindow* win = new MainWindow(path);
-      fm_path_unref(path);
       win->resize(settings.windowWidth(), settings.windowHeight());
       if(settings.windowMaximized()) {
           win->setWindowState(win->windowState() | Qt::WindowMaximized);

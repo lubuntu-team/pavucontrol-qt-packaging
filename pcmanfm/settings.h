@@ -38,6 +38,86 @@ enum OpenDirTargetType {
     OpenInLastActiveWindow
 };
 
+class FolderSettings {
+public:
+  FolderSettings():
+    isCustomized_(false),
+    sortOrder_(Qt::AscendingOrder),
+    sortColumn_(Fm::FolderModel::ColumnFileName),
+    viewMode_(Fm::FolderView::IconMode),
+    showHidden_(false),
+    sortFolderFirst_(true),
+    sortCaseSensitive_(true) {
+  }
+
+  bool isCustomized() const {
+    return isCustomized_;
+  }
+
+  void setCustomized(bool value) {
+    isCustomized_ = value;
+  }
+
+  Qt::SortOrder sortOrder() const {
+    return sortOrder_;
+  }
+
+  void setSortOrder(Qt::SortOrder value) {
+    sortOrder_ = value;
+  }
+
+  Fm::FolderModel::ColumnId sortColumn() const {
+    return sortColumn_;
+  }
+
+  void setSortColumn(Fm::FolderModel::ColumnId value) {
+    sortColumn_ = value;
+  }
+
+  Fm::FolderView::ViewMode viewMode() const {
+    return viewMode_;
+  }
+
+  void setViewMode(Fm::FolderView::ViewMode value) {
+    viewMode_ = value;
+  }
+
+  bool sortFolderFirst() const {
+    return sortFolderFirst_;
+  }
+
+  void setSortFolderFirst(bool value) {
+    sortFolderFirst_ = value;
+  }
+
+  bool showHidden() const {
+    return showHidden_;
+  }
+
+  void setShowHidden(bool value) {
+    showHidden_ = value;
+  }
+
+  bool sortCaseSensitive() const {
+    return sortCaseSensitive_;
+  }
+
+  void setSortCaseSensitive(bool value) {
+    sortCaseSensitive_ = value;
+  }
+
+private:
+  bool isCustomized_;
+  Qt::SortOrder sortOrder_;
+  Fm::FolderModel::ColumnId sortColumn_;
+  Fm::FolderView::ViewMode viewMode_;
+  bool showHidden_;
+  bool sortFolderFirst_;
+  bool sortCaseSensitive_;
+  // columns?
+};
+
+
 class Settings : public QObject {
   Q_OBJECT
 public:
@@ -49,6 +129,8 @@ public:
 
   bool loadFile(QString filePath);
   bool saveFile(QString filePath);
+
+  static QString xdgUserConfigDir();
 
   QString profileDir(QString profile, bool useFallback = false);
 
@@ -185,6 +267,14 @@ public:
     desktopFont_ = font;
   }
 
+  int desktopIconSize() const {
+    return desktopIconSize_;
+  }
+
+  void setDesktopIconSize(int desktopIconSize) {
+    desktopIconSize_ = desktopIconSize;
+  }
+
   bool showWmMenu() const {
     return showWmMenu_;
   }
@@ -215,6 +305,14 @@ public:
 
   void setDesktopSortColumn(Fm::FolderModel::ColumnId desktopSortColumn) {
     desktopSortColumn_ = desktopSortColumn;
+  }
+
+  bool desktopSortFolderFirst() const {
+    return desktopSortFolderFirst_;
+  }
+
+  void setSesktopSortFolderFirst(bool desktopFolderFirst) {
+    desktopSortFolderFirst_ = desktopFolderFirst;
   }
 
   bool alwaysShowTabs() const {
@@ -337,6 +435,15 @@ public:
   void setShowHidden(bool showHidden) {
     showHidden_ = showHidden;
   }
+
+  bool sortCaseSensitive() const {
+    return sortCaseSensitive_;
+  }
+
+  void setSortCaseSensitive(bool value) {
+    sortCaseSensitive_ = value;
+  }
+
 
   bool placesHome() const {
       return placesHome_;
@@ -626,6 +733,12 @@ public:
     fm_config->template_run_app = templateRunApp_;
   }
 
+  // per-folder settings
+  FolderSettings loadFolderSettings(Fm::Path path) const;
+
+  void saveFolderSettings(Fm::Path path, const FolderSettings &settings);
+
+  void clearFolderSettings(Fm::Path path) const;
 
 private:
   QString profileName_;
@@ -649,11 +762,13 @@ private:
   QColor desktopFgColor_;
   QColor desktopShadowColor_;
   QFont desktopFont_;
+  int desktopIconSize_;
   bool showWmMenu_;
 
   bool desktopShowHidden_;
   Qt::SortOrder desktopSortOrder_;
   Fm::FolderModel::ColumnId desktopSortColumn_;
+  bool desktopSortFolderFirst_;
 
   bool alwaysShowTabs_;
   bool showTabClose_;
@@ -673,6 +788,7 @@ private:
   Qt::SortOrder sortOrder_;
   Fm::FolderModel::ColumnId sortColumn_;
   bool sortFolderFirst_;
+  bool sortCaseSensitive_;
   bool showFilter_;
 
   // settings for use with libfm

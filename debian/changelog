@@ -1,3 +1,25 @@
+pcmanfm-qt (0.11.1-2) unstable; urgency=medium
+
+  * Cherry-picking upstream release 0.11.1.
+  * Synced debian foo with experimental
+  * Removed --parallel from rules, standard compat 10
+  * New dep. default-dbus-session-bus | dbus-session-bus | dbus-x11
+    (Closes: #836284)
+  * Fixed Crashes while copying (Closes: #823753)
+  * Bumped minimum version libfm-qt-dev (>= 0.11.1)
+  * Bumped minimum version libqt5xdg-dev (>= 2.0.0)
+  * Added build dependency libkf5windowsystem-dev
+  * Added build dependency libqt5svg5-dev
+  * Added build dependency liblxqt0-dev (>= 0.11.0)
+  * Added Recommends pcmanfm-qt-l10n
+  * Fixed VCS fields, using plain /git/ 
+  * Fixed copyright Format field, using https
+  * Dropped patches, applied upstream
+  * Added translation controls 
+  * Set CMAKE_BUILD_TYPE=RelWithDebInfo
+
+ -- Alf Gaida <agaida@siduction.org>  Tue, 18 Oct 2016 22:59:30 +0200
+
 pcmanfm-qt (0.11.0-10) unstable; urgency=medium
 
   * Fixed typo in Recommends: oyxgen-icon-theme -> oxygen-icon-theme 

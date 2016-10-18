@@ -27,6 +27,7 @@
 #include <QPoint>
 #include <QByteArray>
 #include <xcb/xcb.h>
+#include <libfm-qt/folder.h>
 
 namespace Fm {
   class CachedFolderModel;
@@ -98,6 +99,7 @@ protected Q_SLOTS:
   void onRowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
   void onRowsInserted(const QModelIndex& parent, int start, int end);
   void onLayoutChanged();
+  void onModelSortFilterChanged();
   void onIndexesMoved(const QModelIndexList& indexes);
 
   void relayoutItems();
@@ -119,7 +121,7 @@ private:
 private:
   Fm::ProxyFolderModel* proxyModel_;
   Fm::CachedFolderModel* model_;
-  FmFolder* folder_;
+  Fm::Folder folder_;
   Fm::FolderViewListView* listView_;
 
   QColor fgColor_;

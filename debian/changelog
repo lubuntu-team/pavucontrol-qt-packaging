@@ -1,3 +1,11 @@
+pcmanfm-qt (0.11.1-3) UNRELEASED; urgency=medium
+
+  * Added versioned dependency libfm-qt3 (>= 0.11.1), dh detect only
+    a minimum version of 0.11.0 - false because some symbols are added
+    which are needed for pcmanfm-qt (>= 0.11.1) (Closes: #842080)
+
+ -- Alf Gaida <agaida@siduction.org>  Wed, 26 Oct 2016 02:40:41 +0200
+
 pcmanfm-qt (0.11.1-2) unstable; urgency=medium
 
   * Cherry-picking upstream release 0.11.1.

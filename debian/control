@@ -8,7 +8,6 @@ Uploaders: Alf Gaida <agaida@siduction.org>,
 Section: x11
 Priority: optional
 Build-Depends: debhelper (>= 10),
-               cmake (>= 3.0.2),
                libfm-dev (>= 1.2.0),
                libfm-qt-dev (>= 0.11.1),
                libglib2.0-dev,
@@ -17,11 +16,8 @@ Build-Depends: debhelper (>= 10),
                libmenu-cache-dev,
                libqt5svg5-dev,
                libqt5x11extras5-dev,
-               libqt5xdg-dev (>= 2.0.0),
                libx11-dev,
-               pkg-config,
-               qttools5-dev,
-               qttools5-dev-tools
+               lxqt-build-tools (>= 0.2.0)
 Standards-Version: 3.9.8
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-lxqt/pcmanfm-qt.git/?h=debian/sid
 Vcs-Git: https://anonscm.debian.org/git/pkg-lxqt/pcmanfm-qt.git -b debian/sid
@@ -31,13 +27,15 @@ Package: pcmanfm-qt
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-         libfm-qt3 (>= 0.11.1),
          default-dbus-session-bus | dbus-session-bus | dbus-x11,
-         libfm-modules
-Recommends: gvfs-backends,
+         libfm-modules,
+         libfm-qt3 (>= 0.11.1)
+Recommends: eject,
+            gvfs-backends,
             lxqt-sudo | gksu,
             breeze-icon-theme | oxygen-icon-theme | faenza-icon-theme | gnome-icon-theme,
             pcmanfm-qt-l10n
+Suggests: cdtool
 Description: extremely fast and lightweight file and desktop icon manager
  PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
  .

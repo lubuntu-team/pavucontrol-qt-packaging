@@ -50,7 +50,8 @@ public:
     WallpaperStretch,
     WallpaperFit,
     WallpaperCenter,
-    WallpaperTile
+    WallpaperTile,
+    WallpaperZoom
   };
 
   explicit DesktopWindow(int screenNum);
@@ -101,6 +102,7 @@ protected Q_SLOTS:
   void onLayoutChanged();
   void onModelSortFilterChanged();
   void onIndexesMoved(const QModelIndexList& indexes);
+  void onDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
 
   void relayoutItems();
   void onStickToCurrentPos(bool toggled);
@@ -136,6 +138,7 @@ private:
 
   int screenNum_;
   QHash<QByteArray, QPoint> customItemPos_;
+  QHash<QModelIndex, QString> displayNames_; // only for desktop entries and shortcuts
   QTimer* relayoutTimer_;
 };
 

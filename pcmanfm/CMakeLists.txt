@@ -12,6 +12,7 @@ set(pcmanfm_SRCS
     desktopwindow.cpp
     desktopitemdelegate.cpp
     autorundialog.cpp
+    connectserverdialog.cpp
     settings.cpp
 )
 
@@ -30,6 +31,7 @@ set(pcmanfm_UIS
     desktop-preferences.ui
     desktop-folder.ui
     autorun.ui
+    connect.ui
 )
 
 qt5_wrap_ui(pcmanfm_UIS_H ${pcmanfm_UIS})
@@ -58,16 +60,17 @@ add_executable(pcmanfm-qt
     ${QM_FILES}
     ${DESKTOP_FILES}
 )
-set_property(
-     TARGET pcmanfm-qt APPEND
-     PROPERTY COMPILE_DEFINITIONS
-     PCMANFM_DATA_DIR="${CMAKE_INSTALL_PREFIX}/share/pcmanfm-qt"
-     PCMANFM_QT_VERSION="${PCMANFM_QT_VERSION}"
+
+target_compile_definitions(pcmanfm-qt
+    PRIVATE
+        PCMANFM_DATA_DIR="${CMAKE_INSTALL_PREFIX}/share/pcmanfm-qt"
+        PCMANFM_QT_VERSION="${PCMANFM_QT_VERSION}"
+        LIBFM_DATA_DIR="${PKG_FM_PREFIX}/share/libfm"
 )
 
 target_include_directories(pcmanfm-qt
-    PRIVATE "${LIB_XCB_INDLUDE_DIRS}"
-    "${Qt5Gui_PRIVATE_INCLUDE_DIRS}"
+    PRIVATE
+        "${Qt5Gui_PRIVATE_INCLUDE_DIRS}"
 )
 
 target_link_libraries(pcmanfm-qt
@@ -75,7 +78,6 @@ target_link_libraries(pcmanfm-qt
     Qt5::Widgets
     Qt5::DBus
     fm-qt
-    "${LIB_XCB_LIBRARIES}"
 )
 
 install(TARGETS pcmanfm-qt RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

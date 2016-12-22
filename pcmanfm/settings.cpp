@@ -91,6 +91,7 @@ Settings::Settings():
   sortFolderFirst_(true),
   sortCaseSensitive_(false),
   showFilter_(false),
+  pathBarButtons_(true),
   // settings for use with libfm
   singleClick_(false),
   autoSelectionDelay_(600),
@@ -279,6 +280,7 @@ bool Settings::loadFile(QString filePath) {
   sidePaneMode_ = sidePaneModeFromString(settings.value("SidePaneMode").toString());
   showMenuBar_ = settings.value("ShowMenuBar", true).toBool();
   fullWidthTabBar_ = settings.value("FullWidthTabBar", true).toBool();
+  pathBarButtons_ = settings.value("PathBarButtons", true).toBool();
   settings.endGroup();
 
   return true;
@@ -388,6 +390,7 @@ bool Settings::saveFile(QString filePath) {
   settings.setValue("SidePaneMode", sidePaneModeToString(sidePaneMode_));
   settings.setValue("ShowMenuBar", showMenuBar_);
   settings.setValue("FullWidthTabBar", fullWidthTabBar_);
+  settings.setValue("PathBarButtons", pathBarButtons_);
   settings.endGroup();
 
   // save per-folder settings
@@ -524,6 +527,9 @@ static const char* wallpaperModeToString(int value) {
     case DesktopWindow::WallpaperTile:
       ret = "tile";
       break;
+    case DesktopWindow::WallpaperZoom:
+      ret = "zoom";
+      break;
   }
   return ret;
 }
@@ -538,6 +544,8 @@ static int wallpaperModeFromString(const QString str) {
     ret = DesktopWindow::WallpaperCenter;
   else if(str == "tile")
     ret = DesktopWindow::WallpaperTile;
+  else if(str == "zoom")
+    ret = DesktopWindow::WallpaperZoom;
   else
     ret = DesktopWindow::WallpaperNone;
   return ret;

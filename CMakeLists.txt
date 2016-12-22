@@ -8,8 +8,10 @@ endif (POLICY CMP0063)
 
 set(PCMANFM_QT_VERSION_MAJOR 0)
 set(PCMANFM_QT_VERSION_MINOR 11)
-set(PCMANFM_QT_VERSION_PATCH 1)
+set(PCMANFM_QT_VERSION_PATCH 2)
 set(PCMANFM_QT_VERSION ${PCMANFM_QT_VERSION_MAJOR}.${PCMANFM_QT_VERSION_MINOR}.${PCMANFM_QT_VERSION_PATCH})
+
+set(LXQTBT_MINIMUM_VERSION "0.1.0")
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
@@ -18,11 +20,9 @@ find_package(Qt5DBus 5.2 REQUIRED)
 find_package(Qt5LinguistTools 5.2 REQUIRED)
 find_package(Qt5X11Extras 5.2 REQUIRED)
 find_package(fm-qt REQUIRED)
-#Note: no run-time dependency on liblxqt, just a build dependency for lxqt_translate_ts/desktop
-find_package(lxqt REQUIRED)
+find_package(lxqt-build-tools ${LXQTBT_MINIMUM_VERSION} REQUIRED)
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIB_XCB REQUIRED xcb)
+message(STATUS "Building ${PROJECT_NAME} with Qt ${Qt5Core_VERSION_STRING}")
 
 option(UPDATE_TRANSLATIONS "Update source translation translations/*.ts files" OFF)
 include(GNUInstallDirs)
@@ -61,18 +61,3 @@ if(BUILD_DOCUMENTATION)
     )
     install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/docs" DESTINATION "${CMAKE_INSTALL_DOCDIR}")
 endif()
-
-# building tarball with CPack -------------------------------------------------
-# To create a source distribution, type:
-# make package_source
-include(InstallRequiredSystemLibraries)
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
-set(CPACK_PACKAGE_VENDOR "")
-set(CPACK_PACKAGE_VERSION_MAJOR ${PCMANFM_QT_VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${PCMANFM_QT_VERSION_MINOR})
-set(CPACK_PACKAGE_VERSION_PATCH ${PCMANFM_QT_VERSION_PATCH})
-set(CPACK_GENERATOR TBZ2)
-set(CPACK_SOURCE_GENERATOR TBZ2)
-set(CPACK_SOURCE_IGNORE_FILES /build/;.gitignore;.*~;.git;.kdev4;temp)
-include(CPack)

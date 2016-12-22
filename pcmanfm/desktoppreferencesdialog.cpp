@@ -54,6 +54,7 @@ DesktopPreferencesDialog::DesktopPreferencesDialog(QWidget* parent, Qt::WindowFl
   ui.wallpaperMode->addItem(tr("Stretch to fit the screen"), DesktopWindow::WallpaperFit);
   ui.wallpaperMode->addItem(tr("Center on the screen"), DesktopWindow::WallpaperCenter);
   ui.wallpaperMode->addItem(tr("Tile the image to fill the entire screen"), DesktopWindow::WallpaperTile);
+  ui.wallpaperMode->addItem(tr("Zoom the image to fill the entire screen"), DesktopWindow::WallpaperZoom);
   int i;
   switch(settings.wallpaperMode()) {
     case DesktopWindow::WallpaperNone:
@@ -71,6 +72,9 @@ DesktopPreferencesDialog::DesktopPreferencesDialog(QWidget* parent, Qt::WindowFl
     case DesktopWindow::WallpaperTile:
       i = 4;
       break;
+    case DesktopWindow::WallpaperZoom:
+      i = 5;
+      break;
     default:
       i = 0;
   }
@@ -80,7 +84,7 @@ DesktopPreferencesDialog::DesktopPreferencesDialog(QWidget* parent, Qt::WindowFl
   qDebug("wallpaper: %s", settings.wallpaper().toUtf8().data());
   ui.imageFile->setText(settings.wallpaper());
 
-  for(int i = 0; i < G_N_ELEMENTS(iconSizes); ++i) {
+  for(std::size_t i = 0; i < G_N_ELEMENTS(iconSizes); ++i) {
     int size = iconSizes[i];
     ui.iconSize->addItem(QString("%1 x %1").arg(size), size);
     if(settings.desktopIconSize() == size)

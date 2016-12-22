@@ -41,22 +41,26 @@
 #include <libfm-qt/utilities.h>
 #include <libfm-qt/filepropsdialog.h>
 #include <libfm-qt/pathedit.h>
+#include <libfm-qt/pathbar.h>
 #include <libfm-qt/path.h>
 #include <libfm-qt/fileinfo.h>
 #include <libfm-qt/folder.h>
 #include "ui_about.h"
 #include "application.h"
 
-// #include "qmodeltest/modeltest.h"
-
 using namespace Fm;
 
 namespace PCManFM {
 
+// static
+MainWindow* MainWindow::lastActive_ = nullptr;
+
 MainWindow::MainWindow(Path path):
   QMainWindow(),
+  pathEntry_(nullptr),
+  pathBar_(nullptr),
   fileLauncher_(this),
-  rightClickIndex(-1),
+  rightClickIndex_(-1),
   updatingViewMenu_(false) {
 
   Settings& settings = static_cast<Application*>(qApp)->settings();
@@ -131,14 +135,15 @@ MainWindow::MainWindow(Path path):
   connect(ui.splitter, &QSplitter::splitterMoved, this, &MainWindow::onSplitterMoved);
 
   // path bar
-  pathEntry = new Fm::PathEdit(this);
-  connect(pathEntry, &Fm::PathEdit::returnPressed, this, &MainWindow::onPathEntryReturnPressed);
-  connect(pathEntry, &QLineEdit::textEdited, this, &MainWindow::onPathEntryEdited);
-  ui.toolBar->insertWidget(ui.actionGo, pathEntry);
+  createPathBar(settings.pathBarButtons());
+  if(settings.pathBarButtons())
+    ui.actionPathButtons->setChecked(true);
+  else
+    ui.actionLocationBar->setChecked(true);
 
   // add filesystem info to status bar
-  fsInfoLabel = new QLabel(ui.statusbar);
-  ui.statusbar->addPermanentWidget(fsInfoLabel);
+  fsInfoLabel_ = new QLabel(ui.statusbar);
+  ui.statusbar->addPermanentWidget(fsInfoLabel_);
 
   // setup the splitter
   ui.splitter->setStretchFactor(1, 1); // only the right pane can be stretched
@@ -148,8 +153,8 @@ MainWindow::MainWindow(Path path):
   ui.splitter->setSizes(sizes);
 
   // load bookmark menu
-  bookmarks = Fm::Bookmarks::dup();
-  g_signal_connect(bookmarks, "changed", G_CALLBACK(onBookmarksChanged), this);
+  bookmarks_ = Fm::Bookmarks::dup();
+  g_signal_connect(bookmarks_, "changed", G_CALLBACK(onBookmarksChanged), this);
   loadBookmarksMenu();
 
   // Fix the menu groups which is not done by Qt designer
@@ -174,6 +179,11 @@ MainWindow::MainWindow(Path path):
   group->addAction(ui.actionAscending);
   group->addAction(ui.actionDescending);
 
+  group = new QActionGroup(ui.menuPathBarStyle);
+  group->setExclusive(true);
+  group->addAction(ui.actionLocationBar);
+  group->addAction(ui.actionPathButtons);
+
   // Add menubar actions to the main window this is necessary so that actions
   // shortcuts are still working when the menubar is hidden.
   addActions(ui.menubar->actions());
@@ -190,13 +200,11 @@ MainWindow::MainWindow(Path path):
   ui.actionMenu->setMenu(menu);
   if(ui.actionMenu->icon().isNull())
     ui.actionMenu->setIcon(QIcon::fromTheme("applications-system"));
-  QList<QToolButton *> list = ui.toolBar->findChildren<QToolButton *>();
-  if (!list.isEmpty())
-    list.at(list.count() - 1)->setPopupMode(QToolButton::InstantPopup);
-  Q_FOREACH(QAction *action, ui.toolBar->actions()) {
-    if(action->isSeparator())
-      action->setVisible(!settings.showMenuBar());
-  }
+  QToolButton* menuBtn = static_cast<QToolButton*>(ui.toolBar->widgetForAction(ui.actionMenu));
+  menuBtn->setPopupMode(QToolButton::InstantPopup);
+
+  menuSep_ = ui.toolBar->insertSeparator(ui.actionMenu);
+  menuSep_->setVisible(!settings.showMenuBar());
   ui.actionMenu->setVisible(!settings.showMenuBar());
   ui.menubar->setVisible(settings.showMenuBar());
   ui.actionMenu_bar->setChecked(settings.showMenuBar());
@@ -271,8 +279,8 @@ MainWindow::MainWindow(Path path):
 }
 
 MainWindow::~MainWindow() {
-  if(!bookmarks.isNull()) {
-    g_signal_handlers_disconnect_by_func(bookmarks, (gpointer)G_CALLBACK(onBookmarksChanged), this);
+  if(!bookmarks_.isNull()) {
+    g_signal_handlers_disconnect_by_func(bookmarks_, (gpointer)G_CALLBACK(onBookmarksChanged), this);
   }
 }
 
@@ -284,6 +292,23 @@ void MainWindow::chdir(Path path) {
     page->chdir(path, true);
     updateUIForCurrentPage();
   }
+}
+
+void MainWindow::createPathBar(bool usePathButtons) {
+  QWidget* bar;
+  if(usePathButtons) {
+    bar = pathBar_ = new Fm::PathBar(this);
+    connect(pathBar_, &Fm::PathBar::chdir, this, &MainWindow::onPathBarChdir);
+    connect(pathBar_, &Fm::PathBar::middleClickChdir, this, &MainWindow::onPathBarMiddleClickChdir);
+    connect(pathBar_, &Fm::PathBar::editingFinished, this, &MainWindow::onResetFocus);
+  }
+  else {
+    bar = pathEntry_ = new Fm::PathEdit(this);
+    connect(pathEntry_, &Fm::PathEdit::returnPressed, this, &MainWindow::onPathEntryReturnPressed);
+    connect(pathEntry_, &QLineEdit::textEdited, this, &MainWindow::onPathEntryEdited);
+  }
+  ui.toolBar->insertWidget(ui.actionGo, bar);
+  ui.actionGo->setVisible(!usePathButtons);
 }
 
 // add a new tab
@@ -325,16 +350,13 @@ void MainWindow::toggleMenuBar(bool checked) {
 
   ui.menubar->setVisible(showMenuBar);
   ui.actionMenu_bar->setChecked(showMenuBar);
-  Q_FOREACH(QAction *action, ui.toolBar->actions()) {
-    if(action->isSeparator())
-      action->setVisible(!showMenuBar);
-  }
+  menuSep_->setVisible(!showMenuBar);
   ui.actionMenu->setVisible(!showMenuBar);
   settings.setShowMenuBar(showMenuBar);
 }
 
 void MainWindow::onPathEntryReturnPressed() {
-  QString text = pathEntry->text();
+  QString text = pathEntry_->text();
   QByteArray utext = text.toUtf8();
   chdir(Fm::Path::newForDisplayName(utext));
 }
@@ -343,8 +365,20 @@ void MainWindow::onPathEntryEdited(const QString& text) {
   QString realText(text);
   if(realText == "~" || realText.startsWith("~/")) {
     realText.replace(0, 1, QDir::homePath());
-    pathEntry->setText(realText);
+    pathEntry_->setText(realText);
   }
+}
+
+void MainWindow::onPathBarChdir(FmPath* dirPath) {
+  // call chdir() only when needed because otherwise
+  // filter bar will be cleard on changing current tab
+  TabPage* page = currentPage();
+  if(page && dirPath != page->path())
+    chdir(dirPath);
+}
+
+void MainWindow::onPathBarMiddleClickChdir(FmPath* dirPath) {
+  addTab(dirPath);
 }
 
 void MainWindow::on_actionGoUp_triggered() {
@@ -383,7 +417,13 @@ void MainWindow::on_actionHome_triggered() {
 
 void MainWindow::on_actionReload_triggered() {
   currentPage()->reload();
-  pathEntry->setText(currentPage()->pathName());
+  if(pathEntry_ != nullptr)
+    pathEntry_->setText(currentPage()->pathName());
+}
+
+void MainWindow::on_actionConnectToServer_triggered() {
+  Application* app = static_cast<Application*>(qApp);
+  app->connectToServer();
 }
 
 void MainWindow::on_actionGo_triggered() {
@@ -518,6 +558,32 @@ void MainWindow::on_actionFilter_triggered(bool checked) {
   static_cast<Application*>(qApp)->settings().setShowFilter(checked);
 }
 
+void MainWindow::on_actionLocationBar_triggered(bool checked) {
+  if(checked) {
+    // show current path in a location bar entry
+    if(pathBar_ != nullptr) {
+      delete pathBar_;
+      pathBar_ = nullptr;
+    }
+    createPathBar(false);
+    pathEntry_->setText(currentPage()->pathName());
+    static_cast<Application*>(qApp)->settings().setPathBarButtons(false);
+  }
+}
+
+void MainWindow::on_actionPathButtons_triggered(bool checked) {
+  if(checked && pathBar_ == nullptr) {
+    // show current path as buttons
+    if(pathEntry_ != nullptr) {
+      delete pathEntry_;
+      pathEntry_ = nullptr;
+    }
+    createPathBar(true);
+    pathBar_->setPath(currentPage()->path());
+    static_cast<Application*>(qApp)->settings().setPathBarButtons(true);
+  }
+}
+
 void MainWindow::on_actionComputer_triggered() {
   chdir(Fm::Path::newForUri("computer:///"));
 }
@@ -544,7 +610,7 @@ void MainWindow::on_actionAddToBookmarks_triggered() {
     Fm::Path cwd = page->path();
     if(!cwd.isNull()) {
       char* dispName = cwd.displayBasename();
-      bookmarks.insert(cwd, dispName, -1);
+      bookmarks_.insert(cwd, dispName, -1);
       g_free(dispName);
     }
   }
@@ -654,6 +720,9 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+  if(lastActive_ == this)
+    lastActive_ = nullptr;
+
   QWidget::closeEvent(event);
   Settings& settings = static_cast<Application*>(qApp)->settings();
   if(settings.rememberWindowSize()) {
@@ -681,8 +750,8 @@ void MainWindow::updateStatusBarForCurrentPage() {
   ui.statusbar->showMessage(text);
 
   text = tabPage->statusText(TabPage::StatusTextFSInfo);
-  fsInfoLabel->setText(text);
-  fsInfoLabel->setVisible(!text.isEmpty());
+  fsInfoLabel_->setText(text);
+  fsInfoLabel_->setVisible(!text.isEmpty());
 }
 
 void MainWindow::updateViewMenuForCurrentPage() {
@@ -743,9 +812,14 @@ void MainWindow::updateUIForCurrentPage() {
 
   if(tabPage) {
     setWindowTitle(tabPage->title());
-    pathEntry->setText(tabPage->pathName());
+    if(pathEntry_ != nullptr) {
+      pathEntry_->setText(tabPage->pathName());
+    }
+    else if(pathBar_ != nullptr) {
+      pathBar_->setPath(tabPage->path());
+    }
     ui.statusbar->showMessage(tabPage->statusText());
-    fsInfoLabel->setText(tabPage->statusText(TabPage::StatusTextFSInfo));
+    fsInfoLabel_->setText(tabPage->statusText(TabPage::StatusTextFSInfo));
     tabPage->folderView()->childView()->setFocus();
 
     // update side pane
@@ -804,8 +878,8 @@ void MainWindow::onTabPageStatusChanged(int type, QString statusText) {
       break;
     }
     case TabPage::StatusTextFSInfo:
-      fsInfoLabel->setText(tabPage->statusText(TabPage::StatusTextFSInfo));
-      fsInfoLabel->setVisible(!statusText.isEmpty());
+      fsInfoLabel_->setText(tabPage->statusText(TabPage::StatusTextFSInfo));
+      fsInfoLabel_->setVisible(!statusText.isEmpty());
       break;
     }
   }
@@ -879,7 +953,7 @@ void MainWindow::onSplitterMoved(int pos, int index) {
 }
 
 void MainWindow::loadBookmarksMenu() {
-  GList* allBookmarks = bookmarks.getAll();
+  GList* allBookmarks = bookmarks_.getAll();
   QAction* before = ui.actionAddToBookmarks;
 
   for(GList* l = allBookmarks; l; l = l->next) {
@@ -999,6 +1073,16 @@ void MainWindow::setRTLIcons(bool isRTL) {
   }
 }
 
+bool MainWindow::event(QEvent* event) {
+  switch(event->type()) {
+  case QEvent::WindowActivate:
+    lastActive_ = this;
+  default:
+    break;
+  }
+  return QMainWindow::event(event);
+}
+
 void MainWindow::changeEvent(QEvent *event) {
   switch(event->type()) {
     case QEvent::LayoutDirectionChange:
@@ -1045,15 +1129,15 @@ void MainWindow::tabContextMenu(const QPoint& pos) {
   int tabNum = ui.tabBar->count();
   if(tabNum <= 1) return;
 
-  rightClickIndex = ui.tabBar->tabAt(pos);
-  if(rightClickIndex < 0) return;
+  rightClickIndex_ = ui.tabBar->tabAt(pos);
+  if(rightClickIndex_ < 0) return;
 
   QMenu menu;
-  if(rightClickIndex > 0)
+  if(rightClickIndex_ > 0)
       menu.addAction(ui.actionCloseLeft);
-  if(rightClickIndex < tabNum - 1) {
+  if(rightClickIndex_ < tabNum - 1) {
     menu.addAction(ui.actionCloseRight);
-    if(rightClickIndex > 0) {
+    if(rightClickIndex_ > 0) {
       menu.addSeparator();
       menu.addAction(ui.actionCloseOther);
     }
@@ -1062,22 +1146,26 @@ void MainWindow::tabContextMenu(const QPoint& pos) {
 }
 
 void MainWindow::closeLeftTabs() {
-  while(rightClickIndex > 0) {
-    closeTab(rightClickIndex - 1);
-    --rightClickIndex;
+  while(rightClickIndex_ > 0) {
+    closeTab(rightClickIndex_ - 1);
+    --rightClickIndex_;
   }
 }
 
 void MainWindow::closeRightTabs() {
-  if(rightClickIndex < 0) return;
-  while(rightClickIndex < ui.tabBar->count() - 1)
-    closeTab(rightClickIndex + 1);
+  if(rightClickIndex_ < 0) return;
+  while(rightClickIndex_ < ui.tabBar->count() - 1)
+    closeTab(rightClickIndex_ + 1);
 }
 
 void MainWindow::focusPathEntry() {
-  if(pathEntry != nullptr) {
-    pathEntry->setFocus();
-    pathEntry->selectAll();
+  // use text entry for the path bar
+  if(pathEntry_ != nullptr) {
+    pathEntry_->setFocus();
+    pathEntry_->selectAll();
+  }
+  else if (pathBar_ != nullptr) { // use button-style path bar
+    pathBar_->openEditor();
   }
 }
 

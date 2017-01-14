@@ -1,3 +1,9 @@
+pcmanfm-qt (0.11.3-1) unstable; urgency=medium
+
+  * Cherry-picking upstream release 0.11.3.
+
+ -- Alf Gaida <agaida@siduction.org>  Sat, 14 Jan 2017 03:54:54 +0100
+
 pcmanfm-qt (0.11.2-1) unstable; urgency=medium
 
   * Cherry-picking upstream release 0.11.2.

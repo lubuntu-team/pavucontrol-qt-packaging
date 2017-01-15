@@ -1,3 +1,10 @@
+pcmanfm-qt (0.11.3-2) unstable; urgency=medium
+
+  * set oxygen-icon-theme as default alternative recommendation 
+    (Closes: #851411)
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 15 Jan 2017 01:35:46 +0100
+
 pcmanfm-qt (0.11.3-1) unstable; urgency=medium
 
   * Cherry-picking upstream release 0.11.3.

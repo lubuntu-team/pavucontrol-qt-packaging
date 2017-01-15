@@ -31,7 +31,7 @@ Depends: ${misc:Depends},
 Recommends: eject,
             gvfs-backends,
             lxqt-sudo | gksu,
-            breeze-icon-theme | oxygen-icon-theme | faenza-icon-theme | gnome-icon-theme,
+            oxygen-icon-theme | breeze-icon-theme | faenza-icon-theme | gnome-icon-theme,
             pcmanfm-qt-l10n
 Suggests: cdtool [linux-any]
 Description: extremely fast and lightweight file and desktop icon manager

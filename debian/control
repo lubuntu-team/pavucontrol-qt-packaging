@@ -16,7 +16,7 @@ Build-Depends: debhelper (>= 10),
                libqt5x11extras5-dev,
                libx11-dev,
                lxqt-build-tools (>= 0.3.0)
-Standards-Version: 3.9.8
+Standards-Version: 4.0.0
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-lxqt/pcmanfm-qt.git/?h=debian/sid
 Vcs-Git: https://anonscm.debian.org/git/pkg-lxqt/pcmanfm-qt.git -b debian/sid
 Homepage: https://github.com/lxde/pcmanfm-qt
@@ -27,10 +27,13 @@ Depends: ${misc:Depends},
          ${shlibs:Depends},
          default-dbus-session-bus | dbus-session-bus | dbus-x11,
          libfm-modules,
-         libfm-qt3 (>= 0.11.2)
+         libfm-qt3 (>= 0.11.2),
+         lxqt-sudo | gksu
 Recommends: eject,
             gvfs-backends,
-            lxqt-sudo | gksu,
+            lximage-qt,
+            lxqt-policykit,
+            lxqt-qtplugin,
             oxygen-icon-theme | breeze-icon-theme | faenza-icon-theme | gnome-icon-theme,
             pcmanfm-qt-l10n
 Suggests: cdtool [linux-any]

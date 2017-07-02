@@ -1,3 +1,13 @@
+pcmanfm-qt (0.11.3-3) unstable; urgency=medium
+
+  * Bumped Standards to 4.0.0
+  * Depend on lxqt-sudo | gksu we need at least one UI for sudo 
+  * Added Recommends: lximage-qt, lxqt-policykit, lxqt-qtplugin (Closes: #866347)
+  * pcmanfm-qt allow multiple file selections with mouse, the implementation is
+    horrible in some places, but it works. (Closes: #853201)
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 02 Jul 2017 18:05:08 +0200
+
 pcmanfm-qt (0.11.3-2) unstable; urgency=medium
 
   * set oxygen-icon-theme as default alternative recommendation 

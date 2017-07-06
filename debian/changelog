@@ -1,8 +1,17 @@
+pcmanfm-qt (0.11.3-4) unstable; urgency=medium
+
+  * Depend on desktop-file-utils (Closes: #866900)
+  * Recommend ffmpegthumbnailer (Closes: #867460)
+  * Removed the alternative dependency gksu.  Reason: #867236
+
+ -- Alf Gaida <agaida@siduction.org>  Thu, 06 Jul 2017 19:58:03 +0200
+
 pcmanfm-qt (0.11.3-3) unstable; urgency=medium
 
   * Bumped Standards to 4.0.0
-  * Depend on lxqt-sudo | gksu we need at least one UI for sudo 
-  * Added Recommends: lximage-qt, lxqt-policykit, lxqt-qtplugin (Closes: #866347)
+  * Depend on lxqt-sudo | gksu we need at least one UI for sudo
+  * Added Recommends: lximage-qt, lxqt-policykit, lxqt-qtplugin
+    (Closes: #866347)
   * pcmanfm-qt allow multiple file selections with mouse, the implementation is
     horrible in some places, but it works. (Closes: #853201)
 
@@ -10,7 +19,7 @@ pcmanfm-qt (0.11.3-3) unstable; urgency=medium
 
 pcmanfm-qt (0.11.3-2) unstable; urgency=medium
 
-  * set oxygen-icon-theme as default alternative recommendation 
+  * set oxygen-icon-theme as default alternative recommendation
     (Closes: #851411)
 
  -- Alf Gaida <agaida@siduction.org>  Sun, 15 Jan 2017 01:35:46 +0100
@@ -31,7 +40,7 @@ pcmanfm-qt (0.11.2-1) unstable; urgency=medium
     - libfm-qt-dev (>= 0.11.2)
     - lxqt-build-tools (>= 0.3.0)
     - libfm-qt3 (>= 0.11.2)
-  * Suggests: cdtool -> cdtool [linux-any] 
+  * Suggests: cdtool -> cdtool [linux-any]
 
  -- Alf Gaida <agaida@siduction.org>  Thu, 22 Dec 2016 02:02:37 +0100
 
@@ -45,7 +54,7 @@ pcmanfm-qt (0.11.1-3) unstable; urgency=medium
     - pkg-config,
     - qttools5-dev,
     - qttools5-dev-tools
-  * Added build dependency lxqt-build-tools 
+  * Added build dependency lxqt-build-tools
 
  -- Alf Gaida <agaida@siduction.org>  Sat, 05 Nov 2016 02:06:06 +0100
 
@@ -63,17 +72,17 @@ pcmanfm-qt (0.11.1-2) unstable; urgency=medium
   * Added build dependency libqt5svg5-dev
   * Added build dependency liblxqt0-dev (>= 0.11.0)
   * Added Recommends pcmanfm-qt-l10n
-  * Fixed VCS fields, using plain /git/ 
+  * Fixed VCS fields, using plain /git/
   * Fixed copyright Format field, using https
   * Dropped patches, applied upstream
-  * Added translation controls 
+  * Added translation controls
   * Set CMAKE_BUILD_TYPE=RelWithDebInfo
 
  -- Alf Gaida <agaida@siduction.org>  Tue, 18 Oct 2016 22:59:30 +0200
 
 pcmanfm-qt (0.11.0-10) unstable; urgency=medium
 
-  * Fixed typo in Recommends: oyxgen-icon-theme -> oxygen-icon-theme 
+  * Fixed typo in Recommends: oyxgen-icon-theme -> oxygen-icon-theme
 
  -- Alf Gaida <agaida@siduction.org>  Mon, 19 Sep 2016 21:50:10 +0200
 
@@ -109,7 +118,7 @@ pcmanfm-qt (0.11.0-6) unstable; urgency=medium
 
 pcmanfm-qt (0.11.0-5) unstable; urgency=medium
 
-  * Backported temporary upstream fix for #826311 
+  * Backported temporary upstream fix for #826311
     (https://github.com/lxde/pcmanfm-qt/pull/359)
   * Bumped standards version to 3.9.8 - no changes needed
 
@@ -118,7 +127,7 @@ pcmanfm-qt (0.11.0-5) unstable; urgency=medium
 pcmanfm-qt (0.11.0-4) unstable; urgency=medium
 
   * Added oxygen-icon-theme | oxygen5-icon-theme | gnome-icon-theme
-    to recommends. (Closes: #826311) 
+    to recommends. (Closes: #826311)
 
  -- Alf Gaida <agaida@siduction.org>  Sat, 04 Jun 2016 15:54:21 +0200
 
@@ -130,7 +139,7 @@ pcmanfm-qt (0.11.0-3) unstable; urgency=low
 
 pcmanfm-qt (0.11.0-2) unstable; urgency=medium
 
-  * Merge experimental to unstable 
+  * Merge experimental to unstable
 
  -- Alf Gaida <agaida@siduction.org>  Thu, 31 Mar 2016 22:07:11 +0200
 

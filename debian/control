@@ -26,10 +26,12 @@ Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          default-dbus-session-bus | dbus-session-bus | dbus-x11,
+         desktop-file-utils,
          libfm-modules,
          libfm-qt3 (>= 0.11.2),
-         lxqt-sudo | gksu
+         lxqt-sudo
 Recommends: eject,
+            ffmpegthumbnailer,
             gvfs-backends,
             lximage-qt,
             lxqt-policykit,

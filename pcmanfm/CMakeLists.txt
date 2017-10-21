@@ -4,13 +4,13 @@ set(pcmanfm_SRCS
     mainwindow.cpp
     tabpage.cpp
     tabbar.cpp
+    statusbar.cpp
     view.cpp
     launcher.cpp
     preferencesdialog.cpp
     xdgdir.cpp
     desktoppreferencesdialog.cpp
     desktopwindow.cpp
-    desktopitemdelegate.cpp
     autorundialog.cpp
     connectserverdialog.cpp
     settings.cpp

@@ -1,3 +1,15 @@
+pcmanfm-qt (0.12.0-1) experimental; urgency=medium
+
+  * Cherry-picking upstream release 0.12.0.
+  * Bumped Standards to 4.1.1
+  * Bumped build-tools >= 0.4.0
+  * Bumped libfm-qt-dev >= 0.12.0
+  * Bumped years in copyright
+  * Added  build dependency libexif-dev
+  * Added Breaks and Replaces for lxqt-common << 0.12.0
+
+ -- Alf Gaida <agaida@siduction.org>  Tue, 24 Oct 2017 21:53:39 +0200
+
 pcmanfm-qt (0.11.3-4) unstable; urgency=medium
 
   * Depend on desktop-file-utils (Closes: #866900)

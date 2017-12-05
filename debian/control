@@ -8,17 +8,18 @@ Uploaders: Alf Gaida <agaida@siduction.org>,
 Section: x11
 Priority: optional
 Build-Depends: debhelper (>= 10),
-               libfm-qt-dev (>= 0.11.2),
+               libexif-dev,
+               libfm-qt-dev (>= 0.12.0),
                libglib2.0-dev,
                libkf5windowsystem-dev,
                libmenu-cache-dev,
                libqt5svg5-dev,
                libqt5x11extras5-dev,
                libx11-dev,
-               lxqt-build-tools (>= 0.3.0)
-Standards-Version: 4.0.0
-Vcs-Browser: https://anonscm.debian.org/cgit/pkg-lxqt/pcmanfm-qt.git/?h=debian/sid
-Vcs-Git: https://anonscm.debian.org/git/pkg-lxqt/pcmanfm-qt.git -b debian/sid
+               lxqt-build-tools (>= 0.4.0)
+Standards-Version: 4.1.1
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-lxqt/pcmanfm-qt.git/?h=debian/experimental
+Vcs-Git: https://anonscm.debian.org/git/pkg-lxqt/pcmanfm-qt.git -b debian/experimental
 Homepage: https://github.com/lxde/pcmanfm-qt
 
 Package: pcmanfm-qt
@@ -28,7 +29,7 @@ Depends: ${misc:Depends},
          default-dbus-session-bus | dbus-session-bus | dbus-x11,
          desktop-file-utils,
          libfm-modules,
-         libfm-qt3 (>= 0.11.2),
+         libfm-qt3 (>= 0.12.0),
          lxqt-sudo
 Recommends: eject,
             ffmpegthumbnailer,
@@ -39,6 +40,8 @@ Recommends: eject,
             oxygen-icon-theme | breeze-icon-theme | faenza-icon-theme | gnome-icon-theme,
             pcmanfm-qt-l10n
 Suggests: cdtool [linux-any]
+Breaks: lxqt-common (<< 0.12.0)
+Replaces: lxqt-common (<< 0.12.0)
 Description: extremely fast and lightweight file and desktop icon manager
  PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
  .

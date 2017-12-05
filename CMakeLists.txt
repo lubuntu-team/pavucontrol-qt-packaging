@@ -6,12 +6,14 @@ if (POLICY CMP0063)
     cmake_policy (SET CMP0063 NEW)
 endif (POLICY CMP0063)
 
+# PcmanFm-Qt Version
 set(PCMANFM_QT_VERSION_MAJOR 0)
-set(PCMANFM_QT_VERSION_MINOR 11)
-set(PCMANFM_QT_VERSION_PATCH 3)
+set(PCMANFM_QT_VERSION_MINOR 12)
+set(PCMANFM_QT_VERSION_PATCH 0)
+
 set(PCMANFM_QT_VERSION ${PCMANFM_QT_VERSION_MAJOR}.${PCMANFM_QT_VERSION_MINOR}.${PCMANFM_QT_VERSION_PATCH})
 
-set(LXQTBT_MINIMUM_VERSION "0.1.0")
+set(LXQTBT_MINIMUM_VERSION "0.4.0")
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
@@ -22,10 +24,11 @@ find_package(Qt5X11Extras 5.2 REQUIRED)
 find_package(fm-qt REQUIRED)
 find_package(lxqt-build-tools ${LXQTBT_MINIMUM_VERSION} REQUIRED)
 
-message(STATUS "Building ${PROJECT_NAME} with Qt ${Qt5Core_VERSION_STRING}")
+message(STATUS "Building ${PROJECT_NAME} with Qt ${Qt5Core_VERSION}")
 
 option(UPDATE_TRANSLATIONS "Update source translation translations/*.ts files" OFF)
 include(GNUInstallDirs)
+include(LXQtConfigVars)
 include(LXQtTranslateTs)
 include(LXQtTranslateDesktop)
 include(LXQtCompilerSettings NO_POLICY_SCOPE)
@@ -61,3 +64,7 @@ if(BUILD_DOCUMENTATION)
     )
     install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/docs" DESTINATION "${CMAKE_INSTALL_DOCDIR}")
 endif()
+
+# merged from lxqt-common
+add_subdirectory(autostart)
+add_subdirectory(config)

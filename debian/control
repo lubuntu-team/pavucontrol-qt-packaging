@@ -18,8 +18,8 @@ Build-Depends: debhelper (>= 10),
                libx11-dev,
                lxqt-build-tools (>= 0.4.0)
 Standards-Version: 4.1.1
-Vcs-Browser: https://anonscm.debian.org/cgit/pkg-lxqt/pcmanfm-qt.git/?h=debian/experimental
-Vcs-Git: https://anonscm.debian.org/git/pkg-lxqt/pcmanfm-qt.git -b debian/experimental
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-lxqt/pcmanfm-qt.git/?h=debian/sid
+Vcs-Git: https://anonscm.debian.org/git/pkg-lxqt/pcmanfm-qt.git -b debian/sid
 Homepage: https://github.com/lxde/pcmanfm-qt
 
 Package: pcmanfm-qt

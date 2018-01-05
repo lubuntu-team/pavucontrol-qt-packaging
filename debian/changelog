@@ -1,3 +1,12 @@
+pcmanfm-qt (0.12.0-5) unstable; urgency=medium
+
+  * Moved git to salsa, changed the VCS fields that way
+  * Bumped Standards to 4.1.3, no changes needed
+  * Added gfvs-fuse to recommends, thanks robert <maxl1234@gmx.at>
+    (Closes: #886166)
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 05 Jan 2018 19:12:49 +0100
+
 pcmanfm-qt (0.12.0-4) unstable; urgency=medium
 
   * Really bumped Standards.

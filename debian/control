@@ -7,7 +7,7 @@ Uploaders: Alf Gaida <agaida@siduction.org>,
            Yuan CHAO <yuanchao@gmail.com>
 Section: x11
 Priority: optional
-Build-Depends: debhelper (>= 10),
+Build-Depends: debhelper (>= 11~),
                libexif-dev,
                libfm-qt-dev (>= 0.12.0),
                libglib2.0-dev,
@@ -17,10 +17,10 @@ Build-Depends: debhelper (>= 10),
                libqt5x11extras5-dev,
                libx11-dev,
                lxqt-build-tools (>= 0.4.0)
-Standards-Version: 4.1.3
-Vcs-Browser: https://salsa.debian.org/lxqt-team/pcmanfm-qt.git
+Standards-Version: 4.1.4
+Vcs-Browser: https://salsa.debian.org/lxqt-team/pcmanfm-qt
 Vcs-Git: https://salsa.debian.org/lxqt-team/pcmanfm-qt.git
-Homepage: https://github.com/lxde/pcmanfm-qt
+Homepage: https://github.com/lxqt/pcmanfm-qt
 
 Package: pcmanfm-qt
 Architecture: any

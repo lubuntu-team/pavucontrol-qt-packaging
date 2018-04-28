@@ -1,3 +1,14 @@
+pcmanfm-qt (0.12.0-6) unstable; urgency=medium
+
+  * Bumped compat to 11
+  * Bumped debhelper to >= 11~
+  * Bumped Standards to 4.1.4, no changes needed
+  * Fixed a glitch in VCS fields
+  * Changed Homepage, Source and watch to lxqt
+  * Bumped year in copyright
+
+ -- Alf Gaida <agaida@siduction.org>  Sat, 28 Apr 2018 18:43:40 +0200
+
 pcmanfm-qt (0.12.0-5) unstable; urgency=medium
 
   * Moved git to salsa, changed the VCS fields that way

@@ -46,36 +46,10 @@ bool ProxyFilter::filterAcceptsRow(const Fm::ProxyFolderModel* model, const std:
         return true;
     }
     QString baseName = QString::fromStdString(info->name());
-    if(!virtHiddenList_.isEmpty() && !model->showHidden() && virtHiddenList_.contains(baseName)) {
-        return false;
-    }
     if(!filterStr_.isEmpty() && !baseName.contains(filterStr_, Qt::CaseInsensitive)) {
         return false;
     }
     return true;
-}
-
-void ProxyFilter::setVirtHidden(const std::shared_ptr<Fm::Folder> &folder) {
-    virtHiddenList_ = QStringList(); // reset the list
-    if(!folder) {
-        return;
-    }
-    auto path = folder->path();
-    if(path) {
-        auto pathStr = path.localPath();
-        if(pathStr) {
-            QString dotHidden = QString::fromUtf8(pathStr.get()) + QString("/.hidden");
-            // FIXME: this does not work for non-local filesystems
-            QFile file(dotHidden);
-            if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                QTextStream in(&file);
-                while(!in.atEnd()) {
-                    virtHiddenList_.append(in.readLine());
-                }
-                file.close();
-            }
-        }
-    }
 }
 
 TabPage::TabPage(QWidget* parent):
@@ -85,13 +59,15 @@ TabPage::TabPage(QWidget* parent):
     proxyModel_{nullptr},
     proxyFilter_{nullptr},
     verticalLayout{nullptr},
-    overrideCursor_(false) {
+    overrideCursor_(false),
+    selectionTimer_(nullptr) {
 
     Settings& settings = static_cast<Application*>(qApp)->settings();
 
     // create proxy folder model to do item filtering
     proxyModel_ = new ProxyFolderModel();
     proxyModel_->setShowHidden(settings.showHidden());
+    proxyModel_->setBackupAsHidden(settings.backupAsHidden());
     proxyModel_->setShowThumbnails(settings.showThumbnails());
     connect(proxyModel_, &ProxyFolderModel::sortFilterChanged, this, &TabPage::sortFilterChanged);
 
@@ -122,8 +98,9 @@ TabPage::~TabPage() {
     if(proxyModel_) {
         delete proxyModel_;
     }
-    disconnect(folderModel_, &Fm::FolderModel::fileSizeChanged, this, &TabPage::onFileSizeChanged);
     if(folderModel_) {
+        disconnect(folderModel_, &Fm::FolderModel::fileSizeChanged, this, &TabPage::onFileSizeChanged);
+        disconnect(folderModel_, &Fm::FolderModel::filesAdded, this, &TabPage::onFilesAdded);
         folderModel_->unref();
     }
 
@@ -144,6 +121,9 @@ void TabPage::freeFolder() {
 }
 
 void TabPage::onFolderStartLoading() {
+    if(folderModel_){
+        disconnect(folderModel_, &Fm::FolderModel::filesAdded, this, &TabPage::onFilesAdded);
+    }
     if(!overrideCursor_) {
         // FIXME: sometimes FmFolder of libfm generates unpaired "start-loading" and
         // "finish-loading" signals of uncertain reasons. This should be a bug in libfm.
@@ -184,8 +164,12 @@ void TabPage::onUiUpdated() {
             folderView_->childView()->setCurrentIndex(index);
         }
     }
-    // update selection statusbar info when needed
-    connect(folderModel_, &Fm::FolderModel::fileSizeChanged, this, &TabPage::onFileSizeChanged);
+    if(folderModel_) {
+        // update selection statusbar info when needed
+        connect(folderModel_, &Fm::FolderModel::fileSizeChanged, this, &TabPage::onFileSizeChanged);
+        // get ready to select files that may be added later
+        connect(folderModel_, &Fm::FolderModel::filesAdded, this, &TabPage::onFilesAdded);
+    }
 }
 
 void TabPage::onFileSizeChanged(const QModelIndex& index) {
@@ -193,6 +177,22 @@ void TabPage::onFileSizeChanged(const QModelIndex& index) {
         QModelIndexList indexes = folderView_->selectionModel()->selectedIndexes();
         if(indexes.contains(proxyModel_->mapFromSource(index))) {
             onSelChanged();
+        }
+    }
+}
+
+// slot
+void TabPage::onFilesAdded(Fm::FileInfoList files) {
+    if(static_cast<Application*>(qApp)->settings().selectNewFiles()) {
+        if(!selectionTimer_) {
+            folderView_->selectFiles(files, false);
+            selectionTimer_ = new QTimer (this);
+            selectionTimer_->setSingleShot(true);
+            selectionTimer_->start(200);
+        }
+        else {
+            folderView_->selectFiles(files, selectionTimer_->isActive());
+            selectionTimer_->start(200);
         }
     }
 }
@@ -252,8 +252,8 @@ void TabPage::onFolderError(const Fm::GErrorPtr& err, Fm::Job::ErrorSeverity sev
     if(err.domain() == G_IO_ERROR) {
         if(err.code() == G_IO_ERROR_NOT_MOUNTED && severity < Fm::Job::ErrorSeverity::CRITICAL) {
             auto& path = folder_->path();
-            MountOperation* op = new MountOperation(this);
-            op->mount(path);
+            MountOperation* op = new MountOperation(true);
+            op->mountEnclosingVolume(path);
             if(op->wait()) { // blocking event loop, wait for mount operation to finish.
                 // This will reload the folder, which generates a new "start-loading"
                 // signal, so we get more "start-loading" signals than "finish-loading"
@@ -290,8 +290,8 @@ void TabPage::onFolderFsInfo() {
         fm_file_size_to_str(free_str, sizeof(free_str), free, fm_config->si_unit);
         fm_file_size_to_str(total_str, sizeof(total_str), total, fm_config->si_unit);
         msg = tr("Free space: %1 (Total: %2)")
-              .arg(QString::fromUtf8(free_str))
-              .arg(QString::fromUtf8(total_str));
+              .arg(QString::fromUtf8(free_str),
+              QString::fromUtf8(total_str));
     }
     else {
         msg.clear();
@@ -309,6 +309,12 @@ QString TabPage::formatStatusText() {
         QString text = tr("%n item(s)", "", shown_files);
         if(hidden_files > 0) {
             text += tr(" (%n hidden)", "", hidden_files);
+        }
+        auto fi = folder_->info();
+        if (fi && fi->isSymlink()) {
+            text += QString(" %2(%1)")
+                    .arg(encloseWithBidiMarks(tr("Link to") + QChar(QChar::Space) + QString::fromStdString(fi->target())),
+                    (layoutDirection() == Qt::RightToLeft) ? QChar(0x200f) : QChar(0x200e));
         }
         return text;
     }
@@ -388,6 +394,7 @@ void TabPage::chdir(Fm::FilePath newPath, bool addHistory) {
         // free the previous model
         if(folderModel_) {
             disconnect(folderModel_, &Fm::FolderModel::fileSizeChanged, this, &TabPage::onFileSizeChanged);
+            disconnect(folderModel_, &Fm::FolderModel::filesAdded, this, &TabPage::onFilesAdded);
             proxyModel_->setSourceModel(nullptr);
             folderModel_->unref(); // unref the cached model
             folderModel_ = nullptr;
@@ -399,7 +406,6 @@ void TabPage::chdir(Fm::FilePath newPath, bool addHistory) {
     Q_EMIT titleChanged(newPath.baseName().get());  // FIXME: display name
 
     folder_ = Fm::Folder::fromPath(newPath);
-    proxyFilter_->setVirtHidden(folder_);
     if(addHistory) {
         // add current path to browse history
         history_.add(path());
@@ -448,7 +454,6 @@ void TabPage::invertSelection() {
 
 void TabPage::reload() {
     if(folder_) {
-        proxyFilter_->setVirtHidden(folder_); // reread ".hidden"
         // don't select or scroll to the previous folder after reload
         lastFolderPath_ = Fm::FilePath();
         // but remember the current scroll position
@@ -460,6 +465,17 @@ void TabPage::reload() {
     }
 }
 
+// 200e LEFT-TO-RIGHT MARK
+// 200f RIGHT-TO-LEFT MARK
+// 202a LEFT-TO-RIGHT EMBEDDING
+// 202b RIGHT-TO-LEFT EMBEDDING
+// 202c POP DIRECTIONAL FORMATTING
+QString TabPage::encloseWithBidiMarks(const QString& text) {
+    QChar bidiMark = text.isRightToLeft() ? QChar(0x200f) : QChar(0x200e);
+    QChar embedBidiMark = text.isRightToLeft() ? QChar(0x202b) : QChar(0x202a);
+    return embedBidiMark+text+bidiMark+QChar(0x202c);
+}
+
 // when the current selection in the folder view is changed
 void TabPage::onSelChanged() {
     QString msg;
@@ -467,24 +483,44 @@ void TabPage::onSelChanged() {
         auto files = folderView_->selectedFiles();
         int numSel = files.size();
         /* FIXME: display total size of all selected files. */
-        if(numSel == 1) { /* only one file is selected */
+        if(numSel == 1) { /* only one file is selected (also, tell if it is a symlink)*/
             auto& fi = files.front();
             if(!fi->isDir()) {
-                msg = QString("\"%1\" (%2) %3")
-                      .arg(fi->displayName())
-                      .arg(Fm::formatFileSize(fi->size(), fm_config->si_unit)) // FIXME: deprecate fm_config
-                      .arg(fi->mimeType()->desc());
+                if(fi->isSymlink()) {
+                    msg = QString("%5\"%1\" %5(%2) %5%3 %5(%4)")
+                          .arg(encloseWithBidiMarks(fi->displayName()),
+                          encloseWithBidiMarks(Fm::formatFileSize(fi->size(), fm_config->si_unit)),
+                          encloseWithBidiMarks(fi->mimeType()->desc()),
+                          encloseWithBidiMarks(tr("Link to") + QChar(QChar::Space) + QString::fromStdString(fi->target())),
+                          (layoutDirection() == Qt::RightToLeft) ? QChar(0x200f) : QChar(0x200e));
+                }
+                else {
+                    msg = QString("%4\"%1\" %4(%2) %4%3")
+                          .arg(encloseWithBidiMarks(fi->displayName()),
+                          encloseWithBidiMarks(Fm::formatFileSize(fi->size(), fm_config->si_unit)), // FIXME: deprecate fm_config
+                          encloseWithBidiMarks(fi->mimeType()->desc()),
+                          (layoutDirection() == Qt::RightToLeft) ? QChar(0x200f) : QChar(0x200e));
+                }
             }
             else {
-                msg = QString("\"%1\" %2")
-                      .arg(fi->displayName())
-                      .arg(fi->mimeType()->desc());
+                if(fi->isSymlink()) {
+                    msg = QString("%4\"%1\" %4%2 %4(%3)")
+                          .arg(encloseWithBidiMarks(fi->displayName()),
+                          encloseWithBidiMarks(fi->mimeType()->desc()),
+                          encloseWithBidiMarks(tr("Link to") + QChar(QChar::Space) + QString::fromStdString(fi->target())),
+                          (layoutDirection() == Qt::RightToLeft) ? QChar(0x200f) : QChar(0x200e));
+                }
+                else {
+                    msg = QString("%3\"%1\" %3%2")
+                          .arg(encloseWithBidiMarks(fi->displayName()),
+                          encloseWithBidiMarks(fi->mimeType()->desc()),
+                          (layoutDirection() == Qt::RightToLeft) ? QChar(0x200f) : QChar(0x200e));
+                }
             }
             /* FIXME: should we support statusbar plugins as in the gtk+ version? */
         }
         else {
             goffset sum;
-            GList* l;
             msg = tr("%n item(s) selected", nullptr, numSel);
             /* don't count if too many files are selected, that isn't lightweight */
             if(numSel < 1000) {
@@ -533,7 +569,7 @@ void TabPage::forward() {
 }
 
 void TabPage::jumpToHistory(int index) {
-    if(index >= 0 && index < history_.size()) {
+    if(index >= 0 && static_cast<size_t>(index) < history_.size()) {
         // remember current scroll position
         BrowseHistoryItem& item = history_.currentItem();
         QAbstractItemView* childView = folderView_->childView();

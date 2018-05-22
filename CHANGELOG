@@ -1,7 +1,59 @@
 
-pcmanfm-qt-0.12.0 / 2017-10-21
+pcmanfm-qt-0.13.0 / 2018-05-21
 ==============================
 
+  * Check minimum version of libfm-qt
+  * Bumped minor version to 13
+  * Spanish translation update
+  * Avoid using the old FmPath struct in libfm and use libfm-qt Fm::FilePath instead.
+  * Just changed a label in Preferences
+  * Replace the deprecated Fm::MountOperation::mount() with Fm::MountOperation::mountEnclosingVolume().
+  * Cleanup
+  * Migrate to the new libfm-qt Fm::FileLauncher API.
+  * CMake: Prevent in-source builds
+  * Use new libfm-qt Fm::Archiver API. (#660)
+  * Fixed tab close button setting
+  * Optionally select newly created files
+  * fixes http -> https
+  * Fixed some lxde mentions
+  * Drop usage of Fm::IconTheme
+  * Add symlink target info to statusbar
+  * Add Simplified Chinese desktop entries (#640)
+  * Follow GLib to know if a file is hidden
+  * Remember hidden Places items between sessions
+  * Drop Qt foreach
+  * Use QString Use multi-arg
+  * Prevent a possible c++11 range-loop detach container (QList)
+  * Don't call QList::first() on temporary
+  * Warnings (#625)
+  * move config to /usr/share/pcmanfm-qt/lxqt
+  * Fixed the setting for "backup as hidden"" (#614)
+  * Sweep a desktop mess under the carpet
+  * cmake: Don't set CMP0063
+  * cmake: Handle CMP0071 - Mark DBus files with SKIP_AUTOGEN
+  * cmake: Handle CMP0071 related to UI files.
+  * Refer to PCManFM-Qt in desktop entries
+  * Add Spanish desktop entries
+  * Use QChars
+  * Simplify if statements
+  * Const it
+  * Fix typos, move encloseWithBidiMarks to private and fix its behaviour
+  * Fix direction of statusbar message
+  * Give context to singleShot()
+  * Added a short comment
+  * Wait for events to be processed before chdir
+  * Rename progress dialog
+  * Basic bulk rename
+  * Really cancel multiple renaming on cancelling
+  * Initialize dragStarted_ in constructor
+  * Compact disconnection format
+  * Tab DND
+  * View tool-buttons
+
+0.12.0 / 2017-10-21
+===================
+
+  * Release 0.12.0: Update changelog
   * Set Version
   * removed dangeling symlink to debian dir
   * Text eliding, long texts and newline

@@ -42,7 +42,6 @@
 
 #include <libfm-qt/mountoperation.h>
 #include <libfm-qt/filesearchdialog.h>
-#include <libfm-qt/path.h>
 #include <libfm-qt/core/terminal.h>
 
 #include "applicationadaptor.h"
@@ -109,7 +108,6 @@ Application::Application(int& argc, char** argv):
 
         if(settings_.useFallbackIconTheme()) {
             QIcon::setThemeName(settings_.fallbackIconThemeName());
-            Fm::IconTheme::checkChanged();
         }
 
         // Check if LXQt Session is running. LXQt has it's own Desktop Folder
@@ -379,7 +377,7 @@ void Application::onLastWindowClosed() {
 
 }
 
-void Application::onSaveStateRequest(QSessionManager& manager) {
+void Application::onSaveStateRequest(QSessionManager& /*manager*/) {
 
 }
 
@@ -390,7 +388,8 @@ void Application::desktopManager(bool enabled) {
     if(enabled) {
         if(!enableDesktopManager_) {
             // installNativeEventFilter(this);
-            Q_FOREACH(QScreen* screen, screens()) {
+            const auto allScreens = screens();
+            for(QScreen* screen : allScreens) {
                 connect(screen, &QScreen::virtualGeometryChanged, this, &Application::onVirtualGeometryChanged);
                 connect(screen, &QObject::destroyed, this, &Application::onScreenDestroyed);
             }
@@ -425,7 +424,8 @@ void Application::desktopManager(bool enabled) {
                 delete window;
             }
             desktopWindows_.clear();
-            Q_FOREACH(QScreen* screen, screens()) {
+            const auto allScreens = screens();
+            for(QScreen* screen : allScreens) {
                 disconnect(screen, &QScreen::virtualGeometryChanged, this, &Application::onVirtualGeometryChanged);
                 disconnect(screen, &QObject::destroyed, this, &Application::onScreenDestroyed);
             }
@@ -460,10 +460,8 @@ void Application::onFindFileAccepted() {
     settings_.setSearchRecursive(dlg->recursive());
     settings_.setSearchhHidden(dlg->searchhHidden());
 
-    Fm::Path uri = dlg->searchUri();
     Fm::FilePathList paths;
-    Fm::GFilePtr gf{uri.toGfile(), false};
-    paths.push_back(Fm::FilePath{gf.get(), true});
+    paths.emplace_back(dlg->searchUri());
     MainWindow* window = MainWindow::lastActive();
     Launcher(window).launchPaths(nullptr, paths);
 }
@@ -500,11 +498,11 @@ void Application::connectToServer() {
     dlg->show();
 }
 
-void Application::launchFiles(QString cwd, QStringList paths, bool inNewWindow) {
+void Application::launchFiles(QString cwd, QStringList paths, bool /*inNewWindow*/) {
     Fm::FilePathList pathList;
     Fm::FilePath cwd_path;
     QStringList::iterator it;
-    Q_FOREACH(const QString& it, paths) {
+    for(const QString& it : qAsConst(paths)) {
         QByteArray pathName = it.toLocal8Bit();
         Fm::FilePath path;
         if(pathName == "~") { // special case for home dir
@@ -588,7 +586,7 @@ void Application::setWallpaper(QString path, QString modeString) {
     // update wallpaper
     if(changed) {
         if(enableDesktopManager_) {
-            Q_FOREACH(DesktopWindow* desktopWindow, desktopWindows_) {
+            for(DesktopWindow* desktopWindow :  qAsConst(desktopWindows_)) {
                 if(!path.isEmpty()) {
                     desktopWindow->setWallpaperFile(path);
                 }
@@ -760,7 +758,7 @@ bool Application::autoMountVolume(GVolume* volume, bool interactive) {
 }
 
 // static
-void Application::onVolumeAdded(GVolumeMonitor* monitor, GVolume* volume, Application* pThis) {
+void Application::onVolumeAdded(GVolumeMonitor* /*monitor*/, GVolume* volume, Application* pThis) {
     if(pThis->settings_.mountRemovable()) {
         pThis->autoMountVolume(volume, true);
     }
@@ -788,7 +786,7 @@ void Application::onScreenAdded(QScreen* newScreen) {
 
 void Application::onScreenDestroyed(QObject* screenObj) {
     // NOTE by PCMan: This is a workaround for Qt 5 bug #40681.
-    // With this very dirty workaround, we can fix lxde/lxde-qt bug #204, #205, and #206.
+    // With this very dirty workaround, we can fix lxqt/lxqt bug #204, #205, and #206.
     // Qt 5 has two new regression bugs which breaks lxqt-panel in a multihead environment.
     // #40681: Regression bug: QWidget::winId() returns old value and QEvent::WinIdChange event is not emitted sometimes. (multihead setup)
     // #40791: Regression: QPlatformWindow, QWindow, and QWidget::winId() are out of sync.
@@ -814,7 +812,7 @@ void Application::onScreenDestroyed(QObject* screenObj) {
     if(enableDesktopManager_) {
         bool reloadNeeded = false;
         // FIXME: add workarounds for Qt5 bug #40681 and #40791 here.
-        Q_FOREACH(DesktopWindow* desktop, desktopWindows_) {
+        for(DesktopWindow* desktop :  qAsConst(desktopWindows_)) {
             if(desktop->windowHandle()->screen() == screenObj) {
                 desktop->destroy(); // destroy the underlying native window
                 reloadNeeded = true;
@@ -829,7 +827,7 @@ void Application::onScreenDestroyed(QObject* screenObj) {
 void Application::reloadDesktopsAsNeeded() {
     if(enableDesktopManager_) {
         // workarounds for Qt5 bug #40681 and #40791 here.
-        Q_FOREACH(DesktopWindow* desktop, desktopWindows_) {
+        for(DesktopWindow* desktop : qAsConst(desktopWindows_)) {
             if(!desktop->windowHandle()) {
                 desktop->create(); // re-create the underlying native window
                 desktop->queueRelayout();
@@ -841,7 +839,7 @@ void Application::reloadDesktopsAsNeeded() {
 
 // This slot is for Qt 5 onlt, but the stupid Qt moc cannot do conditional compilation
 // so we have to define it for Qt 4 as well.
-void Application::onVirtualGeometryChanged(const QRect& rect) {
+void Application::onVirtualGeometryChanged(const QRect& /*rect*/) {
     // NOTE: the following is a workaround for Qt bug 32567.
     // https://bugreports.qt-project.org/browse/QTBUG-32567
     // Though the status of the bug report is closed, it's not yet fixed for X11.
@@ -852,7 +850,7 @@ void Application::onVirtualGeometryChanged(const QRect& rect) {
     // So we use it in Qt5.
     if(enableDesktopManager_) {
         // qDebug() << "onVirtualGeometryChanged";
-        Q_FOREACH(DesktopWindow* desktop, desktopWindows_) {
+        for(DesktopWindow* desktop : qAsConst(desktopWindows_)) {
             desktop->queueRelayout();
         }
     }

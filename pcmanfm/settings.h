@@ -28,6 +28,7 @@
 #include "desktopwindow.h"
 #include <libfm-qt/sidepane.h>
 #include <libfm-qt/core/thumbnailjob.h>
+#include <libfm-qt/core/archiver.h>
 
 namespace PCManFM {
 
@@ -189,9 +190,7 @@ public:
 
     void setArchiver(QString archiver) {
         archiver_ = archiver;
-        // override libfm FmConfig
-        g_free(fm_config->archiver);
-        fm_config->archiver = g_strdup(archiver_.toLocal8Bit().constData());
+        Fm::Archiver::setDefaultArchiverByName(archiver_.toLocal8Bit().constData());
     }
 
     bool mountOnStartup() const {
@@ -330,6 +329,14 @@ public:
         desktopShowHidden_ = desktopShowHidden;
     }
 
+    bool desktopHideItems() const {
+        return desktopHideItems_;
+    }
+
+    void setDesktopHideItems(bool hide) {
+        desktopHideItems_ = hide;
+    }
+
     Qt::SortOrder desktopSortOrder() const {
         return desktopSortOrder_;
     }
@@ -350,7 +357,7 @@ public:
         return desktopSortFolderFirst_;
     }
 
-    void setSesktopSortFolderFirst(bool desktopFolderFirst) {
+    void setDesktopSortFolderFirst(bool desktopFolderFirst) {
         desktopSortFolderFirst_ = desktopFolderFirst;
     }
 
@@ -546,6 +553,19 @@ public:
         placesNetwork_ = placesNetwork;
     }
 
+    QSet<QString> getHiddenPlaces() const {
+        return hiddenPlaces_;
+    }
+
+    void setHiddenPlace(const QString& str, bool hide) {
+        if(hide) {
+            hiddenPlaces_ << str;
+        }
+        else {
+            hiddenPlaces_.remove(str);
+        }
+    }
+
 
     Qt::SortOrder sortOrder() const {
         return sortOrder_;
@@ -647,6 +667,14 @@ public:
     void setQuickExec(bool value) {
         quickExec_ = value;
         fm_config->quick_exec = quickExec_;
+    }
+
+    bool selectNewFiles() const {
+        return selectNewFiles_;
+    }
+
+    void setSelectNewFiles(bool value) {
+        selectNewFiles_ = value;
     }
 
     // bool thumbnailLocal_;
@@ -874,6 +902,7 @@ private:
     bool showWmMenu_;
 
     bool desktopShowHidden_;
+    bool desktopHideItems_;
     Qt::SortOrder desktopSortOrder_;
     Fm::FolderModel::ColumnId desktopSortColumn_;
     bool desktopSortFolderFirst_;
@@ -908,6 +937,7 @@ private:
     bool noUsbTrash_; // do not trash files on usb removable devices
     bool confirmTrash_; // Confirm before moving files into "trash can"
     bool quickExec_; // Don't ask options on launch executable file
+    bool selectNewFiles_;
 
     bool showThumbnails_;
 
@@ -924,6 +954,7 @@ private:
     bool placesRoot_;
     bool placesComputer_;
     bool placesNetwork_;
+    QSet<QString> hiddenPlaces_;
 
     int bigIconSize_;
     int smallIconSize_;

@@ -28,6 +28,7 @@
 
 #include <libfm-qt/folderview.h>
 #include <libfm-qt/core/terminal.h>
+#include <libfm-qt/core/archiver.h>
 
 namespace PCManFM {
 
@@ -52,9 +53,9 @@ PreferencesDialog::~PreferencesDialog() {
 
 static void findIconThemesInDir(QHash<QString, QString>& iconThemes, QString dirName) {
     QDir dir(dirName);
-    QStringList subDirs = dir.entryList(QDir::AllDirs);
+    const QStringList subDirs = dir.entryList(QDir::AllDirs);
     GKeyFile* kf = g_key_file_new();
-    Q_FOREACH(QString subDir, subDirs) {
+    for(const QString& subDir : subDirs) {
         QString indexFile = dirName % '/' % subDir % "/index.theme";
         if(g_key_file_load_from_file(kf, indexFile.toLocal8Bit().constData(), GKeyFileFlags(0), nullptr)) {
             // FIXME: skip hidden ones
@@ -117,12 +118,11 @@ void PreferencesDialog::initIconThemes(Settings& settings) {
 }
 
 void PreferencesDialog::initArchivers(Settings& settings) {
-    const GList* allArchivers = fm_archiver_get_all();
-    int i = 0;
-    for(const GList* l = allArchivers; l; l = l->next, ++i) {
-        FmArchiver* archiver = reinterpret_cast<FmArchiver*>(l->data);
-        ui.archiver->addItem(archiver->program, QString(archiver->program));
-        if(archiver->program == settings.archiver()) {
+    auto& allArchivers = Fm::Archiver::allArchivers();
+    for(int i = 0; i < int(allArchivers.size()); ++i) {
+        auto& archiver = allArchivers[i];
+        ui.archiver->addItem(archiver->program(), QString(archiver->program()));
+        if(archiver->program() == settings.archiver()) {
             ui.archiver->setCurrentIndex(i);
         }
     }
@@ -220,6 +220,7 @@ void PreferencesDialog::initBehaviorPage(Settings& settings) {
     ui.noUsbTrash->setChecked(settings.noUsbTrash());
     ui.confirmTrash->setChecked(settings.confirmTrash());
     ui.quickExec->setChecked(settings.quickExec());
+    ui.selectNewFiles->setChecked(settings.selectNewFiles());
 }
 
 void PreferencesDialog::initThumbnailPage(Settings& settings) {
@@ -281,7 +282,8 @@ void PreferencesDialog::applyDisplayPage(Settings& settings) {
             settings.setFallbackIconThemeName(newIconTheme);
             QIcon::setThemeName(settings.fallbackIconThemeName());
             // update the UI by emitting a style change event
-            Q_FOREACH(QWidget* widget, QApplication::allWidgets()) {
+            const auto widgets = QApplication::allWidgets();
+            for(QWidget* widget : widgets) {
                 QEvent event(QEvent::StyleChange);
                 QApplication::sendEvent(widget, &event);
             }
@@ -327,6 +329,7 @@ void PreferencesDialog::applyBehaviorPage(Settings& settings) {
     settings.setNoUsbTrash(ui.noUsbTrash->isChecked());
     settings.setConfirmTrash(ui.confirmTrash->isChecked());
     settings.setQuickExec(ui.quickExec->isChecked());
+    settings.setSelectNewFiles(ui.selectNewFiles->isChecked());
 }
 
 void PreferencesDialog::applyThumbnailPage(Settings& settings) {

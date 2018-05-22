@@ -1,6 +1,5 @@
 /*
-
-    Copyright (C) 2014  Kuzma Shapran <kuzma.shapran@gmail.com>
+    Copyright (C) 2017 Pedram Pourang (Tsu Jan) <tsujan2000@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,39 +16,42 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#ifndef PCMANFM_BULKRENAME_H
+#define PCMANFM_BULKRENAME_H
 
-#ifndef FM_TABBAR_H
-#define FM_TABBAR_H
+#include "ui_bulk-rename.h"
+#include <QDialog>
 
-#include <QTabBar>
-
-class QMouseEvent;
+#include <libfm-qt/core/fileinfo.h>
 
 namespace PCManFM {
 
-class TabBar : public QTabBar {
+class BulkRenameDialog : public QDialog {
 Q_OBJECT
 
 public:
-    explicit TabBar(QWidget *parent = 0);
-    void finishMouseMoveEvent();
-    void releaseMouse();
+    explicit BulkRenameDialog(QWidget* parent = nullptr, Qt::WindowFlags flags = 0);
 
-Q_SIGNALS:
-    void tabDetached();
+    QString getBaseName() const {
+        return ui.lineEdit->text();
+    }
+    int getStart() const {
+        return ui.spinBox->value();
+    }
 
 protected:
-    void mouseReleaseEvent(QMouseEvent *event);
-    // from qtabbar.cpp
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
-    virtual void dragEnterEvent(QDragEnterEvent *event);
+    virtual void showEvent(QShowEvent* event) override;
 
 private:
-    QPoint dragStartPosition_;
-    bool dragStarted_;
+    Ui::BulkRenameDialog ui;
+};
+
+class BulkRenamer {
+public:
+    BulkRenamer(const Fm::FileInfoList& files, QWidget* parent = nullptr);
+    ~BulkRenamer();
 };
 
 }
 
-#endif // FM_TABBAR_H
+#endif // PCMANFM_BULKRENAME_H

@@ -1,39 +1,38 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(pcmanfm-qt)
 
-# CMP0063: Honor visibility properties for all target types.
-if (POLICY CMP0063)
-    cmake_policy (SET CMP0063 NEW)
-endif (POLICY CMP0063)
-
 # PcmanFm-Qt Version
 set(PCMANFM_QT_VERSION_MAJOR 0)
-set(PCMANFM_QT_VERSION_MINOR 12)
+set(PCMANFM_QT_VERSION_MINOR 13)
 set(PCMANFM_QT_VERSION_PATCH 0)
 
 set(PCMANFM_QT_VERSION ${PCMANFM_QT_VERSION_MAJOR}.${PCMANFM_QT_VERSION_MINOR}.${PCMANFM_QT_VERSION_PATCH})
 
-set(LXQTBT_MINIMUM_VERSION "0.4.0")
+set(QT_MINIMUM_VERSION "5.7.1")
+set(LXQTBT_MINIMUM_VERSION "0.5.0")
+set(LIBFMQT_MINIMUM_VERSION "5.0.0")
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
-find_package(Qt5Widgets 5.2 REQUIRED)
-find_package(Qt5DBus 5.2 REQUIRED)
-find_package(Qt5LinguistTools 5.2 REQUIRED)
-find_package(Qt5X11Extras 5.2 REQUIRED)
-find_package(fm-qt REQUIRED)
+find_package(Qt5Widgets ${QT_MINIMUM_VERSION} REQUIRED)
+find_package(Qt5DBus ${QT_MINIMUM_VERSION} REQUIRED)
+find_package(Qt5LinguistTools ${QT_MINIMUM_VERSION} REQUIRED)
+find_package(Qt5X11Extras ${QT_MINIMUM_VERSION} REQUIRED)
+find_package(fm-qt ${LIBFMQT_MINIMUM_VERSION} REQUIRED)
 find_package(lxqt-build-tools ${LXQTBT_MINIMUM_VERSION} REQUIRED)
 
 message(STATUS "Building ${PROJECT_NAME} with Qt ${Qt5Core_VERSION}")
 
 option(UPDATE_TRANSLATIONS "Update source translation translations/*.ts files" OFF)
 include(GNUInstallDirs)
+include(LXQtPreventInSourceBuilds)
 include(LXQtConfigVars)
 include(LXQtTranslateTs)
 include(LXQtTranslateDesktop)
 include(LXQtCompilerSettings NO_POLICY_SCOPE)
 
 set(CMAKE_AUTOMOC TRUE)
+set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_subdirectory(pcmanfm)

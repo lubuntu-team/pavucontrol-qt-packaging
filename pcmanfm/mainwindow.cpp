@@ -30,6 +30,7 @@
 #include <QShortcut>
 #include <QKeySequence>
 #include <QSettings>
+#include <QMimeData>
 #include <QStandardPaths>
 #include <QDebug>
 
@@ -45,6 +46,7 @@
 #include <libfm-qt/core/fileinfo.h>
 #include "ui_about.h"
 #include "application.h"
+#include "bulkrename.h"
 
 using namespace Fm;
 
@@ -57,10 +59,10 @@ MainWindow::MainWindow(Fm::FilePath path):
     QMainWindow(),
     pathEntry_(nullptr),
     pathBar_(nullptr),
+    bookmarks_{Fm::Bookmarks::globalInstance()},
     fileLauncher_(this),
     rightClickIndex_(-1),
-    updatingViewMenu_(false),
-    bookmarks_{Fm::Bookmarks::globalInstance()} {
+    updatingViewMenu_(false) {
 
     Settings& settings = static_cast<Application*>(qApp)->settings();
     setAttribute(Qt::WA_DeleteOnClose);
@@ -90,7 +92,7 @@ MainWindow::MainWindow(Fm::FilePath path):
 
     // tabbed browsing interface
     ui.tabBar->setDocumentMode(true);
-    ui.tabBar->setTabsClosable(true);
+    ui.tabBar->setTabsClosable(settings.showTabClose());
     ui.tabBar->setElideMode(Qt::ElideRight);
     ui.tabBar->setExpanding(false);
     ui.tabBar->setMovable(true); // reorder the tabs by dragging
@@ -114,6 +116,7 @@ MainWindow::MainWindow(Fm::FilePath path):
     connect(ui.tabBar, &QTabBar::tabCloseRequested, this, &MainWindow::onTabBarCloseRequested);
     connect(ui.tabBar, &QTabBar::tabMoved, this, &MainWindow::onTabBarTabMoved);
     connect(ui.tabBar, &QTabBar::customContextMenuRequested, this, &MainWindow::tabContextMenu);
+    connect(ui.tabBar, &TabBar::tabDetached, this, &MainWindow::detachTab);
     connect(ui.stackedWidget, &QStackedWidget::widgetRemoved, this, &MainWindow::onStackedWidgetWidgetRemoved);
 
     // FIXME: should we make the filter bar a per-view configuration?
@@ -124,12 +127,14 @@ MainWindow::MainWindow(Fm::FilePath path):
     // side pane
     ui.sidePane->setIconSize(QSize(settings.sidePaneIconSize(), settings.sidePaneIconSize()));
     ui.sidePane->setMode(settings.sidePaneMode());
+    ui.sidePane->restoreHiddenPlaces(settings.getHiddenPlaces());
     connect(ui.sidePane, &Fm::SidePane::chdirRequested, this, &MainWindow::onSidePaneChdirRequested);
     connect(ui.sidePane, &Fm::SidePane::openFolderInNewWindowRequested, this, &MainWindow::onSidePaneOpenFolderInNewWindowRequested);
     connect(ui.sidePane, &Fm::SidePane::openFolderInNewTabRequested, this, &MainWindow::onSidePaneOpenFolderInNewTabRequested);
     connect(ui.sidePane, &Fm::SidePane::openFolderInTerminalRequested, this, &MainWindow::onSidePaneOpenFolderInTerminalRequested);
     connect(ui.sidePane, &Fm::SidePane::createNewFolderRequested, this, &MainWindow::onSidePaneCreateNewFolderRequested);
     connect(ui.sidePane, &Fm::SidePane::modeChanged, this, &MainWindow::onSidePaneModeChanged);
+    connect(ui.sidePane, &Fm::SidePane::hiddenPlaceSet, this, &MainWindow::onSettingHiddenPlace);
 
     // detect change of splitter position
     connect(ui.splitter, &QSplitter::splitterMoved, this, &MainWindow::onSplitterMoved);
@@ -157,6 +162,12 @@ MainWindow::MainWindow(Fm::FilePath path):
     // load bookmark menu
     connect(bookmarks_.get(), &Fm::Bookmarks::changed, this, &MainWindow::onBookmarksChanged);
     loadBookmarksMenu();
+
+    // set generic icons for view actions
+    ui.actionIconView->setIcon(style()->standardIcon(QStyle::SP_FileDialogContentsView));
+    ui.actionThumbnailView->setIcon(style()->standardIcon(QStyle::SP_FileDialogInfoView));
+    ui.actionCompactView->setIcon(style()->standardIcon(QStyle::SP_FileDialogListView));
+    ui.actionDetailedList->setIcon(style()->standardIcon(QStyle::SP_FileDialogDetailedView));
 
     // Fix the menu groups which is not done by Qt designer
     // To my suprise, this was supported in Qt designer 3 :-(
@@ -271,28 +282,31 @@ MainWindow::MainWindow(Fm::FilePath path):
     }
 
     // size from settings
-    if(settings.rememberWindowSize()) {
-        resize(settings.windowWidth(), settings.windowHeight());
-        if(settings.windowMaximized()) {
-            setWindowState(windowState() | Qt::WindowMaximized);
-        }
-    }
+    resize(settings.windowWidth(), settings.windowHeight());
+    if(settings.rememberWindowSize() && settings.windowMaximized()) {
+        setWindowState(windowState() | Qt::WindowMaximized);
+     }
 
     if(QApplication::layoutDirection() == Qt::RightToLeft) {
         setRTLIcons(true);
     }
+
+    // we want tab dnd
+    setAcceptDrops(true);
 }
 
 MainWindow::~MainWindow() {
 }
 
 void MainWindow::chdir(Fm::FilePath path) {
-    TabPage* page = currentPage();
-    if(page) {
-        ui.filterBar->clear();
-        page->chdir(path, true);
-        updateUIForCurrentPage();
-    }
+    // wait until queued events are processed
+    QTimer::singleShot(0, this, [this, path] {
+        if(TabPage* page = currentPage()) {
+            ui.filterBar->clear();
+            page->chdir(path, true);
+            updateUIForCurrentPage();
+        }
+    });
 }
 
 void MainWindow::createPathBar(bool usePathButtons) {
@@ -311,30 +325,38 @@ void MainWindow::createPathBar(bool usePathButtons) {
     ui.actionGo->setVisible(!usePathButtons);
 }
 
-// add a new tab
-int MainWindow::addTab(Fm::FilePath path) {
+int MainWindow::addTabWithPage(TabPage* page, Fm::FilePath path) {
+    if(page == nullptr) {
+        return -1;
+    }
+    page->setFileLauncher(&fileLauncher_);
+    int index = ui.stackedWidget->addWidget(page);
+    connect(page, &TabPage::titleChanged, this, &MainWindow::onTabPageTitleChanged);
+    connect(page, &TabPage::statusChanged, this, &MainWindow::onTabPageStatusChanged);
+    connect(page, &TabPage::openDirRequested, this, &MainWindow::onTabPageOpenDirRequested);
+    connect(page, &TabPage::sortFilterChanged, this, &MainWindow::onTabPageSortFilterChanged);
+    connect(page, &TabPage::backwardRequested, this, &MainWindow::on_actionGoBack_triggered);
+    connect(page, &TabPage::forwardRequested, this, &MainWindow::on_actionGoForward_triggered);
+
+    if(path) {
+        page->chdir(path, true);
+    }
+    ui.tabBar->insertTab(index, page->windowTitle());
+
     Settings& settings = static_cast<Application*>(qApp)->settings();
-
-    TabPage* newPage = new TabPage(this);
-    newPage->setFileLauncher(&fileLauncher_);
-    int index = ui.stackedWidget->addWidget(newPage);
-    connect(newPage, &TabPage::titleChanged, this, &MainWindow::onTabPageTitleChanged);
-    connect(newPage, &TabPage::statusChanged, this, &MainWindow::onTabPageStatusChanged);
-    connect(newPage, &TabPage::openDirRequested, this, &MainWindow::onTabPageOpenDirRequested);
-    connect(newPage, &TabPage::sortFilterChanged, this, &MainWindow::onTabPageSortFilterChanged);
-    connect(newPage, &TabPage::backwardRequested, this, &MainWindow::on_actionGoBack_triggered);
-    connect(newPage, &TabPage::forwardRequested, this, &MainWindow::on_actionGoForward_triggered);
-
-    newPage->chdir(path, true);
-    ui.tabBar->insertTab(index, newPage->windowTitle());
-
     if(!settings.alwaysShowTabs()) {
         ui.tabBar->setVisible(ui.tabBar->count() > 1);
     }
     return index;
 }
 
-void MainWindow::toggleMenuBar(bool checked) {
+// add a new tab
+int MainWindow::addTab(Fm::FilePath path) {
+    TabPage* newPage = new TabPage(this);
+    return addTabWithPage(newPage, path);
+}
+
+void MainWindow::toggleMenuBar(bool /*checked*/) {
     Settings& settings = static_cast<Application*>(qApp)->settings();
     bool showMenuBar = !settings.showMenuBar();
 
@@ -375,33 +397,34 @@ void MainWindow::onPathBarMiddleClickChdir(const Fm::FilePath& dirPath) {
 }
 
 void MainWindow::on_actionGoUp_triggered() {
-    TabPage* page = currentPage();
-
-    if(page) {
-        ui.filterBar->clear();
-        page->up();
-        updateUIForCurrentPage();
-    }
+    QTimer::singleShot(0, this, [this] {
+        if(TabPage* page = currentPage()) {
+            ui.filterBar->clear();
+            page->up();
+            updateUIForCurrentPage();
+        }
+    });
 }
 
 void MainWindow::on_actionGoBack_triggered() {
-    TabPage* page = currentPage();
-
-    if(page) {
-        ui.filterBar->clear();
-        page->backward();
-        updateUIForCurrentPage();
-    }
+    QTimer::singleShot(0, this, [this] {
+        if(TabPage* page = currentPage()) {
+            ui.filterBar->clear();
+            page->backward();
+            updateUIForCurrentPage();
+        }
+    });
 }
 
 void MainWindow::on_actionGoForward_triggered() {
-    TabPage* page = currentPage();
+    QTimer::singleShot(0, this, [this] {
+        if(TabPage* page = currentPage()) {
+            ui.filterBar->clear();
+            page->forward();
+            updateUIForCurrentPage();
+        }
+    });
 
-    if(page) {
-        ui.filterBar->clear();
-        page->forward();
-        updateUIForCurrentPage();
-    }
 }
 
 void MainWindow::on_actionHome_triggered() {
@@ -494,31 +517,31 @@ void MainWindow::on_actionShowHidden_triggered(bool checked) {
     }
 }
 
-void MainWindow::on_actionByFileName_triggered(bool checked) {
+void MainWindow::on_actionByFileName_triggered(bool /*checked*/) {
     currentPage()->sort(Fm::FolderModel::ColumnFileName, currentPage()->sortOrder());
 }
 
-void MainWindow::on_actionByMTime_triggered(bool checked) {
+void MainWindow::on_actionByMTime_triggered(bool /*checked*/) {
     currentPage()->sort(Fm::FolderModel::ColumnFileMTime, currentPage()->sortOrder());
 }
 
-void MainWindow::on_actionByOwner_triggered(bool checked) {
+void MainWindow::on_actionByOwner_triggered(bool /*checked*/) {
     currentPage()->sort(Fm::FolderModel::ColumnFileOwner, currentPage()->sortOrder());
 }
 
-void MainWindow::on_actionByFileSize_triggered(bool checked) {
+void MainWindow::on_actionByFileSize_triggered(bool /*checked*/) {
     currentPage()->sort(Fm::FolderModel::ColumnFileSize, currentPage()->sortOrder());
 }
 
-void MainWindow::on_actionByFileType_triggered(bool checked) {
+void MainWindow::on_actionByFileType_triggered(bool /*checked*/) {
     currentPage()->sort(Fm::FolderModel::ColumnFileType, currentPage()->sortOrder());
 }
 
-void MainWindow::on_actionAscending_triggered(bool checked) {
+void MainWindow::on_actionAscending_triggered(bool /*checked*/) {
     currentPage()->sort(currentPage()->sortColumn(), Qt::AscendingOrder);
 }
 
-void MainWindow::on_actionDescending_triggered(bool checked) {
+void MainWindow::on_actionDescending_triggered(bool /*checked*/) {
     currentPage()->sort(currentPage()->sortColumn(), Qt::DescendingOrder);
 }
 
@@ -530,7 +553,7 @@ void MainWindow::on_actionFolderFirst_triggered(bool checked) {
     currentPage()->setSortFolderFirst(checked);
 }
 
-void MainWindow::on_actionPreserveView_triggered(bool checked) {
+void MainWindow::on_actionPreserveView_triggered(bool /*checked*/) {
     TabPage* page = currentPage();
     page->setCustomizedView(!page->hasCustomizedView());
 }
@@ -623,7 +646,7 @@ void MainWindow::on_actionAbout_triggered() {
     // the about dialog
     class AboutDialog : public QDialog {
     public:
-        explicit AboutDialog(QWidget* parent = 0, Qt::WindowFlags f = 0) {
+        explicit AboutDialog(QWidget* parent = 0, Qt::WindowFlags f = 0) : QDialog(parent, f) {
             ui.setupUi(this);
             ui.version->setText(tr("Version: %1").arg(PCMANFM_QT_VERSION));
         }
@@ -816,7 +839,7 @@ void MainWindow::updateViewMenuForCurrentPage() {
 void MainWindow::updateEditSelectedActions() {
     bool hasAccessible(false);
     bool hasDeletable(false);
-    bool hasRenamable(false);
+    int renamable(0);
     if(TabPage* page = currentPage()) {
         auto files = page->selectedFiles();
         for(auto& file: files) {
@@ -827,9 +850,9 @@ void MainWindow::updateEditSelectedActions() {
                 hasDeletable = true;
             }
             if(file->canSetName()) {
-                hasRenamable = true;
+                ++renamable;
             }
-            if (hasAccessible && hasDeletable && hasRenamable) {
+            if (hasAccessible && hasDeletable && renamable > 1) {
                 break;
             }
         }
@@ -837,7 +860,8 @@ void MainWindow::updateEditSelectedActions() {
     ui.actionCopy->setEnabled(hasAccessible);
     ui.actionCut->setEnabled(hasDeletable);
     ui.actionDelete->setEnabled(hasDeletable);
-    ui.actionRename->setEnabled(hasRenamable);
+    ui.actionRename->setEnabled(renamable > 0);
+    ui.actionBulkRename->setEnabled(renamable > 1);
 }
 
 void MainWindow::updateUIForCurrentPage() {
@@ -1013,7 +1037,11 @@ void MainWindow::onSidePaneModeChanged(Fm::SidePane::Mode mode) {
     static_cast<Application*>(qApp)->settings().setSidePaneMode(mode);
 }
 
-void MainWindow::onSplitterMoved(int pos, int index) {
+void MainWindow::onSettingHiddenPlace(const QString& str, bool hide) {
+    static_cast<Application*>(qApp)->settings().setHiddenPlace(str, hide);
+}
+
+void MainWindow::onSplitterMoved(int pos, int /*index*/) {
     Application* app = static_cast<Application*>(qApp);
     app->settings().setSplitterPos(pos);
 }
@@ -1116,11 +1144,16 @@ void MainWindow::on_actionRename_triggered() {
     }
     if(!files.empty()) {
         for(auto& file: files) {
-            Fm::renameFile(file, nullptr);
+            if(!Fm::renameFile(file, nullptr)) {
+                break;
+            }
         }
     }
 }
 
+void MainWindow::on_actionBulkRename_triggered() {
+    BulkRenamer(currentPage()->selectedFiles(), this);
+}
 
 void MainWindow::on_actionSelectAll_triggered() {
     currentPage()->selectAll();
@@ -1181,12 +1214,12 @@ void MainWindow::onBackForwardContextMenu(QPoint pos) {
     Fm::BrowseHistory& history = page->browseHistory();
     int current = history.currentIndex();
     QMenu menu;
-    for(int i = 0; i < history.size(); ++i) {
+    for(size_t i = 0; i < history.size(); ++i) {
         const BrowseHistoryItem& item = history.at(i);
         auto path = item.path();
         auto name = path.displayName();
         QAction* action = menu.addAction(name.get());
-        if(i == current) {
+        if(i == static_cast<size_t>(current)) {
             // make the current path bold and checked
             action->setCheckable(true);
             action->setChecked(true);
@@ -1256,6 +1289,70 @@ void MainWindow::focusPathEntry() {
     }
 }
 
+void MainWindow::dragEnterEvent(QDragEnterEvent* event) {
+    if(event->mimeData()->hasFormat("application/pcmanfm-qt-tab")) {
+        event->acceptProposedAction();
+    }
+}
+
+void MainWindow::dropEvent(QDropEvent* event) {
+    if(event->mimeData()->hasFormat("application/pcmanfm-qt-tab")) {
+        dropTab();
+    }
+    event->acceptProposedAction();
+}
+
+void MainWindow::dropTab() {
+    if(lastActive_ == nullptr // impossible
+       || lastActive_ == this) { // don't drop on the same window
+        ui.tabBar->finishMouseMoveEvent();
+        return;
+    }
+
+    // close the tab in the first window and add
+    // its page to a new tab in the second window
+    TabPage* dropPage = lastActive_->currentPage();
+    if(dropPage) {
+        disconnect(dropPage, nullptr, lastActive_, nullptr);
+
+        // release mouse before tab removal because otherwise, the source tabbar
+        // might not be updated properly with tab reordering during a fast drag-and-drop
+        lastActive_->ui.tabBar->releaseMouse();
+
+        QWidget* page = lastActive_->ui.stackedWidget->currentWidget();
+        lastActive_->ui.stackedWidget->removeWidget(page);
+        int index = addTabWithPage(dropPage);
+        ui.tabBar->setCurrentIndex(index);
+    }
+    else {
+        ui.tabBar->finishMouseMoveEvent(); // impossible
+    }
+}
+
+void MainWindow::detachTab() {
+    if (ui.stackedWidget->count() == 1) { // don't detach a single tab
+        ui.tabBar->finishMouseMoveEvent();
+        return;
+    }
+
+    // close the tab and move its page to a new window
+    TabPage* dropPage = currentPage();
+    if(dropPage) {
+        disconnect(dropPage, nullptr, this, nullptr);
+
+        ui.tabBar->releaseMouse(); // as in dropTab()
+
+        QWidget* page = ui.stackedWidget->currentWidget();
+        ui.stackedWidget->removeWidget(page);
+        MainWindow* newWin = new MainWindow();
+        newWin->addTabWithPage(dropPage);
+        newWin->show();
+    }
+    else {
+        ui.tabBar->finishMouseMoveEvent(); // impossible
+    }
+}
+
 void MainWindow::updateFromSettings(Settings& settings) {
     // apply settings
 
@@ -1289,7 +1386,7 @@ void MainWindow::updateFromSettings(Settings& settings) {
     }
 }
 
-static const char* su_cmd_subst(char opt, gpointer user_data) {
+static const char* su_cmd_subst(char /*opt*/, gpointer user_data) {
     return (const char*)user_data;
 }
 

@@ -32,7 +32,6 @@
 #include <QStackedWidget>
 #include <QSplitter>
 #include "launcher.h"
-#include <libfm-qt/path.h>
 #include <libfm-qt/core/filepath.h>
 #include <libfm-qt/core/bookmarks.h>
 
@@ -85,6 +84,7 @@ protected Q_SLOTS:
     void on_actionPaste_triggered();
     void on_actionDelete_triggered();
     void on_actionRename_triggered();
+    void on_actionBulkRename_triggered();
     void on_actionSelectAll_triggered();
     void on_actionInvertSelection_triggered();
     void on_actionPreferences_triggered();
@@ -173,8 +173,11 @@ protected Q_SLOTS:
     }
     void focusPathEntry();
     void toggleMenuBar(bool checked);
+    void detachTab();
 
     void onBookmarksChanged();
+
+    void onSettingHiddenPlace(const QString& str, bool hide);
 
 protected:
     bool event(QEvent* event) override;
@@ -182,6 +185,8 @@ protected:
     void closeTab(int index);
     virtual void resizeEvent(QResizeEvent* event) override;
     virtual void closeEvent(QCloseEvent* event) override;
+    virtual void dragEnterEvent(QDragEnterEvent* event) override;
+    virtual void dropEvent(QDropEvent* event) override;
 
 private:
     void loadBookmarksMenu();
@@ -191,6 +196,8 @@ private:
     void updateStatusBarForCurrentPage();
     void setRTLIcons(bool isRTL);
     void createPathBar(bool usePathButtons);
+    int addTabWithPage(TabPage* page, Fm::FilePath path = Fm::FilePath());
+    void dropTab();
 
 private:
     Ui::MainWindow ui;

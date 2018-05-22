@@ -9,14 +9,13 @@ Section: x11
 Priority: optional
 Build-Depends: debhelper (>= 11~),
                libexif-dev,
-               libfm-qt-dev (>= 0.12.0),
-               libglib2.0-dev,
+               libfm-qt-dev (>= 0.13.0~),
                libkf5windowsystem-dev,
                libmenu-cache-dev,
                libqt5svg5-dev,
                libqt5x11extras5-dev,
                libx11-dev,
-               lxqt-build-tools (>= 0.4.0)
+               lxqt-build-tools (>= 0.5.0~),
 Standards-Version: 4.1.4
 Vcs-Browser: https://salsa.debian.org/lxqt-team/pcmanfm-qt
 Vcs-Git: https://salsa.debian.org/lxqt-team/pcmanfm-qt.git
@@ -29,7 +28,7 @@ Depends: ${misc:Depends},
          default-dbus-session-bus | dbus-session-bus | dbus-x11,
          desktop-file-utils,
          libfm-modules,
-         libfm-qt3 (>= 0.12.0),
+         libfm-qt5 (>= 0.13.0~),
          lxqt-sudo
 Recommends: eject,
             ffmpegthumbnailer,
@@ -38,7 +37,7 @@ Recommends: eject,
             lximage-qt,
             lxqt-policykit,
             lxqt-qtplugin,
-            oxygen-icon-theme | breeze-icon-theme | faenza-icon-theme | gnome-icon-theme,
+            papirus-icon-theme | breeze-icon-theme | faenza-icon-theme | oxygen-icon-theme,
             pcmanfm-qt-l10n
 Suggests: cdtool [linux-any]
 Breaks: lxqt-common (<< 0.12.0)

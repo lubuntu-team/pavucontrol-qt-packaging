@@ -126,7 +126,7 @@ void View::prepareFileMenu(Fm::FileMenu* menu) {
     }
 }
 
-void View::prepareFolderMenu(Fm::FolderMenu* menu) {
+void View::prepareFolderMenu(Fm::FolderMenu* /*menu*/) {
 }
 
 void View::updateFromSettings(Settings& settings) {
@@ -143,6 +143,7 @@ void View::updateFromSettings(Settings& settings) {
     Fm::ProxyFolderModel* proxyModel = model();
     if(proxyModel) {
         proxyModel->setShowThumbnails(settings.showThumbnails());
+        proxyModel->setBackupAsHidden(settings.backupAsHidden());
     }
 }
 

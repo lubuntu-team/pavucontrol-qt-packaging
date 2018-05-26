@@ -105,6 +105,8 @@ protected:
 protected Q_SLOTS:
     void onOpenDirRequested(const Fm::FilePath& path, int target);
     void onDesktopPreferences();
+    void selectAll();
+    void toggleDesktop();
 
     void onRowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
     void onRowsInserted(const QModelIndex& parent, int start, int end);
@@ -112,6 +114,9 @@ protected Q_SLOTS:
     void onModelSortFilterChanged();
     void onIndexesMoved(const QModelIndexList& indexes);
     void onDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
+    void onFolderStartLoading();
+    void onFolderFinishLoading();
+    void onFilesAdded(const Fm::FileInfoList files);
 
     void relayoutItems();
     void onStickToCurrentPos(bool toggled);
@@ -123,11 +128,13 @@ protected Q_SLOTS:
     void onCopyActivated();
     void onPasteActivated();
     void onRenameActivated();
+    void onBulkRenameActivated();
     void onDeleteActivated();
     void onFilePropertiesActivated();
 
 private:
     void removeBottomGap();
+    void addDesktopActions(QMenu* menu);
     void paintBackground(QPaintEvent* event);
     static void alignToGrid(QPoint& pos, const QPoint& topLeft, const QSize& grid, const int spacing);
 
@@ -150,11 +157,13 @@ private:
     QPixmap wallpaperPixmap_;
     Launcher fileLauncher_;
     bool showWmMenu_;
+    bool desktopHideItems_;
 
     int screenNum_;
     std::unordered_map<std::string, QPoint> customItemPos_;
     QHash<QModelIndex, QString> displayNames_; // only for desktop entries and shortcuts
     QTimer* relayoutTimer_;
+    QTimer* selectionTimer_;
 };
 
 }

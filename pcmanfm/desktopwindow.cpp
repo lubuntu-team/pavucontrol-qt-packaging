@@ -52,6 +52,7 @@
 #include <libfm-qt/utilities.h>
 #include <libfm-qt/core/fileinfo.h>
 #include "xdgdir.h"
+#include "bulkrename.h"
 
 #include <QX11Info>
 #include <QScreen>
@@ -73,8 +74,10 @@ DesktopWindow::DesktopWindow(int screenNum):
     wallpaperRandomize_(false),
     fileLauncher_(nullptr),
     showWmMenu_(false),
+    desktopHideItems_(false),
     screenNum_(screenNum),
-    relayoutTimer_(nullptr) {
+    relayoutTimer_(nullptr),
+    selectionTimer_(nullptr) {
 
     QDesktopWidget* desktopWidget = QApplication::desktop();
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
@@ -108,6 +111,8 @@ DesktopWindow::DesktopWindow(int screenNum):
         auto desktopPath = Fm::FilePath::fromLocalPath(XdgDir::readDesktopDir().toStdString().c_str());
         model_ = Fm::CachedFolderModel::modelFromPath(desktopPath);
         folder_ = model_->folder();
+        connect(folder_.get(), &Fm::Folder::startLoading, this, &DesktopWindow::onFolderStartLoading);
+        connect(folder_.get(), &Fm::Folder::finishLoading, this, &DesktopWindow::onFolderFinishLoading);
 
         proxyModel_ = new Fm::ProxyFolderModel();
         proxyModel_->setSourceModel(model_);
@@ -147,7 +152,7 @@ DesktopWindow::DesktopWindow(int screenNum):
     connect(shortcut, &QShortcut::activated, this, &DesktopWindow::onPasteActivated);
 
     shortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_A), this); // select all
-    connect(shortcut, &QShortcut::activated, this, &FolderView::selectAll);
+    connect(shortcut, &QShortcut::activated, this, &DesktopWindow::selectAll);
 
     shortcut = new QShortcut(QKeySequence(Qt::Key_Delete), this); // delete
     connect(shortcut, &QShortcut::activated, this, &DesktopWindow::onDeleteActivated);
@@ -155,7 +160,10 @@ DesktopWindow::DesktopWindow(int screenNum):
     shortcut = new QShortcut(QKeySequence(Qt::Key_F2), this); // rename
     connect(shortcut, &QShortcut::activated, this, &DesktopWindow::onRenameActivated);
 
-    shortcut = new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Return), this); // rename
+    shortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_F2), this); // bulk rename
+    connect(shortcut, &QShortcut::activated, this, &DesktopWindow::onBulkRenameActivated);
+
+    shortcut = new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Return), this); // properties
     connect(shortcut, &QShortcut::activated, this, &DesktopWindow::onFilePropertiesActivated);
 
     shortcut = new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Delete), this); // force delete
@@ -165,6 +173,8 @@ DesktopWindow::DesktopWindow(int screenNum):
 DesktopWindow::~DesktopWindow() {
     listView_->viewport()->removeEventFilter(this);
     listView_->removeEventFilter(this);
+
+    disconnect(folder_.get(), nullptr, this, nullptr);
 
     if(relayoutTimer_) {
         relayoutTimer_->stop();
@@ -181,6 +191,7 @@ DesktopWindow::~DesktopWindow() {
     }
 
     if(model_) {
+        disconnect(model_, &Fm::FolderModel::filesAdded, this, &DesktopWindow::onFilesAdded);
         model_->unref();
     }
 }
@@ -224,9 +235,31 @@ void DesktopWindow::resizeEvent(QResizeEvent* event) {
 }
 
 void DesktopWindow::setDesktopFolder() {
+    if(folder_) {
+        // free the previous model and folder
+        if(model_) {
+            disconnect(model_, &Fm::FolderModel::filesAdded, this, &DesktopWindow::onFilesAdded);
+            proxyModel_->setSourceModel(nullptr);
+            model_->unref(); // unref the cached model
+            model_ = nullptr;
+        }
+        disconnect(folder_.get(), nullptr, this, nullptr);
+        folder_ = nullptr;
+    }
+
     auto path = Fm::FilePath::fromLocalPath(XdgDir::readDesktopDir().toStdString().c_str());
     model_ = Fm::CachedFolderModel::modelFromPath(path);
+    folder_ = model_->folder();
+    connect(folder_.get(), &Fm::Folder::startLoading, this, &DesktopWindow::onFolderStartLoading);
+    connect(folder_.get(), &Fm::Folder::finishLoading, this, &DesktopWindow::onFolderFinishLoading);
     proxyModel_->setSourceModel(model_);
+    if(folder_->isLoaded()) {
+        onFolderStartLoading();
+        onFolderFinishLoading();
+    }
+    else {
+        onFolderStartLoading();
+    }
 }
 
 void DesktopWindow::setWallpaperFile(QString filename) {
@@ -478,6 +511,13 @@ void DesktopWindow::updateFromSettings(Settings& settings, bool changeSlide) {
     setBackground(settings.desktopBgColor());
     setShadow(settings.desktopShadowColor());
     showWmMenu_ = settings.showWmMenu();
+    desktopHideItems_ = settings.desktopHideItems();
+    if(desktopHideItems_) {
+        // hide all items by hiding the list view and also
+        // prevent the current item from being changed by arrow keys
+        listView_->clearFocus();
+        listView_->setVisible(false);
+    }
 
     if(slideShowInterval_ > 0
        && QFileInfo(wallpaperDir_).isDir()) {
@@ -516,7 +556,18 @@ void DesktopWindow::onFileClicked(int type, const std::shared_ptr<const Fm::File
     if(!fileInfo && showWmMenu_) {
         return;    // do not show the popup if we want to use the desktop menu provided by the WM.
     }
-    View::onFileClicked(type, fileInfo);
+    if(desktopHideItems_) { // only a context menu with desktop actions
+        if(type == Fm::FolderView::ActivatedClick) {
+            return;
+        }
+        QMenu* menu = new QMenu(this);
+        addDesktopActions(menu);
+        menu->exec(QCursor::pos());
+        delete menu;
+    }
+    else {
+        View::onFileClicked(type, fileInfo);
+    }
 }
 
 void DesktopWindow::prepareFileMenu(Fm::FileMenu* menu) {
@@ -543,9 +594,40 @@ void DesktopWindow::prepareFolderMenu(Fm::FolderMenu* menu) {
     PCManFM::View::prepareFolderMenu(menu);
     // remove file properties action
     menu->removeAction(menu->propertiesAction());
-    // add an action for desktop preferences instead
-    QAction* action = menu->addAction(tr("Desktop Preferences"));
+    // add desktop actions instead
+    addDesktopActions(menu);
+}
+
+void DesktopWindow::addDesktopActions(QMenu* menu) {
+    QAction* action = menu->addAction(tr("Hide Desktop Items"));
+    action->setCheckable(true);
+    action->setChecked(desktopHideItems_);
+    menu->addSeparator();
+    connect(action, &QAction::triggered, this, &DesktopWindow::toggleDesktop);
+    action = menu->addAction(tr("Desktop Preferences"));
     connect(action, &QAction::triggered, this, &DesktopWindow::onDesktopPreferences);
+}
+
+void DesktopWindow::toggleDesktop() {
+    desktopHideItems_ = !desktopHideItems_;
+    Settings& settings = static_cast<Application*>(qApp)->settings();
+    settings.setDesktopHideItems(desktopHideItems_);
+    listView_->setVisible(!desktopHideItems_);
+    // a relayout is needed on showing the items for the first time
+    // because the positions aren't updated while the view is hidden
+    if(!desktopHideItems_) {
+        listView_->setFocus(); // refocus the view
+        queueRelayout();
+    }
+    else { // prevent the current item from being changed by arrow keys
+        listView_->clearFocus();
+    }
+}
+
+void DesktopWindow::selectAll() {
+    if(!desktopHideItems_) {
+        FolderView::selectAll();
+    }
 }
 
 void DesktopWindow::onDesktopPreferences() {
@@ -570,9 +652,8 @@ void DesktopWindow::onRowsAboutToBeRemoved(const QModelIndex& parent, int start,
         // Here we can't rely on ProxyFolderModel::fileInfoFromIndex() because, although rows
         // aren't removed yet, files are already removed.
         bool changed = false;
-        char* dektopPath = Fm::Path::getDesktop().toStr();
-        QString desktopDir = QString(dektopPath) + QString("/");
-        g_free(dektopPath);
+        QString desktopDir = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+        desktopDir += '/';
         for(auto it = customItemPos_.cbegin(); it != customItemPos_.cend();) {
             auto& name = it->first;
             if(!QFile::exists(desktopDir + QString::fromStdString(name))) {
@@ -599,7 +680,7 @@ void DesktopWindow::onModelSortFilterChanged() {
     Settings& settings = static_cast<Application*>(qApp)->settings();
     settings.setDesktopSortColumn(static_cast<Fm::FolderModel::ColumnId>(proxyModel_->sortColumn()));
     settings.setDesktopSortOrder(proxyModel_->sortOrder());
-    settings.setSesktopSortFolderFirst(proxyModel_->folderFirst());
+    settings.setDesktopSortFolderFirst(proxyModel_->folderFirst());
 }
 
 void DesktopWindow::onDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight) {
@@ -633,7 +714,7 @@ void DesktopWindow::onIndexesMoved(const QModelIndexList& indexes) {
     auto delegate = static_cast<Fm::FolderItemDelegate*>(listView_->itemDelegateForColumn(0));
     auto itemSize = delegate->itemSize();
     // remember the custom position for the items
-    Q_FOREACH(const QModelIndex& index, indexes) {
+    for(const QModelIndex& index : indexes) {
         // Under some circumstances, Qt might emit indexMoved for
         // every single cells in the same row. (when QAbstractItemView::SelectItems is set)
         // So indexes list may contain several indixes for the same row.
@@ -664,6 +745,35 @@ void DesktopWindow::onIndexesMoved(const QModelIndexList& indexes) {
     queueRelayout();
 }
 
+void DesktopWindow::onFolderStartLoading() { // desktop may be reloaded
+    if(model_) {
+        disconnect(model_, &Fm::FolderModel::filesAdded, this, &DesktopWindow::onFilesAdded);
+    }
+}
+
+void DesktopWindow::onFolderFinishLoading() {
+    QTimer::singleShot(10, [this]() { // Qt delays the UI update (as in TabPage::onFolderFinishLoading)
+        if(model_) {
+            connect(model_, &Fm::FolderModel::filesAdded, this, &DesktopWindow::onFilesAdded);
+        }
+    });
+}
+
+void DesktopWindow::onFilesAdded(const Fm::FileInfoList files) {
+    if(static_cast<Application*>(qApp)->settings().selectNewFiles()) {
+        if(!selectionTimer_) {
+            selectFiles(files, false);
+            selectionTimer_ = new QTimer (this);
+            selectionTimer_->setSingleShot(true);
+            selectionTimer_->start(200);
+        }
+        else {
+            selectFiles(files, selectionTimer_->isActive());
+            selectionTimer_->start(200);
+        }
+    }
+}
+
 void DesktopWindow::removeBottomGap() {
     /************************************************************
      NOTE: Desktop is an area bounded from below while icons snap
@@ -673,7 +783,7 @@ void DesktopWindow::removeBottomGap() {
      ************************************************************/
     auto delegate = static_cast<Fm::FolderItemDelegate*>(listView_->itemDelegateForColumn(0));
     auto itemSize = delegate->itemSize();
-    qDebug() << "delegate:" << delegate->itemSize();
+    //qDebug() << "delegate:" << delegate->itemSize();
     QSize cellMargins = getMargins();
     int workAreaHeight = qApp->desktop()->availableGeometry(screenNum_).height()
                          - 24; // a 12-pix margin will be considered everywhere
@@ -828,17 +938,16 @@ void DesktopWindow::loadItemPositions() {
     auto grid = delegate->itemSize();
     QRect workArea = qApp->desktop()->availableGeometry(screenNum_);
     workArea.adjust(12, 12, -12, -12);
-    char* dektopPath = Fm::Path::getDesktop().toStr();
-    QString desktopDir = QString(dektopPath) + QString("/");
-    g_free(dektopPath);
-
+    QString desktopDir = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    desktopDir += '/';
     std::vector<QPoint> usedPos;
     for(auto& item: customItemPos_) {
         usedPos.push_back(item.second);
     }
 
     // FIXME: this is inefficient
-    Q_FOREACH(const QString& name, file.childGroups()) {
+    const auto names = file.childGroups();
+    for(const QString& name : names) {
         if(!QFile::exists(desktopDir + name.toUtf8())) {
             // the file may have been removed from outside LXQT
             continue;
@@ -927,6 +1036,9 @@ void DesktopWindow::queueRelayout(int delay) {
 // slots for file operations
 
 void DesktopWindow::onCutActivated() {
+    if(desktopHideItems_) {
+        return;
+    }
     auto paths = selectedFilePaths();
     if(!paths.empty()) {
         Fm::cutFilesToClipboard(paths);
@@ -934,6 +1046,9 @@ void DesktopWindow::onCutActivated() {
 }
 
 void DesktopWindow::onCopyActivated() {
+    if(desktopHideItems_) {
+        return;
+    }
     auto paths = selectedFilePaths();
     if(!paths.empty()) {
         Fm::copyFilesToClipboard(paths);
@@ -941,10 +1056,16 @@ void DesktopWindow::onCopyActivated() {
 }
 
 void DesktopWindow::onPasteActivated() {
+    if(desktopHideItems_) {
+        return;
+    }
     Fm::pasteFilesFromClipboard(path());
 }
 
 void DesktopWindow::onDeleteActivated() {
+    if(desktopHideItems_) {
+        return;
+    }
     auto paths = selectedFilePaths();
     if(!paths.empty()) {
         Settings& settings = static_cast<Application*>(qApp)->settings();
@@ -959,6 +1080,9 @@ void DesktopWindow::onDeleteActivated() {
 }
 
 void DesktopWindow::onRenameActivated() {
+    if(desktopHideItems_) {
+        return;
+    }
     // do inline renaming if only one item is selected,
     // otherwise use the renaming dialog
     if(selectedIndexes().size() == 1) {
@@ -971,12 +1095,24 @@ void DesktopWindow::onRenameActivated() {
     auto files = selectedFiles();
     if(!files.empty()) {
         for(auto& info: files) {
-            Fm::renameFile(info, nullptr);
+            if(!Fm::renameFile(info, nullptr)) {
+                break;
+            }
         }
      }
 }
 
+void DesktopWindow::onBulkRenameActivated() {
+    if(desktopHideItems_) {
+        return;
+    }
+    BulkRenamer(selectedFiles(), this);
+}
+
 void DesktopWindow::onFilePropertiesActivated() {
+    if(desktopHideItems_) {
+        return;
+    }
     auto files = selectedFiles();
     if(!files.empty()) {
         Fm::FilePropsDialog::showForFiles(std::move(files));
@@ -1052,7 +1188,7 @@ static void forwardMouseEventToRoot(QMouseEvent* event) {
 bool DesktopWindow::event(QEvent* event) {
     switch(event->type()) {
     case QEvent::WinIdChange: {
-        qDebug() << "winid change:" << effectiveWinId();
+        //qDebug() << "winid change:" << effectiveWinId();
         if(effectiveWinId() == 0) {
             break;
         }

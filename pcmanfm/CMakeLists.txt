@@ -14,15 +14,21 @@ set(pcmanfm_SRCS
     autorundialog.cpp
     connectserverdialog.cpp
     settings.cpp
+    bulkrename.cpp
 )
 
-qt5_add_dbus_adaptor(pcmanfm_SRCS
+qt5_add_dbus_adaptor(pcmanfm_DBUS_SRCS
     org.pcmanfm.Application.xml
     application.h
     PCManFM::Application
     applicationadaptor
     ApplicationAdaptor
 )
+
+# qt5_add_dbus_adaptor() already generated the moc files. It also marked the
+# files with SKIP_AUTOMOC but we still need to mark them witk SKIP_AUTOGEN.
+# TODO: Check if this behaviour is a CMake bug.
+set_source_files_properties(${pcmanfm_DBUS_SRCS} PROPERTIES SKIP_AUTOGEN ON)
 
 set(pcmanfm_UIS
     main-win.ui
@@ -32,9 +38,8 @@ set(pcmanfm_UIS
     desktop-folder.ui
     autorun.ui
     connect.ui
+    bulk-rename.ui
 )
-
-qt5_wrap_ui(pcmanfm_UIS_H ${pcmanfm_UIS})
 
 # add translation for pcmanfm-qt
 lxqt_translate_ts(QM_FILES
@@ -56,7 +61,8 @@ lxqt_translate_desktop(DESKTOP_FILES
 
 add_executable(pcmanfm-qt
     ${pcmanfm_SRCS}
-    ${pcmanfm_UIS_H}
+    ${pcmanfm_DBUS_SRCS}
+    ${pcmanfm_UIS}
     ${QM_FILES}
     ${DESKTOP_FILES}
 )
@@ -66,6 +72,7 @@ target_compile_definitions(pcmanfm-qt
         PCMANFM_DATA_DIR="${CMAKE_INSTALL_PREFIX}/share/pcmanfm-qt"
         PCMANFM_QT_VERSION="${PCMANFM_QT_VERSION}"
         LIBFM_DATA_DIR="${PKG_FM_PREFIX}/share/libfm"
+        QT_NO_FOREACH
 )
 
 target_include_directories(pcmanfm-qt

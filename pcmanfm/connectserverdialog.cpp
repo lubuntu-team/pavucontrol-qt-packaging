@@ -21,8 +21,7 @@ ConnectServerDialog::ConnectServerDialog(QWidget *parent): QDialog(parent) {
 
   connect(ui.host, &QLineEdit::textChanged, this, &ConnectServerDialog::checkInput);
   connect(ui.userName, &QLineEdit::textChanged, this, &ConnectServerDialog::checkInput);
-
-  for(const auto& serverType: serverTypes) {
+  for(const auto& serverType : const_cast<const QList<ServerType>&>(serverTypes)) {
     ui.serverType->addItem(serverType.name);
   }
 
@@ -62,7 +61,7 @@ QString ConnectServerDialog::uriText() {
   return uri;
 }
 
-void ConnectServerDialog::onCurrentIndexChanged(int index) {
+void ConnectServerDialog::onCurrentIndexChanged(int /*index*/) {
   int serverTypeIdx = ui.serverType->currentIndex();
   const auto& serverType = serverTypes[serverTypeIdx];
   ui.port->setValue(serverType.defaultPort);

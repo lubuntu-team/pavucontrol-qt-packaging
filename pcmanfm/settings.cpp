@@ -73,6 +73,7 @@ Settings::Settings():
     desktopIconSize_(48),
     showWmMenu_(false),
     desktopShowHidden_(false),
+    desktopHideItems_(false),
     desktopSortOrder_(Qt::AscendingOrder),
     desktopSortColumn_(Fm::FolderModel::ColumnFileMTime),
     desktopSortFolderFirst_(true),
@@ -104,6 +105,7 @@ Settings::Settings():
     noUsbTrash_(false),
     confirmTrash_(false),
     quickExec_(false),
+    selectNewFiles_(false),
     showThumbnails_(true),
     archiver_(),
     siUnit_(false),
@@ -207,6 +209,7 @@ bool Settings::loadFile(QString filePath) {
     setNoUsbTrash(settings.value("NoUsbTrash", false).toBool());
     confirmTrash_ = settings.value("ConfirmTrash", false).toBool();
     setQuickExec(settings.value("QuickExec", false).toBool());
+    selectNewFiles_ = settings.value("SelectNewFiles", false).toBool();
     // bool thumbnailLocal_;
     // bool thumbnailMax;
     settings.endGroup();
@@ -230,6 +233,7 @@ bool Settings::loadFile(QString filePath) {
     desktopIconSize_ = settings.value("DesktopIconSize", 48).toInt();
     showWmMenu_ = settings.value("ShowWmMenu", false).toBool();
     desktopShowHidden_ = settings.value("ShowHidden", false).toBool();
+    desktopHideItems_ = settings.value("HideItems", false).toBool();
 
     desktopSortOrder_ = sortOrderFromString(settings.value("SortOrder").toString());
     desktopSortColumn_ = sortColumnFromString(settings.value("SortColumn").toString());
@@ -283,6 +287,7 @@ bool Settings::loadFile(QString filePath) {
     placesRoot_ = settings.value("PlacesRoot", true).toBool();
     placesComputer_ = settings.value("PlacesComputer", true).toBool();
     placesNetwork_ = settings.value("PlacesNetwork", true).toBool();
+    hiddenPlaces_ = settings.value("HiddenPlaces").toStringList().toSet();
     settings.endGroup();
 
     settings.beginGroup("Window");
@@ -339,6 +344,7 @@ bool Settings::saveFile(QString filePath) {
     settings.setValue("NoUsbTrash", noUsbTrash_);
     settings.setValue("ConfirmTrash", confirmTrash_);
     settings.setValue("QuickExec", quickExec_);
+    settings.setValue("SelectNewFiles", selectNewFiles_);
     // bool thumbnailLocal_;
     // bool thumbnailMax;
     settings.endGroup();
@@ -357,6 +363,7 @@ bool Settings::saveFile(QString filePath) {
     settings.setValue("DesktopIconSize", desktopIconSize_);
     settings.setValue("ShowWmMenu", showWmMenu_);
     settings.setValue("ShowHidden", desktopShowHidden_);
+    settings.setValue("HideItems", desktopHideItems_);
     settings.setValue("SortOrder", sortOrderToString(desktopSortOrder_));
     settings.setValue("SortColumn", sortColumnToString(desktopSortColumn_));
     settings.setValue("SortFolderFirst", desktopSortFolderFirst_);
@@ -406,6 +413,13 @@ bool Settings::saveFile(QString filePath) {
     settings.setValue("PlacesRoot", placesRoot_);
     settings.setValue("PlacesComputer", placesComputer_);
     settings.setValue("PlacesNetwork", placesNetwork_);
+    if (hiddenPlaces_.isEmpty()) {  // don't save "@Invalid()"
+        settings.remove("HiddenPlaces");
+    }
+    else {
+        QStringList hiddenPlaces = hiddenPlaces_.toList();
+        settings.setValue("HiddenPlaces", hiddenPlaces);
+    }
     settings.endGroup();
 
     settings.beginGroup("Window");

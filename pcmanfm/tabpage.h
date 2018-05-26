@@ -26,7 +26,6 @@
 #include <libfm/fm.h>
 #include <libfm-qt/browsehistory.h>
 #include "view.h"
-#include <libfm-qt/path.h>
 #include "settings.h"
 
 #include <libfm-qt/core/fileinfo.h>
@@ -48,7 +47,6 @@ class ProxyFilter : public Fm::ProxyFolderModelFilter {
 public:
     bool filterAcceptsRow(const Fm::ProxyFolderModel* model, const std::shared_ptr<const Fm::FileInfo>& info) const;
     virtual ~ProxyFilter() {}
-    void setVirtHidden(const std::shared_ptr<Fm::Folder>& folder);
     QString getFilterStr() {
         return filterStr_;
     }
@@ -58,7 +56,6 @@ public:
 
 private:
     QString filterStr_;
-    QStringList virtHiddenList_;
 };
 
 class TabPage : public QWidget {
@@ -212,10 +209,14 @@ protected Q_SLOTS:
     void onSelChanged();
     void onUiUpdated();
     void onFileSizeChanged(const QModelIndex& index);
+    void onFilesAdded(const Fm::FileInfoList files);
 
 private:
     void freeFolder();
     QString formatStatusText();
+
+    // Adds bidi marks (RLM/LRM/RLE/LRE/POP) around the text for the statusbar.
+    QString encloseWithBidiMarks(const QString& text);
 
     void onFolderStartLoading();
     void onFolderFinishLoading();
@@ -240,6 +241,7 @@ private:
     Fm::FilePath lastFolderPath_; // last browsed folder
     bool overrideCursor_;
     FolderSettings folderSettings_;
+    QTimer* selectionTimer_;
 };
 
 }

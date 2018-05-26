@@ -1,11 +1,8 @@
-/*.debhelper
-/*.log
-/*.substvars
-/debhelper-build-stamp
-/files
-/mangled
+debian/*.debhelper
+debian/*.log
+debian/*.substvars
+debian/debhelper-build-stamp
+debian/files
 
-/pcmanfm-qt/
-/libfm-qt5-2/
-/libfm-qt5-dev/
-/tmp
+debian/pcmanfm-qt/
+

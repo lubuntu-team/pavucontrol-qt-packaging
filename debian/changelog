@@ -1,3 +1,11 @@
+pcmanfm-qt (0.13.0-2) unstable; urgency=medium
+
+  * Switch to unstable
+  * Bumped build dependency libfm-qt-dev to >= 0.13.1~
+  * Bumped Standards to 4.1.5, no changes needed
+
+ -- Alf Gaida <agaida@siduction.org>  Sat, 07 Jul 2018 14:37:15 +0200
+
 pcmanfm-qt (0.13.0-1) experimental; urgency=medium
 
   * Cherry-picking upstream release 0.13.0.

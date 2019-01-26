@@ -32,19 +32,6 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="PCManFM::TabBar" name="tabBar" native="true">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="acceptDrops">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -57,47 +44,10 @@
         </sizepolicy>
        </property>
       </widget>
-      <widget class="QFrame" name="frame">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <property name="spacing">
-         <number>2</number>
-        </property>
-        <property name="leftMargin">
-         <number>1</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QStackedWidget" name="stackedWidget">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="filterBar">
-          <property name="toolTip">
-           <string>Focus with Ctrl+I</string>
-          </property>
-          <property name="placeholderText">
-           <string>Filter by string...</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
+      <widget class="QSplitter" name="viewSplitter">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
       </widget>
      </widget>
     </item>
@@ -187,15 +137,25 @@
      <addaction name="actionLocationBar"/>
      <addaction name="actionPathButtons"/>
     </widget>
+    <widget class="QMenu" name="menuFiltering">
+     <property name="title">
+      <string>&amp;Filtering</string>
+     </property>
+     <addaction name="actionShowFilter"/>
+     <addaction name="actionUnfilter"/>
+    </widget>
     <addaction name="actionReload"/>
     <addaction name="separator"/>
     <addaction name="actionShowHidden"/>
+    <addaction name="actionSplitView"/>
     <addaction name="menuSorting"/>
     <addaction name="menu_View_2"/>
     <addaction name="actionPreserveView"/>
     <addaction name="separator"/>
     <addaction name="menuToolbars"/>
     <addaction name="menuPathBarStyle"/>
+    <addaction name="separator"/>
+    <addaction name="menuFiltering"/>
    </widget>
    <widget class="QMenu" name="menu_Edit">
     <property name="title">
@@ -245,6 +205,7 @@
     </property>
     <addaction name="actionOpenTerminal"/>
     <addaction name="actionOpenAsRoot"/>
+    <addaction name="actionCopyFullPath"/>
     <addaction name="actionFindFiles"/>
    </widget>
    <addaction name="menu_File"/>
@@ -752,10 +713,18 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;Filter</string>
+    <string>Permanent &amp;filter bar</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionUnfilter">
+   <property name="text">
+    <string>&amp;Clear All Filters</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+K</string>
    </property>
   </action>
   <action name="actionCloseLeft">
@@ -847,14 +816,41 @@
     <string>Ctrl+F2</string>
    </property>
   </action>
+  <action name="actionShowFilter">
+   <property name="text">
+    <string>&amp;Show/Focus Filter Bar</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Filter Bar</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionSplitView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>S&amp;plit View</string>
+   </property>
+   <property name="toolTip">
+    <string>Split View</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
+  </action>
+  <action name="actionCopyFullPath">
+   <property name="text">
+    <string>&amp;Copy Full Path</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>PCManFM::TabBar</class>
-   <extends>QWidget</extends>
-   <header>tabbar.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>PCManFM::StatusBar</class>
    <extends>QStatusBar</extends>

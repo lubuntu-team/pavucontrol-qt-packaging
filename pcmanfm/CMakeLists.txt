@@ -46,10 +46,6 @@ lxqt_translate_ts(QM_FILES
     UPDATE_TRANSLATIONS ${UPDATE_TRANSLATIONS}
     SOURCES ${pcmanfm_SRCS} ${pcmanfm_UIS}
     INSTALL_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/translations"
-    PULL_TRANSLATIONS ${PULL_TRANSLATIONS}
-    CLEAN_TRANSLATIONS ${CLEAN_TRANSLATIONS}
-    TRANSLATIONS_REPO ${TRANSLATIONS_REPO}
-    TRANSLATIONS_REFSPEC ${TRANSLATIONS_REFSPEC}
 )
 
 # translate desktop entry files for pcmanfm-qt and desktop preferences
@@ -72,7 +68,6 @@ target_compile_definitions(pcmanfm-qt
         PCMANFM_DATA_DIR="${CMAKE_INSTALL_PREFIX}/share/pcmanfm-qt"
         PCMANFM_QT_VERSION="${PCMANFM_QT_VERSION}"
         LIBFM_DATA_DIR="${PKG_FM_PREFIX}/share/libfm"
-        QT_NO_FOREACH
 )
 
 target_include_directories(pcmanfm-qt

@@ -19,7 +19,6 @@
 
 #include "desktopwindow.h"
 #include <QWidget>
-#include <QDesktopWidget>
 #include <QPainter>
 #include <QImage>
 #include <QImageReader>
@@ -39,6 +38,8 @@
 #include <QMimeData>
 #include <QPaintEvent>
 #include <QStandardPaths>
+#include <QClipboard>
+#include <QWindow>
 
 #include "./application.h"
 #include "mainwindow.h"
@@ -59,6 +60,7 @@
 #include <xcb/xcb.h>
 #include <X11/Xlib.h>
 
+#define WORK_AREA_MARGIN 12 // margin of the work area
 #define MIN_SLIDE_INTERVAL 5*60000 // 5 min
 #define MAX_SLIDE_INTERVAL (24*60+55)*60000 // 24 h and 55 min
 
@@ -77,9 +79,10 @@ DesktopWindow::DesktopWindow(int screenNum):
     desktopHideItems_(false),
     screenNum_(screenNum),
     relayoutTimer_(nullptr),
-    selectionTimer_(nullptr) {
+    selectionTimer_(nullptr),
+    trashUpdateTimer_(nullptr),
+    trashMonitor_(nullptr) {
 
-    QDesktopWidget* desktopWidget = QApplication::desktop();
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setAttribute(Qt::WA_X11NetWmWindowTypeDesktop);
     setAttribute(Qt::WA_DeleteOnClose);
@@ -91,6 +94,7 @@ DesktopWindow::DesktopWindow(int screenNum):
     listView_->setMovement(QListView::Snap);
     listView_->setResizeMode(QListView::Adjust);
     listView_->setFlow(QListView::TopToBottom);
+    listView_->setDropIndicatorShown(false); // we draw the drop indicator ourself
 
     // This is to workaround Qt bug 54384 which affects Qt >= 5.6
     // https://bugreports.qt.io/browse/QTBUG-54384
@@ -99,14 +103,17 @@ DesktopWindow::DesktopWindow(int screenNum):
     // Then we paint desktop's background ourselves by using its paint event handling method.
     listView_->viewport()->setAutoFillBackground(false);
 
-    // NOTE: When XRnadR is in use, the all screens are actually combined to form a
+    Settings& settings = static_cast<Application* >(qApp)->settings();
+
+    // NOTE: When XRandR is in use, the all screens are actually combined to form a
     // large virtual desktop and only one DesktopWindow needs to be created and screenNum is -1.
     // In some older multihead setups, such as xinerama, every physical screen
     // is treated as a separate desktop so many instances of DesktopWindow may be created.
     // In this case we only want to show desktop icons on the primary screen.
-    if(desktopWidget->isVirtualDesktop() || screenNum_ == desktopWidget->primaryScreen()) {
+    if((screenNum_ == 0 || qApp->primaryScreen()->virtualSiblings().size() > 1)) {
         loadItemPositions();
-        Settings& settings = static_cast<Application* >(qApp)->settings();
+
+        setShadowHidden(settings.shadowHidden());
 
         auto desktopPath = Fm::FilePath::fromLocalPath(XdgDir::readDesktopDir().toStdString().c_str());
         model_ = Fm::CachedFolderModel::modelFromPath(desktopPath);
@@ -126,7 +133,6 @@ DesktopWindow::DesktopWindow(int screenNum):
         connect(proxyModel_, &Fm::ProxyFolderModel::layoutChanged, this, &DesktopWindow::onLayoutChanged);
         connect(proxyModel_, &Fm::ProxyFolderModel::sortFilterChanged, this, &DesktopWindow::onModelSortFilterChanged);
         connect(proxyModel_, &Fm::ProxyFolderModel::dataChanged, this, &DesktopWindow::onDataChanged);
-        connect(listView_, &QListView::indexesMoved, this, &DesktopWindow::onIndexesMoved);
     }
 
     // remove frame
@@ -147,6 +153,9 @@ DesktopWindow::DesktopWindow(int screenNum):
 
     shortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_C), this); // copy
     connect(shortcut, &QShortcut::activated, this, &DesktopWindow::onCopyActivated);
+
+    shortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_C), this); // copy full path
+    connect(shortcut, &QShortcut::activated, this, &DesktopWindow::onCopyFullPathActivated);
 
     shortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_V), this); // paste
     connect(shortcut, &QShortcut::activated, this, &DesktopWindow::onPasteActivated);
@@ -171,6 +180,12 @@ DesktopWindow::DesktopWindow(int screenNum):
 }
 
 DesktopWindow::~DesktopWindow() {
+    if(trashMonitor_) {
+        g_signal_handlers_disconnect_by_func(trashMonitor_, (gpointer)G_CALLBACK(onTrashChanged), this);
+        g_object_unref(trashMonitor_);
+        trashMonitor_ = nullptr;
+    }
+
     listView_->viewport()->removeEventFilter(this);
     listView_->removeEventFilter(this);
 
@@ -194,6 +209,221 @@ DesktopWindow::~DesktopWindow() {
         disconnect(model_, &Fm::FolderModel::filesAdded, this, &DesktopWindow::onFilesAdded);
         model_->unref();
     }
+}
+
+void DesktopWindow::updateShortcutsFromSettings(Settings& settings) {
+    // Shortcuts should be deleted only when the user removes them
+    // in the Preferences dialog, not when the desktop is created.
+    static bool firstCall = true;
+
+    const QStringList ds = settings.desktopShortcuts();
+    Fm::FilePathList paths;
+    // Trash
+    if(ds.contains(QLatin1String("Trash")) && settings.useTrash()) {
+        createTrash();
+    }
+    else {
+        if(trashUpdateTimer_) {
+            trashUpdateTimer_->stop();
+            delete trashUpdateTimer_;
+            trashUpdateTimer_ = nullptr;
+        }
+        if(trashMonitor_) {
+            g_signal_handlers_disconnect_by_func(trashMonitor_, (gpointer)G_CALLBACK(onTrashChanged), this);
+            g_object_unref(trashMonitor_);
+            trashMonitor_ = nullptr;
+        }
+        if(!firstCall) {
+            QString trash = XdgDir::readDesktopDir() + QLatin1String("/trash-can.desktop");
+            if(QFile::exists(trash)) {
+                paths.push_back(Fm::FilePath::fromLocalPath(trash.toStdString().c_str()));
+            }
+        }
+    }
+    // Home
+    if(ds.contains(QLatin1String("Home"))) {
+        createHomeShortcut();
+    }
+    else if(!firstCall) {
+        QString home = XdgDir::readDesktopDir() + QLatin1String("/user-home.desktop");
+        if(QFile::exists(home)) {
+            paths.push_back(Fm::FilePath::fromLocalPath(home.toStdString().c_str()));
+        }
+    }
+    // Computer
+    if(ds.contains(QLatin1String("Computer"))) {
+        createComputerShortcut();
+    }
+    else if(!firstCall) {
+        QString computer = XdgDir::readDesktopDir() + QLatin1String("/computer.desktop");
+        if(QFile::exists(computer)) {
+            paths.push_back(Fm::FilePath::fromLocalPath(computer.toStdString().c_str()));
+        }
+    }
+    // Network
+    if(ds.contains(QLatin1String("Network"))) {
+        createNetworkShortcut();
+    }
+    else if(!firstCall) {
+        QString network = XdgDir::readDesktopDir() + QLatin1String("/network.desktop");
+        if(QFile::exists(network)) {
+            paths.push_back(Fm::FilePath::fromLocalPath(network.toStdString().c_str()));
+        }
+    }
+
+    // WARNING: QFile::remove() is not compatible with libfm-qt and should not be used.
+    if(!paths.empty()) {
+        Fm::FileOperation::deleteFiles(paths, false);
+    }
+
+    firstCall = false; // desktop is created
+}
+
+void DesktopWindow::createTrashShortcut(int items) {
+    GKeyFile* kf = g_key_file_new();
+    g_key_file_set_string(kf, "Desktop Entry", "Type", "Application");
+    g_key_file_set_string(kf, "Desktop Entry", "Exec", "pcmanfm-qt trash:///");
+    // icon
+    const char* icon_name = items > 0 ? "user-trash-full" : "user-trash";
+    g_key_file_set_string(kf, "Desktop Entry", "Icon", icon_name);
+    // name
+    QString name;
+    if(items > 0) {
+        if (items == 1) {
+            name = tr("Trash (One item)");
+        }
+        else {
+            name = tr("Trash (%Ln items)", "", items);
+        }
+    }
+    else {
+        name = tr("Trash (Empty)");
+    }
+    g_key_file_set_string(kf, "Desktop Entry", "Name", name.toStdString().c_str());
+
+    auto path = Fm::FilePath::fromLocalPath(XdgDir::readDesktopDir().toStdString().c_str()).localPath();
+    auto trash_can = Fm::CStrPtr{g_build_filename(path.get(), "trash-can.desktop", nullptr)};
+    g_key_file_save_to_file(kf, trash_can.get(), nullptr);
+    g_key_file_free(kf);
+}
+
+void DesktopWindow::createHomeShortcut() {
+    GKeyFile* kf = g_key_file_new();
+    g_key_file_set_string(kf, "Desktop Entry", "Type", "Application");
+    g_key_file_set_string(kf, "Desktop Entry", "Exec", "pcmanfm-qt");
+    g_key_file_set_string(kf, "Desktop Entry", "Icon", "user-home");
+    const QString name = tr("Home");
+    g_key_file_set_string(kf, "Desktop Entry", "Name", name.toStdString().c_str());
+
+    auto path = Fm::FilePath::fromLocalPath(XdgDir::readDesktopDir().toStdString().c_str()).localPath();
+    auto trash_can = Fm::CStrPtr{g_build_filename(path.get(), "user-home.desktop", nullptr)};
+    g_key_file_save_to_file(kf, trash_can.get(), nullptr);
+    g_key_file_free(kf);
+}
+
+void DesktopWindow::createComputerShortcut() {
+    GKeyFile* kf = g_key_file_new();
+    g_key_file_set_string(kf, "Desktop Entry", "Type", "Application");
+    g_key_file_set_string(kf, "Desktop Entry", "Exec", "pcmanfm-qt computer:///");
+    g_key_file_set_string(kf, "Desktop Entry", "Icon", "computer");
+    const QString name = tr("Computer");
+    g_key_file_set_string(kf, "Desktop Entry", "Name", name.toStdString().c_str());
+
+    auto path = Fm::FilePath::fromLocalPath(XdgDir::readDesktopDir().toStdString().c_str()).localPath();
+    auto trash_can = Fm::CStrPtr{g_build_filename(path.get(), "computer.desktop", nullptr)};
+    g_key_file_save_to_file(kf, trash_can.get(), nullptr);
+    g_key_file_free(kf);
+}
+
+void DesktopWindow::createNetworkShortcut() {
+    GKeyFile* kf = g_key_file_new();
+    g_key_file_set_string(kf, "Desktop Entry", "Type", "Application");
+    g_key_file_set_string(kf, "Desktop Entry", "Exec", "pcmanfm-qt network:///");
+    g_key_file_set_string(kf, "Desktop Entry", "Icon", "folder-network");
+    const QString name = tr("Network");
+    g_key_file_set_string(kf, "Desktop Entry", "Name", name.toStdString().c_str());
+
+    auto path = Fm::FilePath::fromLocalPath(XdgDir::readDesktopDir().toStdString().c_str()).localPath();
+    auto trash_can = Fm::CStrPtr{g_build_filename(path.get(), "network.desktop", nullptr)};
+    g_key_file_save_to_file(kf, trash_can.get(), nullptr);
+    g_key_file_free(kf);
+}
+
+void DesktopWindow::createTrash() {
+    if(trashMonitor_) {
+        return;
+    }
+    Fm::FilePath trashPath = Fm::FilePath::fromUri("trash:///");
+    // check if trash is supported by the current vfs
+    // if gvfs is not installed, this can be unavailable.
+    if(!g_file_query_exists(trashPath.gfile().get(), nullptr)) {
+        trashMonitor_ = nullptr;
+        return;
+    }
+
+    trashMonitor_ = g_file_monitor_directory(trashPath.gfile().get(), G_FILE_MONITOR_NONE, nullptr, nullptr);
+    if(trashMonitor_) {
+        if(trashUpdateTimer_ == nullptr) {
+            trashUpdateTimer_ = new QTimer(this);
+            trashUpdateTimer_->setSingleShot(true);
+            connect(trashUpdateTimer_, &QTimer::timeout, this, &DesktopWindow::updateTrashIcon);
+        }
+        updateTrashIcon();
+        g_signal_connect(trashMonitor_, "changed", G_CALLBACK(onTrashChanged), this);
+    }
+}
+
+// static
+void DesktopWindow::onTrashChanged(GFileMonitor* /*monitor*/, GFile* /*gf*/, GFile* /*other*/, GFileMonitorEvent /*evt*/, DesktopWindow* pThis) {
+    if(pThis->trashUpdateTimer_ != nullptr && !pThis->trashUpdateTimer_->isActive()) {
+        pThis->trashUpdateTimer_->start(250); // don't update trash very fast
+    }
+}
+
+void DesktopWindow::updateTrashIcon() {
+    struct UpdateTrashData {
+        QPointer<DesktopWindow> desktop;
+        Fm::FilePath trashPath;
+        UpdateTrashData(DesktopWindow* _desktop) : desktop(_desktop) {
+            trashPath = Fm::FilePath::fromUri("trash:///");
+        }
+    };
+
+    UpdateTrashData* data = new UpdateTrashData(this);
+    g_file_query_info_async(data->trashPath.gfile().get(), G_FILE_ATTRIBUTE_TRASH_ITEM_COUNT, G_FILE_QUERY_INFO_NONE, G_PRIORITY_LOW, nullptr,
+    [](GObject * /*source_object*/, GAsyncResult * res, gpointer user_data) {
+        // the callback lambda function is called when the asyn query operation is finished
+        UpdateTrashData* data = reinterpret_cast<UpdateTrashData*>(user_data);
+        DesktopWindow* _this = data->desktop.data();
+        if(_this != nullptr) {
+            Fm::GFileInfoPtr inf{g_file_query_info_finish(data->trashPath.gfile().get(), res, nullptr), false};
+            if(inf) {
+                guint32 n = g_file_info_get_attribute_uint32(inf.get(), G_FILE_ATTRIBUTE_TRASH_ITEM_COUNT);
+                _this->createTrashShortcut(static_cast<int>(n));
+            }
+        }
+        delete data; // free the data used for this async operation.
+    }, data);
+}
+
+bool DesktopWindow::isTrashCan(std::shared_ptr<const Fm::FileInfo> file) {
+    bool ret(false);
+    if(file && (file->isDesktopEntry() || file->isShortcut()) && trashMonitor_) {
+        const QString fileName = QString::fromStdString(file->name());
+        const char* execStr = fileName == QLatin1String("trash-can.desktop")
+                                ? "pcmanfm-qt trash:///" : nullptr;
+        if(execStr) {
+            GKeyFile* kf = g_key_file_new();
+            if(g_key_file_load_from_file(kf, file->path().toString().get(), G_KEY_FILE_NONE, nullptr)) {
+                Fm::CStrPtr str{g_key_file_get_string(kf, "Desktop Entry", "Exec", nullptr)};
+                if(str && strcmp(str.get(), execStr) == 0) {
+                    ret = true;
+                }
+            }
+            g_key_file_free(kf);
+        }
+    }
+    return ret;
 }
 
 void DesktopWindow::setBackground(const QColor& color) {
@@ -505,6 +735,7 @@ void DesktopWindow::updateFromSettings(Settings& settings, bool changeSlide) {
     setFont(settings.desktopFont());
     setIconSize(Fm::FolderView::IconMode, QSize(settings.desktopIconSize(), settings.desktopIconSize()));
     setMargins(settings.desktopCellMargins());
+    updateShortcutsFromSettings(settings);
     // setIconSize and setMargins may trigger relayout of items by QListView, so we need to do the layout again.
     queueRelayout();
     setForeground(settings.desktopFgColor());
@@ -566,6 +797,54 @@ void DesktopWindow::onFileClicked(int type, const std::shared_ptr<const Fm::File
         delete menu;
     }
     else {
+        // special right-click menus for our desktop shortcuts
+        if(fileInfo && (fileInfo->isDesktopEntry() || fileInfo->isShortcut())
+           && type == Fm::FolderView::ContextMenuClick) {
+            Settings& settings = static_cast<Application* >(qApp)->settings();
+            const QStringList ds = settings.desktopShortcuts();
+            if(!ds.isEmpty()) {
+                const QString fileName = QString::fromStdString(fileInfo->name());
+                if((fileName == QLatin1String("trash-can.desktop") && ds.contains(QLatin1String("Trash")))
+                   || (fileName == QLatin1String("user-home.desktop") && ds.contains(QLatin1String("Home")))
+                   || (fileName == QLatin1String("computer.desktop") && ds.contains(QLatin1String("Computer")))
+                   || (fileName == QLatin1String("network.desktop") && ds.contains(QLatin1String("Network")))) {
+                    QMenu* menu = new QMenu(this);
+                    // "Open" action for all
+                    QAction* action = menu->addAction(tr("Open"));
+                    connect(action, &QAction::triggered, this, [this, fileInfo] {
+                        onFileClicked(Fm::FolderView::ActivatedClick, fileInfo);
+                    });
+                    // "Stick" action for all
+                    action = menu->addAction(tr("Stic&k to Current Position"));
+                    action->setCheckable(true);
+                    action->setChecked(customItemPos_.find(fileInfo->name()) != customItemPos_.cend());
+                    connect(action, &QAction::toggled, this, &DesktopWindow::onStickToCurrentPos);
+                    // "Empty Trash" action for Trash shortcut
+                    if(fileName == QLatin1String("trash-can.desktop")) {
+                        menu->addSeparator();
+                        action = menu->addAction(tr("Empty Trash"));
+                        // disable the item is Trash is empty
+                        GKeyFile* kf = g_key_file_new();
+                        if(g_key_file_load_from_file(kf, fileInfo->path().toString().get(), G_KEY_FILE_NONE, nullptr)) {
+                            Fm::CStrPtr str{g_key_file_get_string(kf, "Desktop Entry", "Icon", nullptr)};
+                            if(str && strcmp(str.get(), "user-trash") == 0) {
+                                action->setEnabled(false);
+                            }
+                        }
+                        g_key_file_free(kf);
+                        // empty Trash on clicking the item
+                        connect(action, &QAction::triggered, this, [] {
+                            Fm::FilePathList files;
+                            files.push_back(Fm::FilePath::fromUri("trash:///"));
+                            Fm::FileOperation::deleteFiles(std::move(files));
+                        });
+                    }
+                    menu->exec(QCursor::pos());
+                    delete menu;
+                    return;
+                }
+            }
+        }
         View::onFileClicked(type, fileInfo);
     }
 }
@@ -710,41 +989,6 @@ void DesktopWindow::onDataChanged(const QModelIndex& topLeft, const QModelIndex&
     }
 }
 
-void DesktopWindow::onIndexesMoved(const QModelIndexList& indexes) {
-    auto delegate = static_cast<Fm::FolderItemDelegate*>(listView_->itemDelegateForColumn(0));
-    auto itemSize = delegate->itemSize();
-    // remember the custom position for the items
-    for(const QModelIndex& index : indexes) {
-        // Under some circumstances, Qt might emit indexMoved for
-        // every single cells in the same row. (when QAbstractItemView::SelectItems is set)
-        // So indexes list may contain several indixes for the same row.
-        // Since we only care about rows, not individual cells,
-        // let's handle column 0 of every row here.
-        if(index.column() == 0) {
-            auto file = proxyModel_->fileInfoFromIndex(index);
-            QRect itemRect = listView_->rectForIndex(index);
-            QPoint tl = itemRect.topLeft();
-            QRect workArea = qApp->desktop()->availableGeometry(screenNum_);
-            workArea.adjust(12, 12, -12, -12);
-
-            // check if the position is occupied by another item
-            auto existingItem = std::find_if(customItemPos_.cbegin(), customItemPos_.cend(), [tl](const std::pair<std::string, QPoint>& elem){
-                return elem.second == tl;
-            });
-
-            if(existingItem == customItemPos_.cend() // don't put items on each other
-                    && tl.x() >= workArea.x() && tl.y() >= workArea.y()
-                    && tl.x() + itemSize.width() <= workArea.right() + 1 // for historical reasons (-> Qt doc)
-                    && tl.y() + itemSize.height() <= workArea.bottom() + 1) { // as above
-                customItemPos_[file->name()] = tl;
-                // qDebug() << "indexMoved:" << name << index << itemRect;
-            }
-        }
-    }
-    saveItemPositions();
-    queueRelayout();
-}
-
 void DesktopWindow::onFolderStartLoading() { // desktop may be reloaded
     if(model_) {
         disconnect(model_, &Fm::FolderModel::filesAdded, this, &DesktopWindow::onFilesAdded);
@@ -775,6 +1019,10 @@ void DesktopWindow::onFilesAdded(const Fm::FileInfoList files) {
 }
 
 void DesktopWindow::removeBottomGap() {
+    auto screen = getDesktopScreen();
+    if(screen == nullptr) {
+        return;
+    }
     /************************************************************
      NOTE: Desktop is an area bounded from below while icons snap
      to its grid srarting from above. Therefore, we try to adjust
@@ -785,8 +1033,8 @@ void DesktopWindow::removeBottomGap() {
     auto itemSize = delegate->itemSize();
     //qDebug() << "delegate:" << delegate->itemSize();
     QSize cellMargins = getMargins();
-    int workAreaHeight = qApp->desktop()->availableGeometry(screenNum_).height()
-                         - 24; // a 12-pix margin will be considered everywhere
+    int workAreaHeight = screen->availableVirtualGeometry().height()
+                         - 2 * WORK_AREA_MARGIN;
     int cellHeight = itemSize.height() + listView_->spacing();
     int iconNumber = workAreaHeight / cellHeight;
     int bottomGap = workAreaHeight % cellHeight;
@@ -832,9 +1080,39 @@ void DesktopWindow::paintBackground(QPaintEvent* event) {
     }
 }
 
+void DesktopWindow::trustOurDesktopShortcut(std::shared_ptr<const Fm::FileInfo> file) {
+    if(file->isTrustable()) {
+        return;
+    }
+    Settings& settings = static_cast<Application*>(qApp)->settings();
+    const QStringList ds = settings.desktopShortcuts();
+    if(ds.isEmpty()) {
+        return;
+    }
+    const QString fileName = QString::fromStdString(file->name());
+    const char* execStr = fileName == QLatin1String("trash-can.desktop") && ds.contains(QLatin1String("Trash")) ? "pcmanfm-qt trash:///" :
+                          fileName == QLatin1String("user-home.desktop") && ds.contains(QLatin1String("Home")) ? "pcmanfm-qt" :
+                          fileName == QLatin1String("computer.desktop") && ds.contains(QLatin1String("Computer")) ? "pcmanfm-qt computer:///" :
+                          fileName == QLatin1String("network.desktop") && ds.contains(QLatin1String("Network")) ? "pcmanfm-qt network:///" : nullptr;
+    if(execStr) {
+        GKeyFile* kf = g_key_file_new();
+        if(g_key_file_load_from_file(kf, file->path().toString().get(), G_KEY_FILE_NONE, nullptr)) {
+            Fm::CStrPtr str{g_key_file_get_string(kf, "Desktop Entry", "Exec", nullptr)};
+            if(str && strcmp(str.get(), execStr) == 0) {
+                file->setTrustable(true);
+            }
+        }
+        g_key_file_free(kf);
+    }
+}
+
 // QListView does item layout in a very inflexible way, so let's do our custom layout again.
 // FIXME: this is very inefficient, but due to the design flaw of QListView, this is currently the only workaround.
 void DesktopWindow::relayoutItems() {
+    auto screen = getDesktopScreen();
+    if(screen == nullptr) {
+        return;
+    }
     displayNames_.clear();
     loadItemPositions(); // something may have changed
     // qDebug("relayoutItems()");
@@ -844,81 +1122,58 @@ void DesktopWindow::relayoutItems() {
         relayoutTimer_ = nullptr;
     }
 
-    QDesktopWidget* desktop = qApp->desktop();
-    int screen = 0;
     int row = 0;
     int rowCount = proxyModel_->rowCount();
 
     auto delegate = static_cast<Fm::FolderItemDelegate*>(listView_->itemDelegateForColumn(0));
     auto itemSize = delegate->itemSize();
 
-    for(;;) {
-        if(desktop->isVirtualDesktop()) {
-            if(screen >= desktop->numScreens()) {
+    QRect workArea = screen->availableVirtualGeometry();
+    workArea.adjust(WORK_AREA_MARGIN, WORK_AREA_MARGIN, -WORK_AREA_MARGIN, -WORK_AREA_MARGIN);
+    // qDebug() << "workArea" << screenNum_ <<  workArea;
+    // FIXME: we use an internal class declared in a private header here, which is pretty bad.
+    QPoint pos = workArea.topLeft();
+    for(; row < rowCount; ++row) {
+        QModelIndex index = proxyModel_->index(row, 0);
+        int itemWidth = delegate->sizeHint(listView_->getViewOptions(), index).width();
+        auto file = proxyModel_->fileInfoFromIndex(index);
+        // remember display names of desktop entries and shortcuts
+        if(file->isDesktopEntry() || file->isShortcut()) {
+            displayNames_[index] = file->displayName();
+            trustOurDesktopShortcut(file);
+        }
+        auto name = file->name();
+        auto find_it = customItemPos_.find(name);
+        if(find_it != customItemPos_.cend()) { // the item has a custom position
+            QPoint customPos = find_it->second;
+            // center the contents vertically
+            listView_->setPositionForIndex(customPos + QPoint((itemSize.width() - itemWidth) / 2, 0), index);
+            // qDebug() << "set custom pos:" << name << row << index << customPos;
+            continue;
+        }
+        // check if the current pos is already occupied by a custom item
+        bool used = false;
+        for(auto it = customItemPos_.cbegin(); it != customItemPos_.cend(); ++it) {
+            QPoint customPos = it->second;
+            if(QRect(customPos, itemSize).contains(pos)) {
+                used = true;
                 break;
             }
         }
+        if(used) { // go to next pos
+            --row;
+        }
         else {
-            screen = screenNum_;
+            // center the contents vertically
+            listView_->setPositionForIndex(pos + QPoint((itemSize.width() - itemWidth) / 2, 0), index);
+            // qDebug() << "set pos" << name << row << index << pos;
         }
-        QRect workArea = desktop->availableGeometry(screen);
-        workArea.adjust(12, 12, -12, -12); // add a 12 pixel margin to the work area
-        // qDebug() << "workArea" << screen <<  workArea;
-        // FIXME: we use an internal class declared in a private header here, which is pretty bad.
-        QPoint pos = workArea.topLeft();
-        for(; row < rowCount; ++row) {
-            QModelIndex index = proxyModel_->index(row, 0);
-            int itemWidth = delegate->sizeHint(listView_->getViewOptions(), index).width();
-            auto file = proxyModel_->fileInfoFromIndex(index);
-            // remember display names of desktop entries and shortcuts
-            if(file->isDesktopEntry() || file->isShortcut()) {
-                displayNames_[index] = file->displayName();
-            }
-            auto name = file->name();
-            auto find_it = customItemPos_.find(name);
-            if(find_it != customItemPos_.cend()) { // the item has a custom position
-                QPoint customPos = find_it->second;
-                // center the contents vertically
-                listView_->setPositionForIndex(customPos + QPoint((itemSize.width() - itemWidth) / 2, 0), index);
-                // qDebug() << "set custom pos:" << name << row << index << customPos;
-                continue;
-            }
-            // check if the current pos is alredy occupied by a custom item
-            bool used = false;
-            for(auto it = customItemPos_.cbegin(); it != customItemPos_.cend(); ++it) {
-                QPoint customPos = it->second;
-                if(QRect(customPos, itemSize).contains(pos)) {
-                    used = true;
-                    break;
-                }
-            }
-            if(used) { // go to next pos
-                --row;
-            }
-            else {
-                // center the contents vertically
-                listView_->setPositionForIndex(pos + QPoint((itemSize.width() - itemWidth) / 2, 0), index);
-                // qDebug() << "set pos" << name << row << index << pos;
-            }
-            // move to next cell in the column
-            pos.setY(pos.y() + itemSize.height() + listView_->spacing());
-            if(pos.y() + itemSize.height() > workArea.bottom() + 1) {
-                // if the next position may exceed the bottom of work area, go to the top of next column
-                pos.setX(pos.x() + itemSize.width() + listView_->spacing());
-                pos.setY(workArea.top());
-
-                // check if the new column exceeds the right margin of work area
-                if(pos.x() + itemSize.width() > workArea.right() + 1) {
-                    if(desktop->isVirtualDesktop()) {
-                        // in virtual desktop mode, go to next screen
-                        ++screen;
-                        break;
-                    }
-                }
-            }
-        }
-        if(row >= rowCount) {
-            break;
+        // move to next cell in the column
+        pos.setY(pos.y() + itemSize.height() + listView_->spacing());
+        if(pos.y() + itemSize.height() > workArea.bottom() + 1) {
+            // if the next position may exceed the bottom of work area, go to the top of next column
+            pos.setX(pos.x() + itemSize.width() + listView_->spacing());
+            pos.setY(workArea.top());
         }
     }
 
@@ -928,6 +1183,10 @@ void DesktopWindow::relayoutItems() {
 }
 
 void DesktopWindow::loadItemPositions() {
+    auto screen = getDesktopScreen();
+    if(screen == nullptr) {
+        return;
+    }
     // load custom item positions
     customItemPos_.clear();
     Settings& settings = static_cast<Application*>(qApp)->settings();
@@ -936,8 +1195,8 @@ void DesktopWindow::loadItemPositions() {
 
     auto delegate = static_cast<Fm::FolderItemDelegate*>(listView_->itemDelegateForColumn(0));
     auto grid = delegate->itemSize();
-    QRect workArea = qApp->desktop()->availableGeometry(screenNum_);
-    workArea.adjust(12, 12, -12, -12);
+    QRect workArea = screen->availableVirtualGeometry();
+    workArea.adjust(WORK_AREA_MARGIN, WORK_AREA_MARGIN, -WORK_AREA_MARGIN, -WORK_AREA_MARGIN);
     QString desktopDir = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
     desktopDir += '/';
     std::vector<QPoint> usedPos;
@@ -1052,6 +1311,16 @@ void DesktopWindow::onCopyActivated() {
     auto paths = selectedFilePaths();
     if(!paths.empty()) {
         Fm::copyFilesToClipboard(paths);
+    }
+}
+
+void DesktopWindow::onCopyFullPathActivated() {
+    if(desktopHideItems_) {
+        return;
+    }
+    auto paths = selectedFilePaths();
+    if(paths.size() == 1) {
+        QApplication::clipboard()->setText(QString(paths.front().toString().get()), QClipboard::Clipboard);
     }
 }
 
@@ -1247,6 +1516,14 @@ bool DesktopWindow::eventFilter(QObject* watched, QEvent* event) {
                 }
             }
             break;
+        case QEvent::Paint:
+            // NOTE: The drop indicator isn't drawn/updated automatically, perhaps,
+            // because we paint desktop ourself. So, we draw it here.
+            paintDropIndicator();
+            break;
+        case QEvent::Wheel:
+            // removal of scrollbars is not enough to prevent scrolling
+            return true;
         default:
             break;
         }
@@ -1254,55 +1531,173 @@ bool DesktopWindow::eventFilter(QObject* watched, QEvent* event) {
     return Fm::FolderView::eventFilter(watched, event);
 }
 
+void DesktopWindow::childDragMoveEvent(QDragMoveEvent* e) {
+    // see DesktopWindow::eventFilter for an explanation
+    QRect oldDropRect = dropRect_;
+    dropRect_ = QRect();
+    QModelIndex dropIndex = listView_->indexAt(e->pos());
+    if(dropIndex.isValid()) {
+        bool dragOnSelf = false;
+        if(e->source() == listView_ && e->keyboardModifiers() == Qt::NoModifier) { // drag source is desktop
+            QModelIndex curIndx = listView_->currentIndex();
+            if(curIndx.isValid() && curIndx == dropIndex) {
+                dragOnSelf = true;
+            }
+        }
+        if(!dragOnSelf && dropIndex.model()) {
+            QVariant data = dropIndex.model()->data(dropIndex, Fm::FolderModel::Role::FileInfoRole);
+            auto info = data.value<std::shared_ptr<const Fm::FileInfo>>();
+            if(info && (info->isDir() || isTrashCan(info))) {
+                dropRect_ = listView_->rectForIndex(dropIndex);
+            }
+        }
+    }
+    if(oldDropRect != dropRect_) {
+        listView_->viewport()->update();
+    }
+}
+
+void DesktopWindow::paintDropIndicator()
+{
+    if(!dropRect_.isNull()) {
+        QPainter painter(listView_->viewport());
+        QStyleOption opt;
+        opt.init(listView_->viewport());
+        opt.rect = dropRect_;
+        style()->drawPrimitive(QStyle::PE_IndicatorItemViewItemDrop, &opt, &painter, listView_);
+    }
+}
+
 void DesktopWindow::childDropEvent(QDropEvent* e) {
     const QMimeData* mimeData = e->mimeData();
     bool moveItem = false;
+    QModelIndex curIndx = listView_->currentIndex();
     if(e->source() == listView_ && e->keyboardModifiers() == Qt::NoModifier) {
         // drag source is our list view, and no other modifier keys are pressed
         // => we're dragging desktop items
         if(mimeData->hasFormat("application/x-qabstractitemmodeldatalist")) {
             QModelIndex dropIndex = listView_->indexAt(e->pos());
-            if(dropIndex.isValid()) { // drop on an item
-                QModelIndexList selected = selectedIndexes(); // the dragged items
-                if(selected.contains(dropIndex)) { // drop on self, ignore
-                    moveItem = true;
+            if(dropIndex.isValid() // drop on an item
+               && curIndx.isValid() && curIndx != dropIndex) { // not a drop on self
+                if(auto file = proxyModel_->fileInfoFromIndex(dropIndex)) {
+                    if(!file->isDir()) { // drop on a non-directory file
+                        // if the files are dropped on our Trash shortcut item,
+                        // move them to Trash instead of moving them on desktop
+                        if(isTrashCan(file)) {
+                            auto paths = selectedFilePaths();
+                            if(!paths.empty()) {
+                                e->accept();
+                                Settings& settings = static_cast<Application*>(qApp)->settings();
+                                Fm::FileOperation::trashFiles(paths, settings.confirmTrash());
+                                // remove the drop indicator
+                                dropRect_ = QRect();
+                                listView_->viewport()->update();
+                                return;
+                            }
+                        }
+                        moveItem = true;
+                    }
                 }
             }
-            else { // drop on a blank area
+            else { // drop on a blank area (maybe, between other items)
                 moveItem = true;
             }
         }
     }
     if(moveItem) {
+        auto screen = getDesktopScreen();
+        if(screen == nullptr) {
+            return;
+        }
         e->accept();
+        // move selected items to the drop position, preserving their relative positions
+        const QPoint dropPos = e->pos();
+        if(curIndx.isValid()) {
+            auto delegate = static_cast<Fm::FolderItemDelegate*>(listView_->itemDelegateForColumn(0));
+            auto grid = delegate->itemSize();
+            QRect workArea = screen->availableVirtualGeometry();
+            workArea.adjust(WORK_AREA_MARGIN, WORK_AREA_MARGIN, -WORK_AREA_MARGIN, -WORK_AREA_MARGIN);
+            QPoint curPoint = listView_->visualRect(curIndx).topLeft();
+
+            // first move the current item to the drop position
+            auto file = proxyModel_->fileInfoFromIndex(curIndx);
+            if(file) {
+                QPoint pos = dropPos;
+                stickToPosition(file->name(), pos, workArea, grid);
+            }
+
+            // then move the other items so that their relative postions are preserved
+            const QModelIndexList selected = selectedIndexes();
+            for(const QModelIndex& indx : selected) {
+                if(indx == curIndx) {
+                    continue;
+                }
+                file = proxyModel_->fileInfoFromIndex(indx);
+                if(file) {
+                    QPoint nxtDropPos = dropPos + listView_->visualRect(indx).topLeft() - curPoint;
+                    nxtDropPos.setX(qBound(workArea.left(), nxtDropPos.x(), workArea.right() + 1));
+                    nxtDropPos.setY(qBound(workArea.top(), nxtDropPos.y(), workArea.bottom() + 1));
+                    stickToPosition(file->name(), nxtDropPos, workArea, grid);
+                }
+            }
+        }
+        saveItemPositions();
+        queueRelayout();
     }
     else {
-        auto delegate = static_cast<Fm::FolderItemDelegate*>(listView_->itemDelegateForColumn(0));
-        auto grid = delegate->itemSize();
+        // remove the drop indicator
+        dropRect_ = QRect();
+        listView_->viewport()->update();
+
+        // move items to Trash if they are dropped on Trash shortcut
+        QModelIndex dropIndex = listView_->indexAt(e->pos());
+        if(dropIndex.isValid()) {
+            if(auto file = proxyModel_->fileInfoFromIndex(dropIndex)) {
+                if(isTrashCan(file)) {
+                    if(mimeData->hasUrls()) {
+                        Fm::FilePathList paths;
+                        const QList<QUrl> urlList = mimeData->urls();
+                        for(const QUrl& url : urlList) {
+                            QString uri = url.toDisplayString();
+                            if(!uri.isEmpty()) {
+                                paths.push_back(Fm::FilePath::fromUri(uri.toStdString().c_str()));
+                            }
+                        }
+                        if(!paths.empty()) {
+                            e->accept();
+                            Settings& settings = static_cast<Application*>(qApp)->settings();
+                            Fm::FileOperation::trashFiles(paths, settings.confirmTrash());
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
         Fm::FolderView::childDropEvent(e);
         // position dropped items successively, starting with the drop rectangle
         if(mimeData->hasUrls()
            && (e->dropAction() == Qt::CopyAction
                || e->dropAction() == Qt::MoveAction
                || e->dropAction() == Qt::LinkAction)) {
-            QList<QUrl> urlList = mimeData->urls();
-            for(int i = 0; i < urlList.count(); ++i) {
-                std::string name = urlList.at(i).fileName().toUtf8().constData();
-                if(!name.empty()) { // respect the positions of existing files
-                    QString desktopDir = XdgDir::readDesktopDir() + QString(QLatin1String("/"));
-                    if(!QFile::exists(desktopDir + QString::fromStdString(name))) {
-                        QRect workArea = qApp->desktop()->availableGeometry(screenNum_);
-                        workArea.adjust(12, 12, -12, -12);
-                        QPoint pos = mapFromGlobal(e->pos());
-                        alignToGrid(pos, workArea.topLeft(), grid, listView_->spacing());
-                        if(i > 0)
-                            pos.setY(pos.y() + grid.height() + listView_->spacing());
-                        if(pos.y() + grid.height() > workArea.bottom() + 1) {
-                            pos.setX(pos.x() + grid.width() + listView_->spacing());
-                            pos.setY(workArea.top());
-                        }
-                        customItemPos_[name] = pos;
-                    }
+            auto screen = getDesktopScreen();
+            if(screen == nullptr) {
+                return;
+            }
+            auto delegate = static_cast<Fm::FolderItemDelegate*>(listView_->itemDelegateForColumn(0));
+            auto grid = delegate->itemSize();
+            QRect workArea = screen->availableVirtualGeometry();
+            workArea.adjust(WORK_AREA_MARGIN, WORK_AREA_MARGIN, -WORK_AREA_MARGIN, -WORK_AREA_MARGIN);
+            const QString desktopDir = XdgDir::readDesktopDir() + QString(QLatin1String("/"));
+            QPoint dropPos = e->pos();
+            const QList<QUrl> urlList = mimeData->urls();
+            bool reachedLastCell = false;
+            for(const QUrl& url : urlList) {
+                QString name = url.fileName();
+                if(!name.isEmpty()
+                   // don't stick to the position if there is an overwrite prompt
+                   && !QFile::exists(desktopDir + name)) {
+                    reachedLastCell = stickToPosition(name.toStdString(), dropPos, workArea, grid, reachedLastCell);
                 }
             }
             saveItemPositions();
@@ -1310,13 +1705,93 @@ void DesktopWindow::childDropEvent(QDropEvent* e) {
     }
 }
 
+// NOTE: This function positions items from top to bottom and left to right,
+// starting from the drop point, and carries the existing sticky items with them,
+// until it reaches the last cell and then puts the remaining items in the opposite
+// direction. In this way, it creates a natural DND, especially with multiple files.
+bool DesktopWindow::stickToPosition(const std::string& file, QPoint& pos, const QRect& workArea, const QSize& grid, bool reachedLastCell) {
+    // normalize the position, depending on the positioning direction
+    if(!reachedLastCell) { // default direction: top -> bottom, left -> right
+
+        // put the drop point inside the work area to prevent unnatural jumps
+        if(pos.y() + grid.height() > workArea.bottom() + 1) {
+            pos.setY(workArea.bottom() + 1 - grid.height());
+        }
+        if(pos.x() + grid.width() > workArea.right() + 1) {
+            pos.setX(workArea.right() + 1 - grid.width());
+        }
+        pos.setX(qMax(workArea.left(), pos.x()));
+        pos.setY(qMax(workArea.top(), pos.y()));
+
+        alignToGrid(pos, workArea.topLeft(), grid, listView_->spacing());
+    }
+    else { // backward direction: bottom -> top, right -> left
+        if(pos.y() < workArea.top()) {
+            // reached the top; go to the left bottom
+            pos.setY(workArea.bottom() + 1 - grid.height());
+            pos.setX(pos.x() - grid.width() - listView_->spacing());
+        }
+
+        alignToGrid(pos, workArea.topLeft(), grid, listView_->spacing());
+
+        if (pos.x() < workArea.left()) {
+            // there's no space to the left, which means that
+            // the work area is exhausted, so ignore stickiness
+            return reachedLastCell;
+        }
+    }
+
+    // find if there is a sticky item at this position
+    std::string otherFile;
+    auto oldItem = std::find_if(customItemPos_.cbegin(),
+                                customItemPos_.cend(),
+                                [pos](const std::pair<std::string, QPoint>& elem) {
+                                    return elem.second == pos;
+                                });
+    if(oldItem != customItemPos_.cend()) {
+        otherFile = oldItem->first;
+    }
+
+    // stick to the position
+    customItemPos_[file] = pos;
+
+    // check whether we are in the last visible cell if it isn't reached already
+    if(!reachedLastCell
+       && pos.y() + 2 * grid.height() + listView_->spacing() > workArea.bottom() + 1
+       && pos.x() + 2 * grid.width() + listView_->spacing() > workArea.right() + 1) {
+        reachedLastCell = true;
+    }
+
+    // find the next position
+    if(reachedLastCell) {
+        // when this is the last visible cell, reverse the positioning direction
+        // to avoid off-screen items later
+        pos.setY(pos.y() - grid.height() - listView_->spacing());
+    }
+    else {
+        // the last visible cell is not reached yet; go forward
+        if(pos.y() + 2 * grid.height() + listView_->spacing() > workArea.bottom() + 1) {
+            pos.setY(workArea.top());
+            pos.setX(pos.x() + grid.width() + listView_->spacing());
+        }
+        else {
+            pos.setY(pos.y() + grid.height() + listView_->spacing());
+        }
+    }
+
+    // if there was another sticky item at the same position, move it to the next position
+    if(!otherFile.empty() && otherFile != file) {
+        reachedLastCell = stickToPosition(otherFile, pos, workArea, grid, reachedLastCell);
+    }
+
+    return reachedLastCell;
+}
+
 void DesktopWindow::alignToGrid(QPoint& pos, const QPoint& topLeft, const QSize& grid, const int spacing) {
-    qreal w = qAbs((qreal)pos.x() - (qreal)topLeft.x())
-              / (qreal)(grid.width() + spacing);
-    qreal h = qAbs(pos.y() - (qreal)topLeft.y())
-              / (qreal)(grid.height() + spacing);
-    pos.setX(topLeft.x() + qRound(w) * (grid.width() + spacing));
-    pos.setY(topLeft.y() + qRound(h) * (grid.height() + spacing));
+    int w = (pos.x() - topLeft.x()) / (grid.width() + spacing); // can be negative with DND
+    int h = (pos.y() - topLeft.y()) / (grid.height() + spacing); // can be negative with DND
+    pos.setX(topLeft.x() + w * (grid.width() + spacing));
+    pos.setY(topLeft.y() + h * (grid.height() + spacing));
 }
 
 void DesktopWindow::closeEvent(QCloseEvent* event) {
@@ -1324,7 +1799,7 @@ void DesktopWindow::closeEvent(QCloseEvent* event) {
     event->ignore();
 }
 
-void DesktopWindow::paintEvent(QPaintEvent *event) {
+void DesktopWindow::paintEvent(QPaintEvent* event) {
     paintBackground(event);
     QWidget::paintEvent(event);
 }
@@ -1334,6 +1809,23 @@ void DesktopWindow::setScreenNum(int num) {
         screenNum_ = num;
         queueRelayout();
     }
+}
+
+QScreen* DesktopWindow::getDesktopScreen() const {
+    QScreen* desktopScreen = nullptr;
+    if(screenNum_ == -1) {
+        desktopScreen = qApp->primaryScreen();
+    }
+    else {
+        const auto allScreens = qApp->screens();
+        if(allScreens.size() > screenNum_) {
+            desktopScreen = allScreens.at(screenNum_);
+        }
+        if(desktopScreen == nullptr && windowHandle()) {
+            desktopScreen = windowHandle()->screen();
+        }
+    }
+    return desktopScreen;
 }
 
 } // namespace PCManFM

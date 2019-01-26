@@ -30,6 +30,8 @@
 #include <QCursor>
 #include <QMessageBox>
 #include <QScrollBar>
+#include <QToolButton>
+#include <QLabel>
 #include <QDir>
 #include "settings.h"
 #include "application.h"
@@ -52,6 +54,50 @@ bool ProxyFilter::filterAcceptsRow(const Fm::ProxyFolderModel* model, const std:
     return true;
 }
 
+//==================================================
+
+FilterEdit::FilterEdit(QWidget* parent) : QLineEdit(parent) {
+    setClearButtonEnabled(true);
+    if(QToolButton *clearButton = findChild<QToolButton*>()) {
+        clearButton->setToolTip(tr("Clear text (Ctrl+K)"));
+    }
+}
+
+void FilterEdit::keyPressEvent(QKeyEvent* event) {
+    // since two views can be shown in the split mode, Ctrl+K can't be
+    // used as a QShortcut but can come here for clearing the text
+    if(event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_K) {
+        clear();
+    }
+    QLineEdit::keyPressEvent(event);
+}
+
+void FilterEdit::keyPressed(QKeyEvent* event) {
+    // NOTE: Movement and delete keys should be left to the view.
+    // Copy/paste shortcuts are taken by the view but they aren't needed here
+    // (Shift+Insert works for pasting but, since most users may not be familiar
+    // with it, an action is added to the main window for focusing an empty bar).
+    if(!hasFocus()
+       && event->key() != Qt::Key_Left && event->key() != Qt::Key_Right
+       && event->key() != Qt::Key_Home && event->key() != Qt::Key_End
+       && event->key() != Qt::Key_Delete) {
+        keyPressEvent(event);
+    }
+}
+
+FilterBar::FilterBar(QWidget* parent) : QWidget(parent) {
+    QHBoxLayout* HLayout = new QHBoxLayout(this);
+    HLayout->setSpacing(5);
+    filterEdit_ = new FilterEdit();
+    QLabel *label = new QLabel(tr("Filter:"));
+    HLayout->addWidget(label);
+    HLayout->addWidget(filterEdit_);
+    connect(filterEdit_, &QLineEdit::textChanged, this, &FilterBar::textChanged);
+    connect(filterEdit_, &FilterEdit::lostFocus, this, &FilterBar::lostFocus);
+}
+
+//==================================================
+
 TabPage::TabPage(QWidget* parent):
     QWidget(parent),
     folderView_{nullptr},
@@ -60,7 +106,8 @@ TabPage::TabPage(QWidget* parent):
     proxyFilter_{nullptr},
     verticalLayout{nullptr},
     overrideCursor_(false),
-    selectionTimer_(nullptr) {
+    selectionTimer_(nullptr),
+    filterBar_(nullptr) {
 
     Settings& settings = static_cast<Application*>(qApp)->settings();
 
@@ -76,6 +123,7 @@ TabPage::TabPage(QWidget* parent):
 
     folderView_ = new View(settings.viewMode(), this);
     folderView_->setMargins(settings.folderViewCellMargins());
+    folderView_->setShadowHidden(settings.shadowHidden());
     // newView->setColumnWidth(Fm::FolderModel::ColumnName, 200);
     connect(folderView_, &View::openDirRequested, this, &TabPage::openDirRequested);
     connect(folderView_, &View::selChanged, this, &TabPage::onSelChanged);
@@ -88,6 +136,14 @@ TabPage::TabPage(QWidget* parent):
     // FIXME: this is very dirty
     folderView_->setModel(proxyModel_);
     verticalLayout->addWidget(folderView_);
+
+    // filter-bar and its settings
+    filterBar_ = new FilterBar();
+    verticalLayout->addWidget(filterBar_);
+    if(!settings.showFilter()){
+        transientFilterBar(true);
+    }
+    connect(filterBar_, &FilterBar::textChanged, this, &TabPage::onFilterStringChanged);
 }
 
 TabPage::~TabPage() {
@@ -106,6 +162,78 @@ TabPage::~TabPage() {
 
     if(overrideCursor_) {
         QApplication::restoreOverrideCursor(); // remove busy cursor
+    }
+}
+
+void TabPage::transientFilterBar(bool transient) {
+    if(filterBar_) {
+        filterBar_->clear();
+        if(transient) {
+            filterBar_->hide();
+            folderView_->childView()->removeEventFilter(this);
+            folderView_->childView()->installEventFilter(this);
+            connect(filterBar_, &FilterBar::lostFocus, this, &TabPage::onLosingFilterBarFocus);
+        }
+        else {
+            filterBar_->show();
+            folderView_->childView()->removeEventFilter(this);
+            disconnect(filterBar_, &FilterBar::lostFocus, this, &TabPage::onLosingFilterBarFocus);
+        }
+    }
+}
+
+void TabPage::onLosingFilterBarFocus() {
+    // hide the empty transient filter-bar when it loses focus
+    if(getFilterStr().isEmpty()) {
+        filterBar_->hide();
+    }
+}
+
+void TabPage::showFilterBar() {
+    if(filterBar_) {
+        filterBar_->show();
+        if(isVisibleTo(this)) { // the page itself may be in an inactive tab
+            filterBar_->focusBar();
+        }
+    }
+}
+
+bool TabPage::eventFilter(QObject* watched, QEvent* event) {
+    // when a text is typed inside the view, type it inside the filter-bar
+    if(filterBar_ && watched == folderView_->childView() &&  event->type() == QEvent::KeyPress) {
+        if(QKeyEvent* ke = static_cast<QKeyEvent*>(event)) {
+            filterBar_->keyPressed(ke);
+        }
+    }
+    return QWidget::eventFilter(watched, event);
+}
+
+void TabPage::backspacePressed() {
+    if(filterBar_ && filterBar_->isVisible()) {
+        QKeyEvent bs = QKeyEvent(QEvent::KeyPress, Qt::Key_Backspace, Qt::NoModifier);
+        filterBar_->keyPressed(&bs);
+    }
+}
+
+void TabPage::onFilterStringChanged(QString str) {
+    if(filterBar_ && str != getFilterStr()) {
+        setFilterStr(str);
+        applyFilter();
+        // show/hide the transient filter-bar appropriately
+        if(!static_cast<Application*>(qApp)->settings().showFilter()) {
+            if(filterBar_->isVisibleTo(this)) { // the page itself may be in an inactive tab
+                if(str.isEmpty()) {
+                    // focus the view BEFORE hiding the filter-bar to avoid redundant "FocusIn" events;
+                    // otherwise, another widget inside the main window might gain focus immediately
+                    // after the filter-bar is hidden and only after that, the view will be focused.
+                    folderView()->childView()->setFocus();
+                    filterBar_->hide();
+                }
+            }
+            else if(!str.isEmpty()) {
+                filterBar_->show();
+            }
+        }
     }
 }
 
@@ -285,13 +413,9 @@ void TabPage::onFolderFsInfo() {
     guint64 free, total;
     QString& msg = statusText_[StatusTextFSInfo];
     if(folder_->getFilesystemInfo(&total, &free)) {
-        char total_str[64];
-        char free_str[64];
-        fm_file_size_to_str(free_str, sizeof(free_str), free, fm_config->si_unit);
-        fm_file_size_to_str(total_str, sizeof(total_str), total, fm_config->si_unit);
         msg = tr("Free space: %1 (Total: %2)")
-              .arg(QString::fromUtf8(free_str),
-              QString::fromUtf8(total_str));
+              .arg(formatFileSize(free, fm_config->si_unit))
+              .arg(formatFileSize(total, fm_config->si_unit));
     }
     else {
         msg.clear();
@@ -340,21 +464,12 @@ void TabPage::onFolderRemoved() {
 void TabPage::onFolderUnmount() {
     // the folder we're showing is unmounted, destroy the widget
     qDebug("folder unmount");
-    // NOTE: call deleteLater() directly from this GObject signal handler
-    // does not work but I don't know why.
-    // Maybe it's the problem of glib mainloop integration?
-    // Call it when idle works, though.
-    Settings& settings = static_cast<Application*>(qApp)->settings();
-    // NOTE: call deleteLater() directly from this GObject signal handler
-    // does not work but I don't know why.
-    // Maybe it's the problem of glib mainloop integration?
-    // Call it when idle works, though.
-    if(settings.closeOnUnmount()) {
-        QTimer::singleShot(0, this, SLOT(deleteLater()));
-    }
-    else {
-        chdir(Fm::FilePath::homeDir());
-    }
+    // NOTE: We cannot delete the page or change its directory here
+    // because unmounting might be done from places view, in which case,
+    // the mount operation is a child of the places view and should be
+    // finished before doing anything else.
+    freeFolder();
+    Q_EMIT folderUnmounted();
 }
 
 void TabPage::onFolderContentChanged() {
@@ -372,6 +487,9 @@ QString TabPage::pathName() {
 
 void TabPage::chdir(Fm::FilePath newPath, bool addHistory) {
     // qDebug() << "TABPAGE CHDIR:" << newPath.toString().get();
+    if(filterBar_){
+        filterBar_->clear();
+    }
     if(folder_) {
         // we're already in the specified dir
         if(newPath == folder_->path()) {
@@ -421,10 +539,11 @@ void TabPage::chdir(Fm::FilePath newPath, bool addHistory) {
     connect(folder_.get(), &Fm::Folder::unmount, this, &TabPage::onFolderUnmount);
     connect(folder_.get(), &Fm::Folder::contentChanged, this, &TabPage::onFolderContentChanged);
 
+    Settings& settings = static_cast<Application*>(qApp)->settings();
     folderModel_ = CachedFolderModel::modelFromFolder(folder_);
+    folderModel_->setShowFullName(settings.showFullNames());
 
     // set sorting, considering customized folders
-    Settings& settings = static_cast<Application*>(qApp)->settings();
     folderSettings_ = settings.loadFolderSettings(path());
     proxyModel_->sort(folderSettings_.sortColumn(), folderSettings_.sortOrder());
     proxyModel_->setFolderFirst(folderSettings_.sortFolderFirst());
@@ -432,7 +551,7 @@ void TabPage::chdir(Fm::FilePath newPath, bool addHistory) {
     proxyModel_->setSortCaseSensitivity(folderSettings_.sortCaseSensitive() ? Qt::CaseSensitive : Qt::CaseInsensitive);
     proxyModel_->setSourceModel(folderModel_);
 
-    folderView_->setViewMode(folderSettings_.viewMode());
+    setViewMode(folderSettings_.viewMode());
 
     if(folder_->isLoaded()) {
         onFolderStartLoading();
@@ -600,13 +719,22 @@ void TabPage::updateFromSettings(Settings& settings) {
 }
 
 void TabPage::setViewMode(Fm::FolderView::ViewMode mode) {
+    Settings& settings = static_cast<Application*>(qApp)->settings();
     if(folderSettings_.viewMode() != mode) {
         folderSettings_.setViewMode(mode);
         if(folderSettings_.isCustomized()) {
-            static_cast<Application*>(qApp)->settings().saveFolderSettings(path(), folderSettings_);
+            settings.saveFolderSettings(path(), folderSettings_);
         }
     }
+    Fm::FolderView::ViewMode prevMode = folderView_->viewMode();
     folderView_->setViewMode(mode);
+    folderView_->childView()->setFocus();
+    if(!settings.showFilter() && prevMode != folderView_->viewMode()) {
+        // FolderView::setViewMode() may delete the view to switch between list and tree.
+        // So, the event filter should be re-installed.
+        folderView_->childView()->removeEventFilter(this);
+        folderView_->childView()->installEventFilter(this);
+    }
 }
 
 void TabPage::sort(int col, Qt::SortOrder order) {
@@ -665,7 +793,12 @@ void TabPage::applyFilter() {
     if(!proxyModel_) {
         return;
     }
+    int prevSelSize = folderView_->selectionModel()->selectedIndexes().size();
     proxyModel_->updateFilters();
+    // if some selected files are filtered out, "View::selChanged()" won't be emitted
+    if(prevSelSize > folderView_->selectionModel()->selectedIndexes().size()) {
+        onSelChanged();
+    }
     statusText_[StatusTextNormal] = formatStatusText();
     Q_EMIT statusChanged(StatusTextNormal, statusText_[StatusTextNormal]);
 }

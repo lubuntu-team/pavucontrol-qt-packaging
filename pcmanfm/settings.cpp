@@ -26,7 +26,8 @@
 #include <QApplication>
 #include "desktopwindow.h"
 #include <libfm-qt/utilities.h>
-#include <libfm-qt/folderconfig.h>
+#include <libfm-qt/core/folderconfig.h>
+#include <libfm-qt/core/terminal.h>
 #include <QStandardPaths>
 
 namespace PCManFM {
@@ -88,7 +89,7 @@ Settings::Settings():
     splitterPos_(120),
     sidePaneMode_(Fm::SidePane::ModePlaces),
     showMenuBar_(true),
-    fullWidthTabBar_(true),
+    splitView_(false),
     viewMode_(Fm::FolderView::IconMode),
     showHidden_(false),
     sortOrder_(Qt::AscendingOrder),
@@ -231,6 +232,7 @@ bool Settings::loadFile(QString filePath) {
         desktopFont_ = QApplication::font();
     }
     desktopIconSize_ = settings.value("DesktopIconSize", 48).toInt();
+    desktopShortcuts_ = settings.value("DesktopShortcuts").toStringList();
     showWmMenu_ = settings.value("ShowWmMenu", false).toBool();
     desktopShowHidden_ = settings.value("ShowHidden", false).toBool();
     desktopHideItems_ = settings.value("HideItems", false).toBool();
@@ -302,7 +304,7 @@ bool Settings::loadFile(QString filePath) {
     splitterPos_ = settings.value("SplitterPos", 150).toInt();
     sidePaneMode_ = sidePaneModeFromString(settings.value("SidePaneMode").toString());
     showMenuBar_ = settings.value("ShowMenuBar", true).toBool();
-    fullWidthTabBar_ = settings.value("FullWidthTabBar", true).toBool();
+    splitView_ = settings.value("SplitView", false).toBool();
     pathBarButtons_ = settings.value("PathBarButtons", true).toBool();
     settings.endGroup();
 
@@ -361,6 +363,7 @@ bool Settings::saveFile(QString filePath) {
     settings.setValue("ShadowColor", desktopShadowColor_.name());
     settings.setValue("Font", desktopFont_.toString());
     settings.setValue("DesktopIconSize", desktopIconSize_);
+    settings.setValue("DesktopShortcuts", desktopShortcuts_);
     settings.setValue("ShowWmMenu", showWmMenu_);
     settings.setValue("ShowHidden", desktopShowHidden_);
     settings.setValue("HideItems", desktopHideItems_);
@@ -434,7 +437,7 @@ bool Settings::saveFile(QString filePath) {
     settings.setValue("SplitterPos", splitterPos_);
     settings.setValue("SidePaneMode", sidePaneModeToString(sidePaneMode_));
     settings.setValue("ShowMenuBar", showMenuBar_);
-    settings.setValue("FullWidthTabBar", fullWidthTabBar_);
+    settings.setValue("SplitView", splitView_);
     settings.setValue("PathBarButtons", pathBarButtons_);
     settings.endGroup();
 
@@ -686,10 +689,7 @@ static Fm::SidePane::Mode sidePaneModeFromString(const QString& str) {
 
 void Settings::setTerminal(QString terminalCommand) {
     terminal_ = terminalCommand;
-    // override the settings in libfm FmConfig.
-    g_free(fm_config->terminal);
-    fm_config->terminal = g_strdup(terminal_.toLocal8Bit().constData());
-    g_signal_emit_by_name(fm_config, "changed::terminal");
+    Fm::setDefaultTerminal(terminal_.toStdString());
 }
 
 
@@ -730,17 +730,17 @@ FolderSettings Settings::loadFolderSettings(const Fm::FilePath& path) const {
             g_free(str);
         }
 
-        gboolean show_hidden;
+        bool show_hidden;
         if(cfg.getBoolean("ShowHidden", &show_hidden)) {
             settings.setShowHidden(show_hidden);
         }
 
-        gboolean folder_first;
+        bool folder_first;
         if(cfg.getBoolean("SortFolderFirst", &folder_first)) {
             settings.setSortFolderFirst(folder_first);
         }
 
-        gboolean case_sensitive;
+        bool case_sensitive;
         if(cfg.getBoolean("SortCaseSensitive", &case_sensitive)) {
             settings.setSortCaseSensitive(case_sensitive);
         }

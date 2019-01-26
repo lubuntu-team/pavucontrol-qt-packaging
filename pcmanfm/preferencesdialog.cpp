@@ -36,6 +36,8 @@ PreferencesDialog::PreferencesDialog(QString activePage, QWidget* parent):
     QDialog(parent) {
     ui.setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
+    warningCounter_ = 0;
+    ui.warningLabel->hide();
 
     // resize the list widget according to the width of its content.
     ui.listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
@@ -168,21 +170,21 @@ void PreferencesDialog::initDisplayPage(Settings& settings) {
     ui.showFullNames->setChecked(settings.showFullNames());
     ui.shadowHidden->setChecked(settings.shadowHidden());
 
-    // FIXME: Hide options that we don't support yet.
-    ui.showFullNames->hide();
-    ui.shadowHidden->hide();
+    // app restart warning
+    connect(ui.showFullNames, &QAbstractButton::toggled, [this, &settings] (bool checked) {
+       restartWarning(settings.showFullNames() != checked);
+    });
+    connect(ui.shadowHidden, &QAbstractButton::toggled, [this, &settings] (bool checked) {
+       restartWarning(settings.shadowHidden() != checked);
+    });
 }
 
 void PreferencesDialog::initUiPage(Settings& settings) {
     ui.alwaysShowTabs->setChecked(settings.alwaysShowTabs());
-    ui.fullWidthTabbar->setChecked(settings.fullWidthTabBar());
     ui.showTabClose->setChecked(settings.showTabClose());
     ui.rememberWindowSize->setChecked(settings.rememberWindowSize());
     ui.fixedWindowWidth->setValue(settings.fixedWindowWidth());
     ui.fixedWindowHeight->setValue(settings.fixedWindowHeight());
-
-    // FIXME: Hide options that we don't support yet.
-    ui.showInPlaces->parentWidget()->hide();
 }
 
 void PreferencesDialog::initBehaviorPage(Settings& settings) {
@@ -221,6 +223,11 @@ void PreferencesDialog::initBehaviorPage(Settings& settings) {
     ui.confirmTrash->setChecked(settings.confirmTrash());
     ui.quickExec->setChecked(settings.quickExec());
     ui.selectNewFiles->setChecked(settings.selectNewFiles());
+
+    // app restart warning
+    connect(ui.quickExec, &QAbstractButton::toggled, [this, &settings] (bool checked) {
+       restartWarning(settings.quickExec() != checked);
+    });
 }
 
 void PreferencesDialog::initThumbnailPage(Settings& settings) {
@@ -304,7 +311,6 @@ void PreferencesDialog::applyDisplayPage(Settings& settings) {
 
 void PreferencesDialog::applyUiPage(Settings& settings) {
     settings.setAlwaysShowTabs(ui.alwaysShowTabs->isChecked());
-    settings.setFullWidthTabBar(ui.fullWidthTabbar->isChecked());
     settings.setShowTabClose(ui.showTabClose->isChecked());
     settings.setRememberWindowSize(ui.rememberWindowSize->isChecked());
     settings.setFixedWindowWidth(ui.fixedWindowWidth->value());
@@ -395,6 +401,16 @@ void PreferencesDialog::lockMargins(bool lock) {
     else {
         disconnect(ui.hMargin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), ui.vMargin, &QSpinBox::setValue);
     }
+}
+
+void PreferencesDialog::restartWarning(bool warn) {
+    if(warn) {
+        ++warningCounter_;
+    }
+    else {
+        --warningCounter_;
+    }
+    ui.warningLabel->setVisible(warningCounter_ > 0);
 }
 
 } // namespace PCManFM

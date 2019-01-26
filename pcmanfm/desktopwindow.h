@@ -29,6 +29,7 @@
 #include <QHash>
 #include <QPoint>
 #include <QByteArray>
+#include <QScreen>
 #include <xcb/xcb.h>
 #include <libfm-qt/core/folder.h>
 
@@ -84,6 +85,8 @@ public:
 
     void setScreenNum(int num);
 
+    QScreen* getDesktopScreen() const;
+
 protected:
     virtual void prepareFolderMenu(Fm::FolderMenu* menu) override;
     virtual void prepareFileMenu(Fm::FileMenu* menu) override;
@@ -98,9 +101,10 @@ protected:
     virtual bool event(QEvent* event) override;
     virtual bool eventFilter(QObject* watched, QEvent* event) override;
 
+    virtual void childDragMoveEvent(QDragMoveEvent* e) override;
     virtual void childDropEvent(QDropEvent* e) override;
     virtual void closeEvent(QCloseEvent* event) override;
-    virtual void paintEvent(QPaintEvent *event) override;
+    virtual void paintEvent(QPaintEvent* event) override;
 
 protected Q_SLOTS:
     void onOpenDirRequested(const Fm::FilePath& path, int target);
@@ -112,7 +116,6 @@ protected Q_SLOTS:
     void onRowsInserted(const QModelIndex& parent, int start, int end);
     void onLayoutChanged();
     void onModelSortFilterChanged();
-    void onIndexesMoved(const QModelIndexList& indexes);
     void onDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
     void onFolderStartLoading();
     void onFolderFinishLoading();
@@ -126,17 +129,33 @@ protected Q_SLOTS:
     // file operations
     void onCutActivated();
     void onCopyActivated();
+    void onCopyFullPathActivated();
     void onPasteActivated();
     void onRenameActivated();
     void onBulkRenameActivated();
     void onDeleteActivated();
     void onFilePropertiesActivated();
 
+    void updateTrashIcon();
+
 private:
     void removeBottomGap();
     void addDesktopActions(QMenu* menu);
     void paintBackground(QPaintEvent* event);
+    void paintDropIndicator();
+    bool stickToPosition(const std::string& file, QPoint& pos, const QRect& workArea, const QSize& grid, bool reachedLastCell = false);
     static void alignToGrid(QPoint& pos, const QPoint& topLeft, const QSize& grid, const int spacing);
+
+    void updateShortcutsFromSettings(Settings& settings);
+    void createTrashShortcut(int items);
+    void createHomeShortcut();
+    void createComputerShortcut();
+    void createNetworkShortcut();
+
+    void createTrash();
+    static void onTrashChanged(GFileMonitor* monitor, GFile* gf, GFile* other, GFileMonitorEvent evt, DesktopWindow* pThis);
+    void trustOurDesktopShortcut(std::shared_ptr<const Fm::FileInfo> file);
+    bool isTrashCan(std::shared_ptr<const Fm::FileInfo> file);
 
 private:
     Fm::ProxyFolderModel* proxyModel_;
@@ -164,6 +183,11 @@ private:
     QHash<QModelIndex, QString> displayNames_; // only for desktop entries and shortcuts
     QTimer* relayoutTimer_;
     QTimer* selectionTimer_;
+
+    QRect dropRect_;
+
+    QTimer* trashUpdateTimer_;
+    GFileMonitor* trashMonitor_;
 };
 
 }

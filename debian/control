@@ -7,16 +7,16 @@ Uploaders: Alf Gaida <agaida@siduction.org>,
            Yuan CHAO <yuanchao@gmail.com>
 Section: x11
 Priority: optional
-Build-Depends: debhelper (>= 11~),
+Build-Depends: debhelper-compat (= 12),
                libexif-dev,
-               libfm-qt-dev (>= 0.13.1~),
+               libfm-qt-dev (>= 0.14.0~),
                libkf5windowsystem-dev,
                libmenu-cache-dev,
                libqt5svg5-dev,
                libqt5x11extras5-dev,
                libx11-dev,
-               lxqt-build-tools (>= 0.5.0~),
-Standards-Version: 4.1.5
+               lxqt-build-tools (>= 0.6.0~),
+Standards-Version: 4.3.0
 Vcs-Browser: https://salsa.debian.org/lxqt-team/pcmanfm-qt
 Vcs-Git: https://salsa.debian.org/lxqt-team/pcmanfm-qt.git
 Homepage: https://github.com/lxqt/pcmanfm-qt
@@ -27,8 +27,7 @@ Depends: ${misc:Depends},
          ${shlibs:Depends},
          default-dbus-session-bus | dbus-session-bus | dbus-x11,
          desktop-file-utils,
-         libfm-modules,
-         libfm-qt5 (>= 0.13.1~),
+         libfm-qt6 (>= 0.14.0~),
          lxqt-sudo
 Recommends: eject,
             ffmpegthumbnailer,
@@ -47,3 +46,14 @@ Description: extremely fast and lightweight file and desktop icon manager
  .
  Libfm-Qt is a companion library providing components to build desktop file
  managers.
+
+Package: pcmanfm-qt-l10n
+Architecture: all
+Multi-Arch: foreign
+Section: localization
+Depends: ${misc:Depends},
+         qttranslations5-l10n
+Breaks: pcmanfm-qt (<< 0.11.1)
+Replaces: pcmanfm-qt (<< 0.11.1)
+Description: Language package for pcmanfm-qt
+ This package contains the l10n files needed by the pcmanfm-qt.

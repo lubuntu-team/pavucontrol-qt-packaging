@@ -22,13 +22,13 @@
 #define PCMANFM_SETTINGS_H
 
 #include <QObject>
-#include <libfm/fm.h>
 #include <libfm-qt/folderview.h>
 #include <libfm-qt/foldermodel.h>
 #include "desktopwindow.h"
 #include <libfm-qt/sidepane.h>
 #include <libfm-qt/core/thumbnailjob.h>
 #include <libfm-qt/core/archiver.h>
+#include <libfm-qt/core/legacy/fm-config.h>
 
 namespace PCManFM {
 
@@ -313,6 +313,14 @@ public:
         desktopIconSize_ = desktopIconSize;
     }
 
+    QStringList desktopShortcuts() const {
+        return desktopShortcuts_;
+    }
+
+    void setDesktopShortcuts(const QStringList& list) {
+        desktopShortcuts_ = list;
+    }
+
     bool showWmMenu() const {
         return showWmMenu_;
     }
@@ -464,12 +472,12 @@ public:
         showMenuBar_ = showMenuBar;
     }
 
-    bool fullWidthTabBar() const {
-        return fullWidthTabBar_;
+    bool splitView() const {
+        return splitView_;
     }
 
-    void setFullWidthTabBar(bool fullWith) {
-        fullWidthTabBar_ = fullWith;
+    void setSplitView(bool split) {
+        splitView_ = split;
     }
 
     Fm::FolderView::ViewMode viewMode() const {
@@ -899,6 +907,7 @@ private:
     QColor desktopShadowColor_;
     QFont desktopFont_;
     int desktopIconSize_;
+    QStringList desktopShortcuts_;
     bool showWmMenu_;
 
     bool desktopShowHidden_;
@@ -918,7 +927,7 @@ private:
     int splitterPos_;
     Fm::SidePane::Mode sidePaneMode_;
     bool showMenuBar_;
-    bool fullWidthTabBar_;
+    bool splitView_;
 
     Fm::FolderView::ViewMode viewMode_;
     bool showHidden_;

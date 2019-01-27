@@ -1,0 +1,7 @@
+etc/xdg/autostart/lxqt-desktop.desktop
+usr/share/applications/pcmanfm-qt.desktop
+usr/share/applications/pcmanfm-qt-desktop-pref.desktop
+usr/share/man/man1/pcmanfm-qt.1
+usr/share/pcmanfm-qt/lxqt/settings.conf
+usr/bin/pcmanfm-qt
+

@@ -59,7 +59,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../about.ui" line="100"/>
         <source>License</source>
-        <translation></translation>
+        <translation>Licence</translation>
     </message>
 </context>
 <context>
@@ -214,7 +214,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../desktop-preferences.ui" line="85"/>
         <source>Select background color:</source>
-        <translation></translation>
+        <translation>Select background colour:</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="94"/>
@@ -249,7 +249,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../desktop-preferences.ui" line="189"/>
         <source>Select shadow color:</source>
-        <translation></translation>
+        <translation>Select shadow colour:</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="202"/>
@@ -264,7 +264,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.<
     <message>
         <location filename="../desktop-preferences.ui" line="176"/>
         <source>Select text color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Select text colour:</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="225"/>
@@ -356,7 +356,7 @@ A space is also reserved for 3 lines of text.</source>
     <message>
         <location filename="../desktop-preferences.ui" line="429"/>
         <source>Randomize the slide show</source>
-        <translation></translation>
+        <translation>Randomise the slide show</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="459"/>
@@ -391,7 +391,7 @@ A space is also reserved for 3 lines of text.</source>
     <message>
         <location filename="../desktop-preferences.ui" line="518"/>
         <source>Show menus provided by window managers when desktop is clicked</source>
-        <translation></translation>
+        <translation>Show menus provided by window managers when the desktop is clicked</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="453"/>
@@ -1117,12 +1117,12 @@ A space is also reserved for 3 lines of text.</source>
     <message>
         <location filename="../connectserverdialog.cpp" line="11"/>
         <source>WebDav</source>
-        <translation></translation>
+        <translation>WebDAV</translation>
     </message>
     <message>
         <location filename="../connectserverdialog.cpp" line="12"/>
         <source>Secure WebDav</source>
-        <translation></translation>
+        <translation>Secure WebDAV</translation>
     </message>
     <message>
         <location filename="../connectserverdialog.cpp" line="13"/>
@@ -1140,7 +1140,7 @@ A space is also reserved for 3 lines of text.</source>
     <message>
         <location filename="../desktoppreferencesdialog.cpp" line="52"/>
         <source>Fill with background color only</source>
-        <translation></translation>
+        <translation>Fill with background colour only</translation>
     </message>
     <message>
         <location filename="../desktoppreferencesdialog.cpp" line="53"/>
@@ -1155,7 +1155,7 @@ A space is also reserved for 3 lines of text.</source>
     <message>
         <location filename="../desktoppreferencesdialog.cpp" line="55"/>
         <source>Center on the screen</source>
-        <translation></translation>
+        <translation>Centre on the screen</translation>
     </message>
     <message>
         <location filename="../desktoppreferencesdialog.cpp" line="56"/>
@@ -1183,11 +1183,9 @@ A space is also reserved for 3 lines of text.</source>
     <message numerus="yes">
         <location filename="../desktopwindow.cpp" line="296"/>
         <source>Trash (%Ln items)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Trash (%Ln item)</numerusform>
+        <numerusform>Trash (%Ln items)</numerusform>
+        </translation></message>
     <message>
         <location filename="../desktopwindow.cpp" line="300"/>
         <source>Trash (Empty)</source>
@@ -1395,7 +1393,7 @@ A space is also reserved for 3 lines of text.</source>
     <message>
         <location filename="../preferences.ui" line="35"/>
         <source>Behavior</source>
-        <translation></translation>
+        <translation>Behaviour</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="50"/>
@@ -1568,7 +1566,7 @@ A space is also reserved for 3 lines of text.</source>
         <location filename="../preferences.ui" line="343"/>
         <location filename="../preferences.ui" line="353"/>
         <source>Requires application restart to take effect completely</source>
-        <translation></translation>
+        <translation>Requires application restart to fully take effect</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="196"/>
@@ -1649,7 +1647,8 @@ A space is also reserved for 3 lines of text.</source>
         <location filename="../preferences.ui" line="475"/>
         <source>When unchecked, the tab bar will be shown
 only if there are more than one tab.</source>
-        <translation></translation>
+        <translation>When unchecked, the tab bar will be shown
+only if there is more than one tab.</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="796"/>
@@ -1684,12 +1683,12 @@ only if there are more than one tab.</source>
     <message>
         <location filename="../preferences.ui" line="621"/>
         <source>Mount removable media automatically when they are inserted</source>
-        <translation></translation>
+        <translation>Mount removable media automatically when inserted</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="628"/>
         <source>Show available options for removable media when they are inserted</source>
-        <translation></translation>
+        <translation>Show available options for removable media when inserted</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="638"/>

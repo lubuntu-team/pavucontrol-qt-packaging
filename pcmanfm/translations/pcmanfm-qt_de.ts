@@ -102,12 +102,12 @@ Boston, MA  02110-1301, USA.</translation>
     <message>
         <location filename="../autorun.ui" line="47"/>
         <source>Detecting...</source>
-        <translation>Erkennungsvorgang...</translation>
+        <translation>Erkennung läuft...</translation>
     </message>
     <message>
         <location filename="../autorun.ui" line="56"/>
         <source>Please select the action you want to perform:</source>
-        <translation>Bitte wählen Sie die Handlung, welche Sie ausführen möchten:</translation>
+        <translation>Bitte wählen Sie die Aktion aus, die Sie ausführen möchten:</translation>
     </message>
 </context>
 <context>
@@ -153,7 +153,7 @@ Boston, MA  02110-1301, USA.</translation>
     <message>
         <location filename="../connect.ui" line="65"/>
         <source>Specify remote folder to connect</source>
-        <translation>Spezifiziere rechnerfernen Ordner um zu Verbinden</translation>
+        <translation>Geben Sie den Remote-Ordner zum Verbinden an</translation>
     </message>
     <message>
         <location filename="../connect.ui" line="72"/>
@@ -264,7 +264,7 @@ Boston, MA  02110-1301, USA.</translation>
     <message>
         <location filename="../desktop-preferences.ui" line="138"/>
         <source>Label Text</source>
-        <translation>Text</translation>
+        <translation>Beschriftung</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="189"/>
@@ -284,7 +284,7 @@ Boston, MA  02110-1301, USA.</translation>
     <message>
         <location filename="../desktop-preferences.ui" line="176"/>
         <source>Select text color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Textfarbe auswählen:</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="225"/>
@@ -294,7 +294,7 @@ Boston, MA  02110-1301, USA.</translation>
     <message>
         <location filename="../desktop-preferences.ui" line="231"/>
         <source>Minimum item margins:</source>
-        <translation>Minimaler Rand der Objekte:</translation>
+        <translation>Minimaler Objektabstand:</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="238"/>
@@ -317,7 +317,7 @@ Boston, MA  02110-1301, USA.</translation>
         <source>1 px by default.
 A space is also reserved for 3 lines of text.</source>
         <translation>Standardwert 1 px.
-Zusätzlich wird ein 3 Textzeilen entsprechender Abstand freigehalten.</translation>
+Zusätzlich wird ein Abstand freigehalten, der drei Textzeilen entspricht.</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="278"/>
@@ -337,7 +337,7 @@ Zusätzlich wird ein 3 Textzeilen entsprechender Abstand freigehalten.</translat
     <message>
         <location filename="../desktop-preferences.ui" line="333"/>
         <source>Wallpaper image folder:</source>
-        <translation>Hintergrundbildordner:</translation>
+        <translation>Desktophintergrund-Ordner</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="340"/>
@@ -372,7 +372,7 @@ Zusätzlich wird ein 3 Textzeilen entsprechender Abstand freigehalten.</translat
     <message>
         <location filename="../desktop-preferences.ui" line="406"/>
         <source>Wallpaper folder</source>
-        <translation>Hintergrundbild-Ordner</translation>
+        <translation>Desktophintergrund-Ordner</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="429"/>
@@ -382,12 +382,12 @@ Zusätzlich wird ein 3 Textzeilen entsprechender Abstand freigehalten.</translat
     <message>
         <location filename="../desktop-preferences.ui" line="459"/>
         <source>Visible Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Verknüpfungen auf dem Schreibtisch</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="465"/>
         <source>Home</source>
-        <translation>Benutzerverzeichnis</translation>
+        <translation>Home</translation>
     </message>
     <message>
         <location filename="../desktop-preferences.ui" line="476"/>
@@ -435,7 +435,7 @@ Zusätzlich wird ein 3 Textzeilen entsprechender Abstand freigehalten.</translat
     <message>
         <location filename="../main-win.ui" line="265"/>
         <source>Alt+Up</source>
-        <translation>Alt+Bild hoch</translation>
+        <translation>Alt+Bild-Auf</translation>
     </message>
     <message>
         <location filename="../main-win.ui" line="277"/>
@@ -1204,11 +1204,9 @@ Zusätzlich wird ein 3 Textzeilen entsprechender Abstand freigehalten.</translat
     <message numerus="yes">
         <location filename="../desktopwindow.cpp" line="296"/>
         <source>Trash (%Ln items)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Papierkorb (%Ln Element)</numerusform>
+        <numerusform>Papierkorb (%Ln Elemente)</numerusform>
+        </translation></message>
     <message>
         <location filename="../desktopwindow.cpp" line="300"/>
         <source>Trash (Empty)</source>
@@ -1277,7 +1275,7 @@ Zusätzlich wird ein 3 Textzeilen entsprechender Abstand freigehalten.</translat
     <message>
         <location filename="../mainwindow.cpp" line="141"/>
         <source>Root Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Instanz mit Administratorrechten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="661"/>
@@ -1437,7 +1435,7 @@ Zusätzlich wird ein 3 Textzeilen entsprechender Abstand freigehalten.</translat
     <message>
         <location filename="../preferences.ui" line="203"/>
         <source>Select newly created files</source>
-        <translation>Neu erstellte Dateien auswählen</translation>
+        <translation>Markiere neu erstellte Dateien</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="230"/>

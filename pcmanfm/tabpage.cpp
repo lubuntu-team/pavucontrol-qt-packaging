@@ -116,7 +116,10 @@ TabPage::TabPage(QWidget* parent):
     proxyModel_->setShowHidden(settings.showHidden());
     proxyModel_->setBackupAsHidden(settings.backupAsHidden());
     proxyModel_->setShowThumbnails(settings.showThumbnails());
-    connect(proxyModel_, &ProxyFolderModel::sortFilterChanged, this, &TabPage::sortFilterChanged);
+    connect(proxyModel_, &ProxyFolderModel::sortFilterChanged, this, [this] {
+        saveFolderSorting();
+        Q_EMIT sortFilterChanged();
+    });
 
     verticalLayout = new QVBoxLayout(this);
     verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -129,6 +132,16 @@ TabPage::TabPage(QWidget* parent):
     connect(folderView_, &View::selChanged, this, &TabPage::onSelChanged);
     connect(folderView_, &View::clickedBack, this, &TabPage::backwardRequested);
     connect(folderView_, &View::clickedForward, this, &TabPage::forwardRequested);
+
+    // customization of columns of detailed list view
+    folderView_->setCustomColumnWidths(settings.getCustomColumnWidths());
+    folderView_->setHiddenColumns(settings.getHiddenColumns());
+    connect(folderView_, &View::columnResizedByUser, this, [this, &settings]() {
+        settings.setCustomColumnWidths(folderView_->getCustomColumnWidths());
+    });
+    connect(folderView_, &View::columnHiddenByUser, this, [this, &settings]() {
+        settings.setHiddenColumns(folderView_->getHiddenColumns());
+    });
 
     proxyFilter_ = new ProxyFilter();
     proxyModel_->addFilter(proxyFilter_);
@@ -543,15 +556,19 @@ void TabPage::chdir(Fm::FilePath newPath, bool addHistory) {
     folderModel_ = CachedFolderModel::modelFromFolder(folder_);
     folderModel_->setShowFullName(settings.showFullNames());
 
-    // set sorting, considering customized folders
-    folderSettings_ = settings.loadFolderSettings(path());
-    proxyModel_->sort(folderSettings_.sortColumn(), folderSettings_.sortOrder());
-    proxyModel_->setFolderFirst(folderSettings_.sortFolderFirst());
-    proxyModel_->setShowHidden(folderSettings_.showHidden());
-    proxyModel_->setSortCaseSensitivity(folderSettings_.sortCaseSensitive() ? Qt::CaseSensitive : Qt::CaseInsensitive);
-    proxyModel_->setSourceModel(folderModel_);
+    // folderSettings_ will be set by saveFolderSorting() when the sort filter is changed below
+    // (and also by setViewMode()); here, we only need to know whether it should be saved
+    FolderSettings folderSettings = settings.loadFolderSettings(path());
+    folderSettings_.setCustomized(folderSettings.isCustomized());
 
-    setViewMode(folderSettings_.viewMode());
+    // set sorting
+    proxyModel_->sort(folderSettings.sortColumn(), folderSettings.sortOrder());
+    proxyModel_->setFolderFirst(folderSettings.sortFolderFirst());
+    proxyModel_->setShowHidden(folderSettings.showHidden());
+    proxyModel_->setSortCaseSensitivity(folderSettings.sortCaseSensitive() ? Qt::CaseSensitive : Qt::CaseInsensitive);
+    proxyModel_->setSourceModel(folderModel_);
+    // set view mode
+    setViewMode(folderSettings.viewMode());
 
     if(folder_->isLoaded()) {
         onFolderStartLoading();
@@ -729,68 +746,61 @@ void TabPage::setViewMode(Fm::FolderView::ViewMode mode) {
     Fm::FolderView::ViewMode prevMode = folderView_->viewMode();
     folderView_->setViewMode(mode);
     folderView_->childView()->setFocus();
-    if(!settings.showFilter() && prevMode != folderView_->viewMode()) {
+    if(prevMode != folderView_->viewMode()) {
         // FolderView::setViewMode() may delete the view to switch between list and tree.
-        // So, the event filter should be re-installed.
-        folderView_->childView()->removeEventFilter(this);
-        folderView_->childView()->installEventFilter(this);
+        // So, the event filter should be re-installed and the status message should be updated.
+        if(!settings.showFilter()) {
+            folderView_->childView()->removeEventFilter(this);
+            folderView_->childView()->installEventFilter(this);
+        }
+        onSelChanged();
     }
 }
 
 void TabPage::sort(int col, Qt::SortOrder order) {
-    if(folderSettings_.sortColumn() != col || folderSettings_.sortOrder() != order) {
-        folderSettings_.setSortColumn(Fm::FolderModel::ColumnId(col));
-        folderSettings_.setSortOrder(order);
-        if(folderSettings_.isCustomized()) {
-            static_cast<Application*>(qApp)->settings().saveFolderSettings(path(), folderSettings_);
-        }
-    }
     if(proxyModel_) {
         proxyModel_->sort(col, order);
     }
 }
 
 void TabPage::setSortFolderFirst(bool value) {
-    if(folderSettings_.sortFolderFirst() != value) {
-        folderSettings_.setSortFolderFirst(value);
-        if(folderSettings_.isCustomized()) {
-            static_cast<Application*>(qApp)->settings().saveFolderSettings(path(), folderSettings_);
-        }
+    if(proxyModel_) {
+        proxyModel_->setFolderFirst(value);
     }
-    proxyModel_->setFolderFirst(value);
 }
 
 void TabPage::setSortCaseSensitive(bool value) {
-    if(folderSettings_.sortCaseSensitive() != value) {
-        folderSettings_.setSortCaseSensitive(value);
-        if(folderSettings_.isCustomized()) {
-            static_cast<Application*>(qApp)->settings().saveFolderSettings(path(), folderSettings_);
-        }
+    if(proxyModel_) {
+        proxyModel_->setSortCaseSensitivity(value ? Qt::CaseSensitive : Qt::CaseInsensitive);
     }
-    proxyModel_->setSortCaseSensitivity(value ? Qt::CaseSensitive : Qt::CaseInsensitive);
 }
 
-
 void TabPage::setShowHidden(bool showHidden) {
-    if(folderSettings_.showHidden() != showHidden) {
-        folderSettings_.setShowHidden(showHidden);
-        if(folderSettings_.isCustomized()) {
-            static_cast<Application*>(qApp)->settings().saveFolderSettings(path(), folderSettings_);
-        }
-    }
-    if(!proxyModel_) {
-        return;
-    }
-    if(showHidden != proxyModel_->showHidden()) {
+    if(proxyModel_) {
         proxyModel_->setShowHidden(showHidden);
     }
-    // this may also be called by MainWindow::onTabPageSortFilterChanged to set status message
-    statusText_[StatusTextNormal] = formatStatusText();
-    Q_EMIT statusChanged(StatusTextNormal, statusText_[StatusTextNormal]);
+}
+
+void TabPage::saveFolderSorting() {
+    if (proxyModel_ == nullptr) {
+        return;
+    }
+    folderSettings_.setSortOrder(proxyModel_->sortOrder());
+    folderSettings_.setSortColumn(static_cast<Fm::FolderModel::ColumnId>(proxyModel_->sortColumn()));
+    folderSettings_.setSortFolderFirst(proxyModel_->folderFirst());
+    folderSettings_.setSortCaseSensitive(proxyModel_->sortCaseSensitivity());
+    if(folderSettings_.showHidden() != proxyModel_->showHidden()) {
+        folderSettings_.setShowHidden(proxyModel_->showHidden());
+        statusText_[StatusTextNormal] = formatStatusText();
+        Q_EMIT statusChanged(StatusTextNormal, statusText_[StatusTextNormal]);
+    }
+    if(folderSettings_.isCustomized()) {
+        static_cast<Application*>(qApp)->settings().saveFolderSettings(path(), folderSettings_);
+    }
 }
 
 void TabPage::applyFilter() {
-    if(!proxyModel_) {
+    if(proxyModel_ == nullptr) {
         return;
     }
     int prevSelSize = folderView_->selectionModel()->selectedIndexes().size();

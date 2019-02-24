@@ -279,6 +279,11 @@ bool Settings::loadFile(QString filePath) {
 
     folderViewCellMargins_ = (settings.value("FolderViewCellMargins", QSize(3, 3)).toSize()
                               .expandedTo(QSize(0, 0))).boundedTo(QSize(48, 48));
+
+    // detailed list columns
+    customColumnWidths_ = settings.value("CustomColumnWidths").toList();
+    hiddenColumns_ = settings.value("HiddenColumns").toList();
+
     settings.endGroup();
 
     settings.beginGroup("Places");
@@ -406,6 +411,12 @@ bool Settings::saveFile(QString filePath) {
     settings.setValue("ThumbnailIconSize", thumbnailIconSize_);
 
     settings.setValue("FolderViewCellMargins", folderViewCellMargins_);
+
+    // detailed list columns
+    settings.setValue("CustomColumnWidths", customColumnWidths_);
+    std::sort(hiddenColumns_.begin(), hiddenColumns_.end());
+    settings.setValue("HiddenColumns", hiddenColumns_);
+
     settings.endGroup();
 
     settings.beginGroup("Places");
@@ -580,6 +591,9 @@ static const char* sortColumnToString(Fm::FolderModel::ColumnId value) {
     case Fm::FolderModel::ColumnFileOwner:
         ret = "owner";
         break;
+    case Fm::FolderModel::ColumnFileGroup:
+        ret = "group";
+        break;
     }
     return ret;
 }
@@ -600,6 +614,9 @@ static Fm::FolderModel::ColumnId sortColumnFromString(const QString str) {
     }
     else if(str == "owner") {
         ret = Fm::FolderModel::ColumnFileOwner;
+    }
+    else if(str == "group") {
+        ret = Fm::FolderModel::ColumnFileGroup;
     }
     else {
         ret = Fm::FolderModel::ColumnFileName;

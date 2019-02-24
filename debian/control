@@ -9,13 +9,13 @@ Section: x11
 Priority: optional
 Build-Depends: debhelper-compat (= 12),
                libexif-dev,
-               libfm-qt-dev (>= 0.14.0~),
+               libfm-qt-dev (>= 0.14.1~),
                libkf5windowsystem-dev,
                libmenu-cache-dev,
                libqt5svg5-dev,
                libqt5x11extras5-dev,
                libx11-dev,
-               lxqt-build-tools (>= 0.6.0~),
+               lxqt-build-tools (>= 0.6.0~)
 Standards-Version: 4.3.0
 Vcs-Browser: https://salsa.debian.org/lxqt-team/pcmanfm-qt
 Vcs-Git: https://salsa.debian.org/lxqt-team/pcmanfm-qt.git
@@ -27,7 +27,7 @@ Depends: ${misc:Depends},
          ${shlibs:Depends},
          default-dbus-session-bus | dbus-session-bus | dbus-x11,
          desktop-file-utils,
-         libfm-qt6 (>= 0.14.0~),
+         libfm-qt6 (>= 0.14.1~),
          lxqt-sudo
 Recommends: eject,
             ffmpegthumbnailer,
@@ -56,4 +56,6 @@ Depends: ${misc:Depends},
 Breaks: pcmanfm-qt (<< 0.11.1)
 Replaces: pcmanfm-qt (<< 0.11.1)
 Description: Language package for pcmanfm-qt
+ PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
+ .
  This package contains the l10n files needed by the pcmanfm-qt.

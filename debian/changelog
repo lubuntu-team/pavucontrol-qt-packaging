@@ -1,3 +1,12 @@
+pcmanfm-qt (0.14.1-1) unstable; urgency=medium
+
+  * Cherry-picking upstream release 0.14.1.
+  * Bumped minimum version libfm-qt-dev (>= 0.14.1~)
+  * Depend now on libfm-qt6 (>= 0.14.1~)
+  * Improved the description of the language package
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 24 Feb 2019 23:23:24 +0100
+
 pcmanfm-qt (0.14.0-1) unstable; urgency=medium
 
   * Cherry-picking upstream release 0.14.0.

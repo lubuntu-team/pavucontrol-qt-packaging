@@ -221,6 +221,7 @@ MainWindow::MainWindow(Fm::FilePath path):
     group->addAction(ui.actionByFileSize);
     group->addAction(ui.actionByFileType);
     group->addAction(ui.actionByOwner);
+    group->addAction(ui.actionByGroup);
 
     group = new QActionGroup(ui.menuSorting);
     group->setExclusive(true);
@@ -781,7 +782,7 @@ void MainWindow::on_actionNewFolder_triggered() {
     if(TabPage* tabPage = currentPage()) {
         auto dirPath = tabPage->folderView()->path();
         if(dirPath) {
-            createFileOrFolder(CreateNewFolder, dirPath);
+            createFileOrFolder(CreateNewFolder, dirPath, nullptr, this);
         }
     }
 }
@@ -790,7 +791,7 @@ void MainWindow::on_actionNewBlankFile_triggered() {
     if(TabPage* tabPage = currentPage()) {
         auto dirPath = tabPage->folderView()->path();
         if(dirPath) {
-            createFileOrFolder(CreateNewTextFile, dirPath);
+            createFileOrFolder(CreateNewTextFile, dirPath, nullptr, this);
         }
     }
 }
@@ -831,9 +832,6 @@ void MainWindow::on_actionFolderProperties_triggered() {
 void MainWindow::on_actionShowHidden_triggered(bool checked) {
     currentPage()->setShowHidden(checked);
     ui.sidePane->setShowHidden(checked);
-    if(!currentPage()->hasCustomizedView()) {
-        static_cast<Application*>(qApp)->settings().setShowHidden(checked);  // remember globally
-    }
 }
 
 void MainWindow::on_actionByFileName_triggered(bool /*checked*/) {
@@ -846,6 +844,10 @@ void MainWindow::on_actionByMTime_triggered(bool /*checked*/) {
 
 void MainWindow::on_actionByOwner_triggered(bool /*checked*/) {
     currentPage()->sort(Fm::FolderModel::ColumnFileOwner, currentPage()->sortOrder());
+}
+
+void MainWindow::on_actionByGroup_triggered(bool /*checked*/) {
+    currentPage()->sort(Fm::FolderModel::ColumnFileGroup, currentPage()->sortOrder());
 }
 
 void MainWindow::on_actionByFileSize_triggered(bool /*checked*/) {
@@ -1191,6 +1193,7 @@ void MainWindow::updateViewMenuForCurrentPage() {
         sortActions[Fm::FolderModel::ColumnFileSize] = ui.actionByFileSize;
         sortActions[Fm::FolderModel::ColumnFileType] = ui.actionByFileType;
         sortActions[Fm::FolderModel::ColumnFileOwner] = ui.actionByOwner;
+        sortActions[Fm::FolderModel::ColumnFileGroup] = ui.actionByGroup;
         sortActions[tabPage->sortColumn()]->setChecked(true);
 
         if(tabPage->sortOrder() == Qt::AscendingOrder) {
@@ -1408,19 +1411,18 @@ void MainWindow::onTabPageOpenDirRequested(const Fm::FilePath& path, int target)
     }
 }
 
-void MainWindow::onTabPageSortFilterChanged() {
+void MainWindow::onTabPageSortFilterChanged() { // NOTE: This may be called from context menu too.
     TabPage* tabPage = static_cast<TabPage*>(sender());
     if(tabPage == currentPage()) {
         updateViewMenuForCurrentPage();
-        if(!tabPage->hasCustomizedView()) {
+        if(!tabPage->hasCustomizedView()) { // remember sort settings globally
             Settings& settings = static_cast<Application*>(qApp)->settings();
             settings.setSortColumn(static_cast<Fm::FolderModel::ColumnId>(tabPage->sortColumn()));
             settings.setSortOrder(tabPage->sortOrder());
             settings.setSortFolderFirst(tabPage->sortFolderFirst());
             settings.setSortCaseSensitive(tabPage->sortCaseSensitive());
-            settings.setShowHidden(tabPage->showHidden()); // remember globally , as in on_actionShowHidden_triggered()
+            settings.setShowHidden(tabPage->showHidden());
         }
-        tabPage->setShowHidden(tabPage->showHidden()); // change status text and perfolder setting
     }
 }
 
@@ -1452,7 +1454,7 @@ void MainWindow::onSidePaneOpenFolderInTerminalRequested(const Fm::FilePath &pat
 }
 
 void MainWindow::onSidePaneCreateNewFolderRequested(const Fm::FilePath &path) {
-    createFileOrFolder(CreateNewFolder, path);
+    createFileOrFolder(CreateNewFolder, path, nullptr, this);
 }
 
 void MainWindow::onSidePaneModeChanged(Fm::SidePane::Mode mode) {

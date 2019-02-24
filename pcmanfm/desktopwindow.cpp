@@ -310,10 +310,9 @@ void DesktopWindow::createTrashShortcut(int items) {
 void DesktopWindow::createHomeShortcut() {
     GKeyFile* kf = g_key_file_new();
     g_key_file_set_string(kf, "Desktop Entry", "Type", "Application");
-    g_key_file_set_string(kf, "Desktop Entry", "Exec", "pcmanfm-qt");
+    g_key_file_set_string(kf, "Desktop Entry", "Exec", Fm::CStrPtr(g_strconcat("pcmanfm-qt ", Fm::FilePath::homeDir().toString().get(), nullptr)).get());
     g_key_file_set_string(kf, "Desktop Entry", "Icon", "user-home");
-    const QString name = tr("Home");
-    g_key_file_set_string(kf, "Desktop Entry", "Name", name.toStdString().c_str());
+    g_key_file_set_string(kf, "Desktop Entry", "Name", g_get_user_name());
 
     auto path = Fm::FilePath::fromLocalPath(XdgDir::readDesktopDir().toStdString().c_str()).localPath();
     auto trash_can = Fm::CStrPtr{g_build_filename(path.get(), "user-home.desktop", nullptr)};
@@ -833,10 +832,10 @@ void DesktopWindow::onFileClicked(int type, const std::shared_ptr<const Fm::File
                         }
                         g_key_file_free(kf);
                         // empty Trash on clicking the item
-                        connect(action, &QAction::triggered, this, [] {
+                        connect(action, &QAction::triggered, this, [this, &settings] {
                             Fm::FilePathList files;
                             files.push_back(Fm::FilePath::fromUri("trash:///"));
-                            Fm::FileOperation::deleteFiles(std::move(files));
+                            Fm::FileOperation::deleteFiles(std::move(files), settings.confirmDelete(), this);
                         });
                     }
                     menu->exec(QCursor::pos());
@@ -1090,8 +1089,9 @@ void DesktopWindow::trustOurDesktopShortcut(std::shared_ptr<const Fm::FileInfo> 
         return;
     }
     const QString fileName = QString::fromStdString(file->name());
+    auto homeExec = Fm::CStrPtr(g_strconcat("pcmanfm-qt ", Fm::FilePath::homeDir().toString().get(), nullptr));
     const char* execStr = fileName == QLatin1String("trash-can.desktop") && ds.contains(QLatin1String("Trash")) ? "pcmanfm-qt trash:///" :
-                          fileName == QLatin1String("user-home.desktop") && ds.contains(QLatin1String("Home")) ? "pcmanfm-qt" :
+                          fileName == QLatin1String("user-home.desktop") && ds.contains(QLatin1String("Home")) ? homeExec.get() :
                           fileName == QLatin1String("computer.desktop") && ds.contains(QLatin1String("Computer")) ? "pcmanfm-qt computer:///" :
                           fileName == QLatin1String("network.desktop") && ds.contains(QLatin1String("Network")) ? "pcmanfm-qt network:///" : nullptr;
     if(execStr) {
@@ -1340,10 +1340,10 @@ void DesktopWindow::onDeleteActivated() {
         Settings& settings = static_cast<Application*>(qApp)->settings();
         bool shiftPressed = (qApp->keyboardModifiers() & Qt::ShiftModifier ? true : false);
         if(settings.useTrash() && !shiftPressed) {
-            Fm::FileOperation::trashFiles(paths, settings.confirmTrash());
+            Fm::FileOperation::trashFiles(paths, settings.confirmTrash(), this);
         }
         else {
-            Fm::FileOperation::deleteFiles(paths, settings.confirmDelete());
+            Fm::FileOperation::deleteFiles(paths, settings.confirmDelete(), this);
         }
     }
 }
@@ -1588,7 +1588,7 @@ void DesktopWindow::childDropEvent(QDropEvent* e) {
                             if(!paths.empty()) {
                                 e->accept();
                                 Settings& settings = static_cast<Application*>(qApp)->settings();
-                                Fm::FileOperation::trashFiles(paths, settings.confirmTrash());
+                                Fm::FileOperation::trashFiles(paths, settings.confirmTrash(), this);
                                 // remove the drop indicator
                                 dropRect_ = QRect();
                                 listView_->viewport()->update();
@@ -1666,7 +1666,7 @@ void DesktopWindow::childDropEvent(QDropEvent* e) {
                         if(!paths.empty()) {
                             e->accept();
                             Settings& settings = static_cast<Application*>(qApp)->settings();
-                            Fm::FileOperation::trashFiles(paths, settings.confirmTrash());
+                            Fm::FileOperation::trashFiles(paths, settings.confirmTrash(), this);
                             return;
                         }
                     }

@@ -1,61 +1,41 @@
-Source: pcmanfm-qt
-Maintainer: LXQt Packaging Team <pkg-lxqt-devel@lists.alioth.debian.org>
-Uploaders: Alf Gaida <agaida@siduction.org>,
-           ChangZhuo Chen (陳昌倬) <czchen@debian.org>,
-           Andrew Lee (李健秋) <ajqlee@debian.org>,
-           Shih-Yuan Lee (FourDollars) <fourdollars@gmail.com>,
-           Yuan CHAO <yuanchao@gmail.com>
-Section: x11
+Source: pavucontrol-qt
+Maintainer: Lubuntu Developers <lubuntu-devel@lists.ubuntu.com>
+XSBC-Original-Maintainer: LXQt Packaging Team <pkg-lxqt-devel@lists.alioth.debian.org>
+Uploaders: Simon Quigley <tsimonq2@ubuntu.com>
+Section: utils
 Priority: optional
 Build-Depends: debhelper-compat (= 12),
-               libexif-dev,
-               libfm-qt-dev (>= 0.14.1~),
                libkf5windowsystem-dev,
-               libmenu-cache-dev,
+               libpulse-dev,
                libqt5svg5-dev,
                libqt5x11extras5-dev,
-               libx11-dev,
-               lxqt-build-tools (>= 0.6.0~)
+               lxqt-build-tools (>= 0.6.0~),
+               xdg-user-dirs
 Standards-Version: 4.3.0
-Vcs-Browser: https://salsa.debian.org/lxqt-team/pcmanfm-qt
-Vcs-Git: https://salsa.debian.org/lxqt-team/pcmanfm-qt.git
-Homepage: https://github.com/lxqt/pcmanfm-qt
+Vcs-Browser: https://phab.lubuntu.me/source/pavucontrol-qt/
+Vcs-Git: https://phab.lubuntu.me/source/pavucontrol-qt.git
+XS-Debian-Vcs-Browser: https://salsa.debian.org/lxqt-team/pavucontrol-qt
+XS-Debian-Vcs-Git: https://salsa.debian.org/lxqt-team/pavucontrol-qt.git
+Homepage: https://github.com/lxqt/pavucontrol-qt
 
-Package: pcmanfm-qt
+Package: pavucontrol-qt
 Architecture: any
-Depends: ${misc:Depends},
-         ${shlibs:Depends},
-         default-dbus-session-bus | dbus-session-bus | dbus-x11,
-         desktop-file-utils,
-         libfm-qt6 (>= 0.14.1~),
-         lxqt-sudo
-Recommends: eject,
-            ffmpegthumbnailer,
-            gvfs-backends,
-            gvfs-fuse,
-            lximage-qt,
-            lxqt-policykit,
-            lxqt-qtplugin,
-            papirus-icon-theme | breeze-icon-theme | faenza-icon-theme | oxygen-icon-theme,
-            pcmanfm-qt-l10n
-Suggests: cdtool [linux-any]
-Breaks: lxqt-common (<< 0.12.0)
-Replaces: lxqt-common (<< 0.12.0)
-Description: extremely fast and lightweight file and desktop icon manager
- PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
+Depends: pulseaudio, ${misc:Depends}, ${shlibs:Depends}
+Recommends: pavucontrol-qt-l10n
+Description: Qt port of volume control pavucontrol
+ Qt port of volume control pavucontrol of sound server PulseAudio. As such it
+ can be used to adjust all controls provided by PulseAudio as well as some
+ additional settings.
  .
- Libfm-Qt is a companion library providing components to build desktop file
- managers.
+ The software belongs to the LXQt project but its usage isn't limited to this
+ desktop environment.
+ .
+ This package contain the application files.
 
-Package: pcmanfm-qt-l10n
+Package: pavucontrol-qt-l10n
 Architecture: all
 Multi-Arch: foreign
 Section: localization
-Depends: ${misc:Depends},
-         qttranslations5-l10n
-Breaks: pcmanfm-qt (<< 0.11.1)
-Replaces: pcmanfm-qt (<< 0.11.1)
-Description: Language package for pcmanfm-qt
- PCManFM-Qt is the Qt port of the LXDE file manager PCManFM.
- .
- This package contains the l10n files needed by the pcmanfm-qt.
+Depends: qttranslations5-l10n, ${misc:Depends}
+Description: Language package for pavucontrol-qt
+ This package contains the l10n files needed by the pavucontrol-qt.

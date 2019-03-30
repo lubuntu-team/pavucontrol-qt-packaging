@@ -1,390 +1,100 @@
-pcmanfm-qt (0.14.1-1) unstable; urgency=medium
+pavucontrol-qt (0.14.1-1ubuntu1) disco; urgency=medium
 
-  * Cherry-picking upstream release 0.14.1.
-  * Bumped minimum version libfm-qt-dev (>= 0.14.1~)
-  * Depend now on libfm-qt6 (>= 0.14.1~)
-  * Improved the description of the language package
+  * Lubuntuify the package.
 
- -- Alf Gaida <agaida@siduction.org>  Sun, 24 Feb 2019 23:23:24 +0100
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Sat, 09 Mar 2019 12:29:43 -0600
 
-pcmanfm-qt (0.14.0-1) unstable; urgency=medium
+pavucontrol-qt (0.14.1-1) unstable; urgency=medium
 
-  * Cherry-picking upstream release 0.14.0.
+  * Cherry-picked upstream release 0.14.1.
+
+ -- Alf Gaida <agaida@siduction.org>  Tue, 26 Feb 2019 00:51:28 +0100
+
+pavucontrol-qt (0.14.0-1) unstable; urgency=medium
+
+  * Cherry-picked upstream release 0.14.0.
   * Bumped Standards to 4.3.0, no changes needed
   * Dropped d/compat, use debhelper-compat = 12, no changes needed
   * Fixed years in d/copyright
-  * Bumped minimum version libfm-qt-dev (>= 0.14.0~)
   * Bumped minimum version lxqt-build-tools (>= 0.6.0~)
-  * Depend now on libfm-qt6 (>= 0.14.0~)
   * Removed obsolete PULL_TRANSLATIONS= OFF from dh_auto_configure
-  * Added Build-Depends-Package field to symbols
   * Added l10n-package, moved from lxqt-l10n
   * Added d/upstream/metadata
 
- -- Alf Gaida <agaida@siduction.org>  Sun, 27 Jan 2019 19:40:51 +0100
+ -- Alf Gaida <agaida@siduction.org>  Sun, 27 Jan 2019 15:25:30 +0100
 
-pcmanfm-qt (0.13.0-2) unstable; urgency=medium
+pavucontrol-qt (0.4.0-1) unstable; urgency=medium
 
-  * Switch to unstable
-  * Bumped build dependency libfm-qt-dev to >= 0.13.1~
-  * Bumped Standards to 4.1.5, no changes needed
+  * Cherry-picked upstream release 0.4.0
+  * Bump lxqt-build-tools to >= 0.5.0~
+  * Fixed watch file lxde -> lxqt
+  * Moved .gitignore from debian to ./
+  * Cleaned up debian/source/options
 
- -- Alf Gaida <agaida@siduction.org>  Sat, 07 Jul 2018 14:37:15 +0200
+ -- Alf Gaida <agaida@siduction.org>  Wed, 23 May 2018 20:29:30 +0200
 
-pcmanfm-qt (0.13.0-1) experimental; urgency=medium
-
-  * Cherry-picking upstream release 0.13.0.
-  * Bumped build dependency libfm-qt-dev to >= 0.13.0~
-  * Bumped build dependency lxqt-build-tools to >= 0.5.0~
-  * Added papirus-icon-theme as default alternative for icon-themes
-  * Bumped year in copyright
-  * Removed ported back upstream patches.
-  * Moved debian/.gitignore -> ./.gitignore
-
- -- Alf Gaida <agaida@siduction.org>  Sat, 26 May 2018 02:25:19 +0200
-
-pcmanfm-qt (0.12.0-6) unstable; urgency=medium
+pavucontrol-qt (0.3.0-4) unstable; urgency=medium
 
   * Bumped compat to 11
   * Bumped debhelper to >= 11~
   * Bumped Standards to 4.1.4, no changes needed
-  * Fixed a glitch in VCS fields
+  * Changed VCS fields for salsa
   * Changed Homepage, Source and watch to lxqt
-  * Bumped year in copyright
+  * Bumped years in copyright
+  * Removed trailing whitespaces in changelog
 
- -- Alf Gaida <agaida@siduction.org>  Sat, 28 Apr 2018 18:43:40 +0200
+ -- Alf Gaida <agaida@siduction.org>  Sat, 28 Apr 2018 18:21:55 +0200
 
-pcmanfm-qt (0.12.0-5) unstable; urgency=medium
-
-  * Moved git to salsa, changed the VCS fields that way
-  * Bumped Standards to 4.1.3, no changes needed
-  * Added gfvs-fuse to recommends, thanks robert <maxl1234@gmx.at>
-    (Closes: #886166)
-
- -- Alf Gaida <agaida@siduction.org>  Fri, 05 Jan 2018 19:12:49 +0100
-
-pcmanfm-qt (0.12.0-4) unstable; urgency=medium
-
-  * Really bumped Standards.
-
- -- Alf Gaida <agaida@siduction.org>  Sat, 16 Dec 2017 03:48:34 +0100
-
-pcmanfm-qt (0.12.0-3) unstable; urgency=medium
+pavucontrol-qt (0.3.0-3) unstable; urgency=medium
 
   * Bumped Standards to 4.1.2, no changes needed
-  * Move config to /usr/share/pcmanfm-qt/lxqt
   * Removed branch from VCS fields
   * Removed debian/gbp.conf
 
- -- Alf Gaida <agaida@siduction.org>  Fri, 15 Dec 2017 00:49:17 +0100
+ -- Alf Gaida <agaida@siduction.org>  Thu, 14 Dec 2017 23:51:12 +0100
 
-pcmanfm-qt (0.12.0-2) unstable; urgency=medium
+pavucontrol-qt (0.3.0-2) unstable; urgency=medium
 
   * Transition to unstable
 
- -- Alf Gaida <agaida@siduction.org>  Tue, 05 Dec 2017 01:51:44 +0100
+ -- Alf Gaida <agaida@siduction.org>  Mon, 04 Dec 2017 20:00:17 +0100
 
-pcmanfm-qt (0.12.0-1) experimental; urgency=medium
+pavucontrol-qt (0.3.0-1) experimental; urgency=medium
 
-  * Cherry-picking upstream release 0.12.0.
-  * Bumped Standards to 4.1.1
-  * Bumped build-tools >= 0.4.0
-  * Bumped libfm-qt-dev >= 0.12.0
+  * Cherry-picking new upstream release 0.3.0.
+  * Switched to experimental
+  * Bumped Standards to 0.4.0, no changes needed
+  * Bumped minimum version lxqt-build-tools (>= 0.4.0)
   * Bumped years in copyright
-  * Added  build dependency libexif-dev
-  * Added Breaks and Replaces for lxqt-common << 0.12.0
 
- -- Alf Gaida <agaida@siduction.org>  Tue, 24 Oct 2017 21:53:39 +0200
+ -- Alf Gaida <agaida@siduction.org>  Sun, 24 Sep 2017 15:19:13 +0200
 
-pcmanfm-qt (0.11.3-4) unstable; urgency=medium
+pavucontrol-qt (0.2.0-1) unstable; urgency=medium
 
-  * Depend on desktop-file-utils (Closes: #866900)
-  * Recommend ffmpegthumbnailer (Closes: #867460)
-  * Removed the alternative dependency gksu.  Reason: #867236
-
- -- Alf Gaida <agaida@siduction.org>  Thu, 06 Jul 2017 19:58:03 +0200
-
-pcmanfm-qt (0.11.3-3) unstable; urgency=medium
-
-  * Bumped Standards to 4.0.0
-  * Depend on lxqt-sudo | gksu we need at least one UI for sudo
-  * Added Recommends: lximage-qt, lxqt-policykit, lxqt-qtplugin
-    (Closes: #866347)
-  * pcmanfm-qt allow multiple file selections with mouse, the implementation is
-    horrible in some places, but it works. (Closes: #853201)
-
- -- Alf Gaida <agaida@siduction.org>  Sun, 02 Jul 2017 18:05:08 +0200
-
-pcmanfm-qt (0.11.3-2) unstable; urgency=medium
-
-  * set oxygen-icon-theme as default alternative recommendation
-    (Closes: #851411)
-
- -- Alf Gaida <agaida@siduction.org>  Sun, 15 Jan 2017 01:35:46 +0100
-
-pcmanfm-qt (0.11.3-1) unstable; urgency=medium
-
-  * Cherry-picking upstream release 0.11.3.
-
- -- Alf Gaida <agaida@siduction.org>  Sat, 14 Jan 2017 03:54:54 +0100
-
-pcmanfm-qt (0.11.2-1) unstable; urgency=medium
-
-  * Cherry-picking upstream release 0.11.2.
-  * Removed build dependencies:
-    - libfm-dev
+  * Cherry-picking upstream release 0.2.0.
+  * Removed some no longer needed build dependencies:
+    - cmake
     - liblxqt0-dev
-  * Bumped minimum versions
-    - libfm-qt-dev (>= 0.11.2)
-    - lxqt-build-tools (>= 0.3.0)
-    - libfm-qt3 (>= 0.11.2)
-  * Suggests: cdtool -> cdtool [linux-any]
-
- -- Alf Gaida <agaida@siduction.org>  Thu, 22 Dec 2016 02:02:37 +0100
-
-pcmanfm-qt (0.11.1-3) unstable; urgency=medium
-
-  * Added versioned dependency libfm-qt3 (>= 0.11.1), dh detect only
-    a minimum version of 0.11.0 - false because some symbols are added
-    which are needed for pcmanfm-qt (>= 0.11.1) (Closes: #842080)
-  * Removed build dependencies
     - libqt5xdg-dev
-    - pkg-config,
-    - qttools5-dev,
+    - libqt5xdgiconloader-dev
+    - pkg-config
+    - qttools5-dev
     - qttools5-dev-tools
-  * Added build dependency lxqt-build-tools
+  * Added build dependency lxqt-build-tools (>= 0.3.0)
+  * Added dependency pulseaudio (Closes: #847373)
+  * Fixed Recommends: obconf-qt-l10n -> pavucontrol-qt-l10n
 
- -- Alf Gaida <agaida@siduction.org>  Sat, 05 Nov 2016 02:06:06 +0100
+ -- Alf Gaida <agaida@siduction.org>  Mon, 12 Dec 2016 18:56:14 +0100
 
-pcmanfm-qt (0.11.1-2) unstable; urgency=medium
+pavucontrol-qt (0.1.0-2) unstable; urgency=medium
 
-  * Cherry-picking upstream release 0.11.1.
-  * Synced debian foo with experimental
-  * Removed --parallel from rules, standard compat 10
-  * New dep. default-dbus-session-bus | dbus-session-bus | dbus-x11
-    (Closes: #836284)
-  * Fixed Crashes while copying (Closes: #823753)
-  * Bumped minimum version libfm-qt-dev (>= 0.11.1)
-  * Bumped minimum version libqt5xdg-dev (>= 2.0.0)
-  * Added build dependency libkf5windowsystem-dev
-  * Added build dependency libqt5svg5-dev
-  * Added build dependency liblxqt0-dev (>= 0.11.0)
-  * Added Recommends pcmanfm-qt-l10n
-  * Fixed VCS fields, using plain /git/
-  * Fixed copyright Format field, using https
-  * Dropped patches, applied upstream
-  * Added translation controls
-  * Set CMAKE_BUILD_TYPE=RelWithDebInfo
+  * Moved to unstable
+  * Fixed signing-key, thanks Rohan Garg <rohan@kde.org>
 
- -- Alf Gaida <agaida@siduction.org>  Tue, 18 Oct 2016 22:59:30 +0200
+ -- Alf Gaida <agaida@siduction.org>  Tue, 18 Oct 2016 20:34:41 +0200
 
-pcmanfm-qt (0.11.0-10) unstable; urgency=medium
+pavucontrol-qt (0.1.0-1) experimental; urgency=medium
 
-  * Fixed typo in Recommends: oyxgen-icon-theme -> oxygen-icon-theme
+  * Initial release (Closes: #838724)
 
- -- Alf Gaida <agaida@siduction.org>  Mon, 19 Sep 2016 21:50:10 +0200
-
-pcmanfm-qt (0.11.0-9) unstable; urgency=medium
-
-  * Bumped compat to 10
-  * Bumped build dependency debhelper (>=10)
-  * Fixed typo in Recommends: faenza--icon-theme > faenza-icon-theme
-
- -- Alf Gaida <agaida@siduction.org>  Mon, 19 Sep 2016 04:23:26 +0200
-
-pcmanfm-qt (0.11.0-8) unstable; urgency=medium
-
-  * Replace dep. dbus-x11 with default-dbus-session-bus | dbus-session-bus
-    (Closes: #836284)
-  * Set CMAKE_BUILD_TYPE=RelWithDebInfo
-
- -- Alf Gaida <agaida@siduction.org>  Thu, 01 Sep 2016 22:56:35 +0200
-
-pcmanfm-qt (0.11.0-7) unstable; urgency=medium
-
-  * Fixed VCS fields, use plain /git/
-  * Reworked icon-theme recommends (Closes: #833590)
-    Thanks Pino Toscano <pino@debian.org>
-
- -- Alf Gaida <agaida@siduction.org>  Sun, 07 Aug 2016 11:14:08 +0200
-
-pcmanfm-qt (0.11.0-6) unstable; urgency=medium
-
-  * Set LC_ALL for reproducible builds.
-
- -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sat, 16 Jul 2016 11:16:41 +0800
-
-pcmanfm-qt (0.11.0-5) unstable; urgency=medium
-
-  * Backported temporary upstream fix for #826311
-    (https://github.com/lxde/pcmanfm-qt/pull/359)
-  * Bumped standards version to 3.9.8 - no changes needed
-
- -- Alf Gaida <agaida@siduction.org>  Sat, 04 Jun 2016 19:39:22 +0200
-
-pcmanfm-qt (0.11.0-4) unstable; urgency=medium
-
-  * Added oxygen-icon-theme | oxygen5-icon-theme | gnome-icon-theme
-    to recommends. (Closes: #826311)
-
- -- Alf Gaida <agaida@siduction.org>  Sat, 04 Jun 2016 15:54:21 +0200
-
-pcmanfm-qt (0.11.0-3) unstable; urgency=low
-
-  * Adding "Depends: dbus-x11". Closes: #820079
-
- -- Yuan CHAO <yuanchao@gmail.com>  Tue, 19 Apr 2016 20:30:00 +0800
-
-pcmanfm-qt (0.11.0-2) unstable; urgency=medium
-
-  * Merge experimental to unstable
-
- -- Alf Gaida <agaida@siduction.org>  Thu, 31 Mar 2016 22:07:11 +0200
-
-pcmanfm-qt (0.11.0-1) experimental; urgency=medium
-
-  * New upstream release
-  * Removed grep patch
-  * Bump libfm-qt-dev (>= 0.11.0)
-
- -- Alf Gaida <agaida@siduction.org>  Mon, 28 Mar 2016 18:12:27 +0200
-
-pcmanfm-qt (0.10.1-2) unstable; urgency=medium
-
-  * Bump Standards to 3.9.7
-  * Fix years in copyright
-  * Add hardending=+all
-  * simplify rules
-  * make pcmanfm-qt reproducible again, thanks to Eduard Sanou for the
-    bugreport and the patch, but it was fixed before (Closes: #815818)
-
- -- Alf Gaida <agaida@siduction.org>  Fri, 26 Feb 2016 00:16:22 +0100
-
-pcmanfm-qt (0.10.1-1) unstable; urgency=medium
-
-  * New upstream release.
-  * Remove libfm-qt as upstream moved it into another source repository.
-  * Remove dbg package in favor of dbgsym.
-  * Update Vcs-Browser.
-
- -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sun, 07 Feb 2016 16:13:27 +0800
-
-pcmanfm-qt (0.10.0-2) unstable; urgency=medium
-
-  * Merge from experimental.
-  * New upstream release.
-  * Update minimum version of liblxqt.
-  * Update symbols.
-  * Remove menu file, see CTTE #741573.
-
- -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sun, 15 Nov 2015 21:14:41 +0800
-
-pcmanfm-qt (0.9.0+20150908-2) unstable; urgency=medium
-
-  * Menufile deleted
-  * debian/rules --fail-missing included --list-missig, so
-    --list-missing deleted
-
- -- Alf Gaida <agaida@siduction.org>  Fri, 13 Nov 2015 02:37:53 +0100
-
-pcmanfm-qt (0.9.0+20150908-1) unstable; urgency=medium
-
-  [ Alf Gaida ]
-  * Cherry-picked upstream version 0.9.0+20150908.
-  * Tar-ignore .gitignore
-  * Fixed control with cme fix
-  * Added upstream signing-key and use it in watch file
-  * Removed automoc build dependency - not needed with Qt5
-  * Fixed symbols for i386 and amd64
-
-  [ ChangZhuo Chen (陳昌倬) ]
-  * Use arch-bits to fix 32 bit architecture symbols.
-  * Add Shih-Yuan Lee (FourDollars) as Uploaders.
-
- -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Tue, 15 Sep 2015 23:30:13 +0800
-
-pcmanfm-qt (0.9.0+20150816-1) unstable; urgency=medium
-
-  [ ChangZhuo Chen (陳昌倬) ]
-  * Import debian directory from Wen.Liao.
-  * Initial release (Closes: #747605)
-  * Merge debian directory.
-  * Backup *.ts.
-  * Fix package-contains-empty-directory.
-  * Don't use variable for command.
-  * Add libfm-qt1 and libfm-qt-dev.
-  * Update copyright.
-  * Add Pre-Depends: ${misc:Pre-Depends} to libfm-qt1.
-  * Create manpage for pcmanfm-qt.
-  * add libfm-qt1.symbols.
-  * Revert "Create manpage for pcmanfm-qt".
-  * Add pcmanfm-qt.manpages.
-  * Fix manpage.
-  * Install include to libfm-qt-dev.
-  * Update package description.
-  * Use patch to install manpage.
-  * Migrate to QT5.
-  * Update d/copyright.
-  * Fix copyright typo.
-  * Revert accidiently ts changed.
-
-  [ Alf Gaida ]
-  * gitignore added.
-  * new upstream translation files.
-  * some cleanup in debian rules.
-  * two missed symbols added.
-  * they need a little bit of beautyfing.
-  * we should not save translations in debian/bak. if there is a real
-    problem with the translations this should be fixed upstream.
-  * add two symbols @czchen - would you be so kind and clean them up.
-  * catch up with upstream Patch descriptions changed.
-  * Imported Upstream version 0.8.0
-  * Min Qt version 5.3.2.
-  * bump standards to 3.9.6.
-  * removed all patches, integrated in upstream.
-  * fix symbols (two symbols added).
-  * fix prefs desktop file.
-  * fix arch for dbg packages.
-  * Imported Upstream version 0.8.0.
-  * Min Qt version 5.3.2.
-  * bump standards to 3.9.6.
-  * removed all patches, integrated in upstream.
-  * fix symbols (two symbols added).
-  * fix prefs desktop file.
-  * fix arch for dbg packages.
-  * patch added released.
-  * fixing arch dependent symbols.
-  * recommend gfvs-backends.
-  * Some cleanup in debian $foo.
-  * some changes in debian $foo.
-  * drop transitional packages.
-
-  [ ChangZhuo Chen (陳昌倬) ]
-  * Unapply Debian patch.
-  * Add debian/source/local-options.
-  * Backup / Restore translations.
-  * Fix override_dh_clean.
-  * Use override_dh_auto_clean to restore translations.
-  * Update symbol control file.
-  * Quote in symbol control file.
-  * Restore upstream file.
-  * Imported Upstream version 0.9.0+20150816.
-  * Add (c++) to symbol control file.
-  * Update changelog.
-  * Update symbol control file.
-  * Fix symbol control file.
-  * Fix Architecture.
-  * Add Multi-Arch: same.
-
-  [ Shih-Yuan Lee (FourDollars) ]
-  * Polish debian/control by 'cme fix dpkg-control'.
-  * Update package description.
-
-  [ Andrew Lee (李健秋) ]
-  * Added myself as Uploader.
-  * Removing whitespaces at EOL and EOF.
-  * Refine descriptions.
-  * Don't need to backup/restore translation files, this fixed upstream.
-  * Warpped lines in copyright.
-
- -- Andrew Lee (李健秋) <ajqlee@debian.org>  Mon, 17 Aug 2015 21:04:54 +0800
+ -- Alf Gaida <agaida@siduction.org>  Sat, 24 Sep 2016 16:18:14 +0200

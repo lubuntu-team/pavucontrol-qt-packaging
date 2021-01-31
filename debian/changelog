@@ -1,3 +1,22 @@
+pavucontrol-qt (0.16.0-1ubuntu1) hirsute; urgency=medium
+
+  * Merge from Debian unstable. Remaining changes:
+    - Lubuntuify the package.
+    - Run wrap-and-sort
+
+ -- Rik Mills <rikmills@kde.org>  Sun, 31 Jan 2021 17:05:03 +0000
+
+pavucontrol-qt (0.16.0-1) unstable; urgency=medium
+
+  [ Alf Gaida ]
+  * Switched to gbp
+  * Bumped Standards-Version to 4.4.0, no changes needed
+
+  [ Andrew Lee (李健秋) ]
+  * New upstream release. (Closes: #978181)
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Thu, 07 Jan 2021 16:48:22 +0800
+
 pavucontrol-qt (0.15.0-0ubuntu1) groovy; urgency=medium
 
   * New upstream release.

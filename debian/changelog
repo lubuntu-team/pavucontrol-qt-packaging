@@ -1,4 +1,4 @@
-pavucontrol-qt (0.16.0-1ubuntu2) UNRELEASED; urgency=medium
+pavucontrol-qt (0.16.0-1ubuntu2) hirsute; urgency=medium
 
   * Restore correct upstream signing key.
 

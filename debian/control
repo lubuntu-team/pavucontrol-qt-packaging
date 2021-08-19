@@ -4,14 +4,14 @@ XSBC-Original-Maintainer: LXQt Packaging Team <pkg-lxqt-devel@lists.alioth.debia
 Uploaders: Simon Quigley <tsimonq2@ubuntu.com>
 Section: utils
 Priority: optional
-Build-Depends: debhelper-compat (= 12),
+Build-Depends: debhelper-compat (= 13),
                libkf5windowsystem-dev,
                libpulse-dev,
                libqt5svg5-dev,
                libqt5x11extras5-dev,
-               lxqt-build-tools (>= 0.8.0~),
+               lxqt-build-tools (>= 0.9.0),
                xdg-user-dirs
-Standards-Version: 4.5.0
+Standards-Version: 4.5.1
 Vcs-Browser: https://phab.lubuntu.me/source/pavucontrol-qt/
 Vcs-Git: https://phab.lubuntu.me/source/pavucontrol-qt.git
 XS-Debian-Vcs-Browser: https://salsa.debian.org/lxqt-team/pavucontrol-qt
@@ -38,4 +38,6 @@ Multi-Arch: foreign
 Section: localization
 Depends: qttranslations5-l10n, ${misc:Depends}
 Description: Language package for pavucontrol-qt
+ The l10n files for pavucontrol-qt.
+ .
  This package contains the l10n files needed by the pavucontrol-qt.

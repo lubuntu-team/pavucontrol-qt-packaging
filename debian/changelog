@@ -1,3 +1,9 @@
+pavucontrol-qt (0.17.0-0ubuntu2) jammy; urgency=medium
+
+  * Allow pipewire-pulse as an alternate depends.
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 16 Dec 2021 18:42:24 +0000
+
 pavucontrol-qt (0.17.0-0ubuntu1) impish; urgency=medium
 
   * New upstream release 0.17.0

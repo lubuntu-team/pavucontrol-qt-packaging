@@ -1,6 +1,7 @@
 pavucontrol-qt (1.1.0-0ubuntu1) UNRELEASED; urgency=medium
 
   * New upstream release.
+  * Bump build dependencies.
 
  -- Simon Quigley <tsimonq2@ubuntu.com>  Thu, 02 Jun 2022 10:39:06 -0500
 

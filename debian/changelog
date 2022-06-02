@@ -1,3 +1,9 @@
+pavucontrol-qt (1.1.0-0ubuntu1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Thu, 02 Jun 2022 10:39:06 -0500
+
 pavucontrol-qt (0.17.0-0ubuntu2) jammy; urgency=medium
 
   * Allow pipewire-pulse as an alternate depends.

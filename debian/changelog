@@ -4,6 +4,7 @@ pavucontrol-qt (1.1.0-0ubuntu1~ppa1) jammy; urgency=medium
   * Updated Lubuntu Developers copyright to 2021-2022.
   * Removed obsolete "-Wl,--as-needed" linker flag.
   * Removed redundant Repository-Browser field from d/upstream/metadata.
+  * Bumped Standards-Version to 4.6.1, no changes necessary.
 
  -- Aaron Rainbolt <arraybolt3@gmail.com>  Wed, 29 Jun 2022 17:14:55 -0500
 

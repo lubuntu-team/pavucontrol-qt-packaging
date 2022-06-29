@@ -11,7 +11,7 @@ Build-Depends: debhelper-compat (= 13),
                libqt5x11extras5-dev,
                lxqt-build-tools (>= 0.11.0),
                xdg-user-dirs
-Standards-Version: 4.5.1
+Standards-Version: 4.6.1
 Vcs-Browser: https://phab.lubuntu.me/source/pavucontrol-qt/
 Vcs-Git: https://phab.lubuntu.me/source/pavucontrol-qt.git
 XS-Debian-Vcs-Browser: https://salsa.debian.org/lxqt-team/pavucontrol-qt

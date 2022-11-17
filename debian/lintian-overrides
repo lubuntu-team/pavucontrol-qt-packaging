@@ -1,4 +1,4 @@
 # yes, we know
-pavucontrol-qt: no-manual-page usr/bin/pavucontrol-qt
-pavucontrol-qt: desktop-entry-lacks-keywords-entry usr/share/applications/pavucontrol-qt.desktop
+pavucontrol-qt: no-manual-page [usr/bin/pavucontrol-qt]
+pavucontrol-qt: desktop-entry-lacks-keywords-entry [usr/share/applications/pavucontrol-qt.desktop]
 

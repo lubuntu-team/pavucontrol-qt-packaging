@@ -1,42 +1,24 @@
-pavucontrol-qt (1.1.0-0ubuntu1) kinetic; urgency=medium
+pavucontrol-qt (1.1.0-1) experimental; urgency=medium
 
-  * New upstream release.
-  * Bump build dependencies.
+  * New upstream release 1.1.0.
+  * Removed obsolete debian/compat file.
+  * Switched to GBP.
+  * Upstreamed non-Ubuntu-specific packaging changes from Ubuntu, modifying
+    the following files:
+    - control
+    - copyright
+    - lintian-overrides
+    - *.install
+    - rules
+    - upstream/*
 
- -- Simon Quigley <tsimonq2@ubuntu.com>  Thu, 02 Jun 2022 10:42:22 -0500
+ -- Aaron Rainbolt <arraybolt3@gmail.com>  Sun, 10 Jul 2022 04:35:38 -0500
 
-pavucontrol-qt (0.17.0-0ubuntu2) jammy; urgency=medium
+pavucontrol-qt (0.16.0-2) unstable; urgency=medium
 
-  * Allow pipewire-pulse as an alternate depends.
+  * Depend on either pulseaudio or pipewire-pulse (Closes: #995690)
 
- -- Rik Mills <rikmills@kde.org>  Thu, 16 Dec 2021 18:42:24 +0000
-
-pavucontrol-qt (0.17.0-0ubuntu1) impish; urgency=medium
-
-  * New upstream release 0.17.0
-  * Update debian/control
-    - Bump debhelper-compat to 13
-    - Bump Standards-Version to 4.5.1
-    - Use lxqt-build-tools 0.9.0
-    - Extend pavucontrol-qt-l10n package description
-  * Rename tag for lintian override
-  * Update debian/copyright
-
- -- apt-ghetto <apt-ghetto@protonmail.com>  Wed, 18 Aug 2021 13:57:36 +0200
-
-pavucontrol-qt (0.16.0-1ubuntu2) hirsute; urgency=medium
-
-  * Restore correct upstream signing key.
-
- -- Rik Mills <rikmills@kde.org>  Sun, 21 Feb 2021 19:47:12 +0000
-
-pavucontrol-qt (0.16.0-1ubuntu1) hirsute; urgency=medium
-
-  * Merge from Debian unstable. Remaining changes:
-    - Lubuntuify the package.
-    - Run wrap-and-sort
-
- -- Rik Mills <rikmills@kde.org>  Sun, 31 Jan 2021 17:05:03 +0000
+ -- Arto Jantunen <viiru@debian.org>  Wed, 03 Nov 2021 12:41:14 +0200
 
 pavucontrol-qt (0.16.0-1) unstable; urgency=medium
 
@@ -48,22 +30,6 @@ pavucontrol-qt (0.16.0-1) unstable; urgency=medium
   * New upstream release. (Closes: #978181)
 
  -- Andrew Lee (李健秋) <ajqlee@debian.org>  Thu, 07 Jan 2021 16:48:22 +0800
-
-pavucontrol-qt (0.15.0-0ubuntu1) groovy; urgency=medium
-
-  * New upstream release.
-    - Update upstream signing key.
-    - Update LXQt build dependencies.
-  * Update Standards-version to 4.5.0, no changes needed.
-  * Run wrap-and-sort.
-
- -- Simon Quigley <tsimonq2@ubuntu.com>  Thu, 04 Jun 2020 00:17:27 -0500
-
-pavucontrol-qt (0.14.1-1ubuntu1) disco; urgency=medium
-
-  * Lubuntuify the package.
-
- -- Simon Quigley <tsimonq2@ubuntu.com>  Sat, 09 Mar 2019 12:29:43 -0600
 
 pavucontrol-qt (0.14.1-1) unstable; urgency=medium
 

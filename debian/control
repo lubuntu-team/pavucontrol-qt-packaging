@@ -1,7 +1,10 @@
 Source: pavucontrol-qt
-Maintainer: Lubuntu Developers <lubuntu-devel@lists.ubuntu.com>
-XSBC-Original-Maintainer: LXQt Packaging Team <pkg-lxqt-devel@lists.alioth.debian.org>
-Uploaders: Simon Quigley <tsimonq2@ubuntu.com>
+Maintainer: LXQt Packaging Team <pkg-lxqt-devel@lists.alioth.debian.org>
+Uploaders: Alf Gaida <agaida@siduction.org>,
+           Andrew Lee (李健秋) <ajqlee@debian.org>,
+           ChangZhuo Chen (陳昌倬) <czchen@debian.org>,
+           Simon Quigley <tsimonq2@debian.org>,
+           Aaron Rainbolt <arraybolt3@gmail.com>
 Section: utils
 Priority: optional
 Build-Depends: debhelper-compat (= 13),
@@ -11,12 +14,11 @@ Build-Depends: debhelper-compat (= 13),
                libqt5x11extras5-dev,
                lxqt-build-tools (>= 0.11.0),
                xdg-user-dirs
-Standards-Version: 4.5.1
-Vcs-Browser: https://phab.lubuntu.me/source/pavucontrol-qt/
-Vcs-Git: https://phab.lubuntu.me/source/pavucontrol-qt.git
-XS-Debian-Vcs-Browser: https://salsa.debian.org/lxqt-team/pavucontrol-qt
-XS-Debian-Vcs-Git: https://salsa.debian.org/lxqt-team/pavucontrol-qt.git
+Standards-Version: 4.6.1
+Vcs-Browser: https://salsa.debian.org/lxqt-team/pavucontrol-qt
+Vcs-Git: https://salsa.debian.org/lxqt-team/pavucontrol-qt.git
 Homepage: https://github.com/lxqt/pavucontrol-qt
+Rules-Requires-Root: no
 
 Package: pavucontrol-qt
 Architecture: any

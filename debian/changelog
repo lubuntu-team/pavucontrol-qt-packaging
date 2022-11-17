@@ -1,3 +1,9 @@
+pavucontrol-qt (1.2.0-0ubuntu1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Thu, 17 Nov 2022 16:29:25 -0600
+
 pavucontrol-qt (1.1.0-1) experimental; urgency=medium
 
   * New upstream release 1.1.0.

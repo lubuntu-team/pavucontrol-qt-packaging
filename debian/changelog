@@ -2,6 +2,7 @@ pavucontrol-qt (1.2.0-0ubuntu1) UNRELEASED; urgency=medium
 
   * New upstream release.
   * Fix the watch file, for real this time.
+  * Lubuntuify the package slightly, to make debhelper happy.
 
  -- Simon Quigley <tsimonq2@ubuntu.com>  Thu, 17 Nov 2022 16:29:25 -0600
 

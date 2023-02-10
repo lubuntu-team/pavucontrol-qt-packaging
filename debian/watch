@@ -1,6 +1,5 @@
 version=4
-
-# See https://davesteele.github.io/development/2015/05/02/debian-watch-file-format-for-signed-github-source-tars/ for GitHub workaround for releases page.
-
-opts="downloadurlmangle=s/archive\/refs\/tags\/@ANY_VERSION@@ARCHIVE_EXT@/releases\/download\/$1\/@PACKAGE@-$1\.tar\.xz/,filenamemangle=s/@ANY_VERSION@@ARCHIVE_EXT@/@PACKAGE@-$1\.tar\.xz/,pgpsigurlmangle=s/$/.asc/" \
-https://github.com/lxqt/@PACKAGE@/tags .*/@ANY_VERSION@@ARCHIVE_EXT@
+opts="searchmode=plain, \
+pgpsigurlmangle=s/$/.asc/, \
+uversionmangle=s/(\d+\.\d+\.\d+).*/$1/" \
+  https://api.github.com/repos/lxqt/@PACKAGE@/releases https:\/\/github.com\/lxqt\/@PACKAGE@\/releases\/download\/@ANY_VERSION@\/@PACKAGE@-@ANY_VERSION@.tar.xz

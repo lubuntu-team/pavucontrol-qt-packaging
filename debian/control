@@ -1,5 +1,6 @@
 Source: pavucontrol-qt
-Maintainer: LXQt Packaging Team <pkg-lxqt-devel@lists.alioth.debian.org>
+Maintainer: Lubuntu Developers <lubuntu-devel@lists.ubuntu.com>
+XSBC-Original-Maintainer: LXQt Packaging Team <pkg-lxqt-devel@lists.alioth.debian.org>
 Uploaders: Alf Gaida <agaida@siduction.org>,
            Andrew Lee (李健秋) <ajqlee@debian.org>,
            ChangZhuo Chen (陳昌倬) <czchen@debian.org>,
@@ -12,19 +13,19 @@ Build-Depends: debhelper-compat (= 13),
                libpulse-dev,
                libqt5svg5-dev,
                libqt5x11extras5-dev,
-               lxqt-build-tools (>= 0.12.0~),
+               lxqt-build-tools (>= 0.12.0),
                xdg-user-dirs
-Standards-Version: 4.6.2
-Vcs-Browser: https://salsa.debian.org/lxqt-team/pavucontrol-qt
-Vcs-Git: https://salsa.debian.org/lxqt-team/pavucontrol-qt.git
+Standards-Version: 4.6.1
+Vcs-Browser: https://git.lubuntu.me/Lubuntu/pavucontrol-qt-packaging
+Vcs-Git: https://git.lubuntu.me/Lubuntu/pavucontrol-qt-packaging.git
+XS-Debian-Vcs-Browser: https://salsa.debian.org/lxqt-team/pavucontrol-qt
+XS-Debian-Vcs-Git: https://salsa.debian.org/lxqt-team/pavucontrol-qt.git
 Homepage: https://github.com/lxqt/pavucontrol-qt
 Rules-Requires-Root: no
 
 Package: pavucontrol-qt
 Architecture: any
-Depends: ${misc:Depends},
-         ${shlibs:Depends},
-         pulseaudio | pipewire-pulse
+Depends: pulseaudio | pipewire-pulse, ${misc:Depends}, ${shlibs:Depends}
 Recommends: pavucontrol-qt-l10n
 Description: Qt port of volume control pavucontrol
  Qt port of volume control pavucontrol of sound server PulseAudio. As such it
@@ -40,8 +41,7 @@ Package: pavucontrol-qt-l10n
 Architecture: all
 Multi-Arch: foreign
 Section: localization
-Depends: ${misc:Depends},
-         qttranslations5-l10n
+Depends: qttranslations5-l10n, ${misc:Depends}
 Description: Language package for pavucontrol-qt
  The l10n files for pavucontrol-qt.
  .

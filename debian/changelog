@@ -1,6 +1,7 @@
 pavucontrol-qt (1.2.0-1ubuntu1) lunar; urgency=medium
 
   * Revert a sync from Debian.
+  * Bumped Standards-Version to 4.6.2, no changes necessary.
 
  -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Fri, 10 Feb 2023 13:30:25 -0600
 

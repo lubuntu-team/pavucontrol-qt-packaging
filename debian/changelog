@@ -1,11 +1,11 @@
-pavucontrol-qt (1.2.0-0ubuntu1) lunar; urgency=medium
+pavucontrol-qt (1.2.0-1) unstable; urgency=medium
 
+  * Merge to unstable.
   * New upstream release.
-  * Fix the watch file, for real this time.
-  * Lubuntuify the package slightly, to make debhelper happy.
-  * Bump build dependencies in debian/control.
+  * Update d/watch for GitHub.
+  * Bump Standards-Version to 4.6.2.
 
- -- Simon Quigley <tsimonq2@ubuntu.com>  Thu, 17 Nov 2022 16:43:15 -0600
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Thu, 05 Jan 2023 12:51:18 +0800
 
 pavucontrol-qt (1.1.0-1) experimental; urgency=medium
 

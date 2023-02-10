@@ -41,8 +41,9 @@ Copyright: 2006-2008 Lennart Poettering
 License: GPL-2.0+
 
 Files: debian/*
-Copyright: 2021-2022, Lubuntu Developers <lubuntu-devel@lists.ubuntu.com>
-           2016-2019, Alf Gaida <agaida@siduction.org>
+Copyright: 2016-2019 Alf Gaida <agaida@siduction.org>
+           2021-2022 Lubuntu Developers <lubuntu-devel@lists.ubuntu.com>
+           2023      ChangZhuo Chen (陳昌倬) <czchen@debian.org>
 License: GPL-2.0+
 
 License: GPL-2.0+

@@ -1,5 +1,9 @@
 pavucontrol-qt (1.2.0-1ubuntu1) lunar; urgency=medium
 
+  [ Debian Janitor ]
+  * Set upstream metadata fields: Repository-Browse.
+
+  [ Aaron Rainbolt ]
   * Revert a sync from Debian.
   * Bumped Standards-Version to 4.6.2, no changes necessary.
 

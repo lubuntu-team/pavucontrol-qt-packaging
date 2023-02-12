@@ -1,4 +1,4 @@
-pavucontrol-qt (1.2.0-1ubuntu1) lunar; urgency=medium
+pavucontrol-qt (1.2.0-1ubuntu2) lunar; urgency=medium
 
   [ Debian Janitor ]
   * Set upstream metadata fields: Repository-Browse.
@@ -8,7 +8,7 @@ pavucontrol-qt (1.2.0-1ubuntu1) lunar; urgency=medium
   * Bumped Standards-Version to 4.6.2, no changes necessary.
   * Updated copyright file.
 
- -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Fri, 10 Feb 2023 13:30:25 -0600
+ -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Sun, 12 Feb 2023 17:33:26 -0600
 
 pavucontrol-qt (1.2.0-0ubuntu1) lunar; urgency=medium
 

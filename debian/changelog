@@ -1,3 +1,11 @@
+pavucontrol-qt (1.2.0-1ubuntu3) lunar; urgency=medium
+
+  * Swap "pulseaudio | pipewire-pulse" to "pipewire-pulse | pulseaudio" in
+    debian/control to convince Germinate to grab the right package when the
+    Lubuntu ISO builds.
+
+ -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Sun, 02 Apr 2023 15:10:28 -0500
+
 pavucontrol-qt (1.2.0-1ubuntu2) lunar; urgency=medium
 
   [ Debian Janitor ]

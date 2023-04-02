@@ -25,7 +25,7 @@ Rules-Requires-Root: no
 
 Package: pavucontrol-qt
 Architecture: any
-Depends: pulseaudio | pipewire-pulse, ${misc:Depends}, ${shlibs:Depends}
+Depends: pipewire-pulse | pulseaudio, ${misc:Depends}, ${shlibs:Depends}
 Recommends: pavucontrol-qt-l10n
 Description: Qt port of volume control pavucontrol
  Qt port of volume control pavucontrol of sound server PulseAudio. As such it

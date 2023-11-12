@@ -1,6 +1,7 @@
 pavucontrol-qt (1.4.0-0ubuntu1) noble; urgency=medium
 
   * New upstream release.
+  * Overhauled copyright file.
 
  -- Aaron Rainbolt <arraybolt3@gmail.com>  Sun, 12 Nov 2023 12:20:37 -0600
 

@@ -3,18 +3,68 @@ Upstream-Name: pavucontrol-qt
 Source: https://github.com/lxqt/pavucontrol-qt
 
 Files: *
-Copyright: 2016-2022 LXQt team
-           2016-2017 Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
-           2016-2017 Palo Kisa <palo.kisa@gmail.com>
-           2009      Colin Guthrie <mzcnihpbageby@0pointer.de>
-           2006-2008 Lennart Poettering
-           2008      Sjoerd Simons <sjoerd@luon.net>
+Copyright: 2016-2023 LXQt team
+License: GPL-2.0
+
+Files: src/elidinglabel.cc
+       src/elidinglabel.h
+Copyright: 2016-2023 LXQt team
+License: GPL-2.0+
+
+Files: src/cardwidget.cc
+       src/cardwidget.h
+       src/channel.cc
+       src/channel.h
+       src/devicewidget.cc
+       src/devicewidget.h
+       src/mainwindow.cc
+       src/mainwindow.h
+       src/minimalstreamwidget.cc
+       src/minimalstreamwidget.h
+       src/pavucontrol.cc
+       src/pavucontrol.h
+       src/rolewidget.cc
+       src/rolewidget.h
+       src/sinkinputwidget.cc
+       src/sinkinputwidget.h
+       src/sinkwidget.cc
+       src/sinkwidget.h
+       src/sourceoutputwidget.cc
+       src/sourceoutputwidget.h
+       src/sourcewidget.cc
+       src/sourcewidget.h
+       src/streamwidget.cc
+       src/streamwidget.h
+Copyright: 2008      Sjoerd Simons <sjoerd@luon.net>
+           2006-2009 Lennart Poettering
+           2009-2011 Colin Guthrie <mzcnihpbageby@0pointer.de>
+           2016      Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
 License: GPL-2.0+
 
 Files: debian/*
-Copyright: 2021-2023, Lubuntu Developers <lubuntu-devel@lists.ubuntu.com>
-           2016-2019, Alf Gaida <agaida@siduction.org>
+Copyright: 2015      Andrew Lee <ajqlee@debian.org>
+           2015      Shih-Yuan Lee (FourDollars) <fourdollars@gmail.com>
+           2014-2016 ChangZhuo Chen <czchen@gmail.com>
+           2016      Yuan CHAO <yuanchao@gmail.com>
+           2014-2019 Alf Gaida <agaida@siduction.org>
+           2021      apt-ghetto <apt-ghetto@protonmail.com>
+           2021-2022 Rik Mills <rikmills@kde.org>
+           2023      Aaron Rainbolt <arraybolt3@gmail.com>
+           2019-2023 Simon Quigley <tsimonq2@ubuntu.com>
 License: GPL-2.0+
+
+License: GPL-2.0
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; version 2 of the License.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ On Debian systems, the complete text of the GNU General Public License
+ version 2 can be found in "/usr/share/common-licenses/GPL-2".
 
 License: GPL-2.0+
  This program is free software; you can redistribute it and/or modify

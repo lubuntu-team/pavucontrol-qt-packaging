@@ -1,3 +1,9 @@
+pavucontrol-qt (1.4.0-0ubuntu1~ppa1) mantic; urgency=medium
+
+  * Backport to Mantic.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Thu, 16 Nov 2023 15:01:00 -0600
+
 pavucontrol-qt (1.4.0-0ubuntu1) noble; urgency=medium
 
   * New upstream release.

@@ -1,0 +1,2 @@
+# Translations files can be long
+pavucontrol-qt source: very-long-line-length-in-source-file * > 512 [*.ts:*]

@@ -11,9 +11,9 @@ Priority: optional
 Build-Depends: debhelper-compat (= 13),
                libkf6windowsystem-dev,
                libpulse-dev,
-               lxqt-build-tools (>= 2.0.0),
+               lxqt-build-tools (>= 2.1.0),
                xdg-user-dirs,
-               qt6-svg-dev
+               qt6-svg-dev (>= 6.6.0)
 Standards-Version: 4.7.0
 Vcs-Browser: https://git.lubuntu.me/Lubuntu/pavucontrol-qt-packaging
 Vcs-Git: https://git.lubuntu.me/Lubuntu/pavucontrol-qt-packaging.git
@@ -42,6 +42,11 @@ Multi-Arch: foreign
 Section: localization
 Depends: qt6-translations-l10n, ${misc:Depends}
 Description: Language package for pavucontrol-qt
- The l10n files for pavucontrol-qt.
+ Qt port of volume control pavucontrol of sound server PulseAudio. As such it
+ can be used to adjust all controls provided by PulseAudio as well as some
+ additional settings.
+ .
+ The software belongs to the LXQt project but its usage isn't limited to this
+ desktop environment.
  .
  This package contains the l10n files needed by the pavucontrol-qt.

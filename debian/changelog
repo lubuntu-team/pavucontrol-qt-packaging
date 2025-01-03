@@ -1,3 +1,9 @@
+pavucontrol-qt (2.1.0-0ubuntu2) plucky; urgency=medium
+
+  * No-change rebuild for lxqt-build-tools C++17 -> C++20.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Fri, 03 Jan 2025 04:00:32 -0600
+
 pavucontrol-qt (2.1.0-0ubuntu1) plucky; urgency=medium
 
   * New upstream release.

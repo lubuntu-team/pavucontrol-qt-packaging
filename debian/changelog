@@ -1,3 +1,9 @@
+pavucontrol-qt (2.1.0-0ubuntu3) plucky; urgency=medium
+
+  * Update Standards-Version to 4.7.1, no changes needed.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Fri, 21 Feb 2025 16:58:59 -0600
+
 pavucontrol-qt (2.1.0-0ubuntu2) plucky; urgency=medium
 
   * No-change rebuild for lxqt-build-tools C++17 -> C++20.

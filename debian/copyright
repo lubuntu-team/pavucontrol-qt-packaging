@@ -3,7 +3,7 @@ Upstream-Name: pavucontrol-qt
 Source: https://github.com/lxqt/pavucontrol-qt
 
 Files: *
-Copyright: 2016-2024 LXQt team
+Copyright: 2016-2025 LXQt team
 License: GPL-2.0
 
 Files: src/elidinglabel.cc
@@ -50,7 +50,7 @@ Copyright: 2015      Andrew Lee <ajqlee@debian.org>
            2021      apt-ghetto <apt-ghetto@protonmail.com>
            2021-2022 Rik Mills <rikmills@kde.org>
            2019-2025 Simon Quigley <tsimonq2@ubuntu.com>
-           2023-2024 Aaron Rainbolt <arraybolt3@gmail.com>
+           2023-2025 Aaron Rainbolt <arraybolt3@gmail.com>
 License: GPL-2.0+
 
 License: GPL-2.0

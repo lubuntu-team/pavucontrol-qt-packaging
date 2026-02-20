@@ -1,6 +1,7 @@
 pavucontrol-qt (2.3.0-0ubuntu1) resolute; urgency=medium
 
   * New upstream release.
+  * Update copyright file.
 
  -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Fri, 20 Feb 2026 10:45:37 -0500
 

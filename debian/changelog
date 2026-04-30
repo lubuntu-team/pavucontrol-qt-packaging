@@ -1,4 +1,4 @@
-pavucontrol-qt (2.4.0-0ubuntu1) UNRELEASED; urgency=medium
+pavucontrol-qt (2.4.0-0ubuntu1) stonking; urgency=medium
 
   * New upstream release.
     - Update build dependencies.
@@ -6,7 +6,7 @@ pavucontrol-qt (2.4.0-0ubuntu1) UNRELEASED; urgency=medium
   * Update Standards-Version to 4.7.4, dropping Priority: optional.
   * Update the copyright file.
 
- -- Simon Quigley <tsimonq2@debian.org>  Thu, 30 Apr 2026 14:37:32 -0500
+ -- Simon Quigley <tsimonq2@debian.org>  Thu, 30 Apr 2026 16:01:29 -0500
 
 pavucontrol-qt (2.3.0-0ubuntu1) resolute; urgency=medium
 

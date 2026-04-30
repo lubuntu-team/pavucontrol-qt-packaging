@@ -10,7 +10,7 @@ Section: utils
 Build-Depends: debhelper-compat (= 13),
                libkf6windowsystem-dev,
                libpulse-dev,
-               lxqt-build-tools (>= 2.3.0),
+               lxqt-build-tools (>= 2.4.0),
                qt6-svg-dev (>= 6.6.0),
                xdg-user-dirs
 Standards-Version: 4.7.4

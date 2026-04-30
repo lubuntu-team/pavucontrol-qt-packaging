@@ -1,6 +1,7 @@
 pavucontrol-qt (2.4.0-0ubuntu1) UNRELEASED; urgency=medium
 
   * New upstream release.
+    - Update build dependencies.
   * Update the upstream signing key.
   * Update Standards-Version to 4.7.4, dropping Priority: optional.
 

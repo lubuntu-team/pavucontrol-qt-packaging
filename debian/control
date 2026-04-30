@@ -7,14 +7,13 @@ Uploaders: Alf Gaida <agaida@siduction.org>,
            Simon Quigley <tsimonq2@debian.org>,
            Aaron Rainbolt <arraybolt3@gmail.com>
 Section: utils
-Priority: optional
 Build-Depends: debhelper-compat (= 13),
                libkf6windowsystem-dev,
                libpulse-dev,
                lxqt-build-tools (>= 2.3.0),
                qt6-svg-dev (>= 6.6.0),
                xdg-user-dirs
-Standards-Version: 4.7.3
+Standards-Version: 4.7.4
 Vcs-Browser: https://git.lubuntu.me/Lubuntu/pavucontrol-qt-packaging
 Vcs-Git: https://git.lubuntu.me/Lubuntu/pavucontrol-qt-packaging.git
 Debian-Vcs-Browser: https://salsa.debian.org/lxqt-team/pavucontrol-qt

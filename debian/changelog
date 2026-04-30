@@ -1,6 +1,7 @@
 pavucontrol-qt (2.4.0-0ubuntu1) UNRELEASED; urgency=medium
 
   * New upstream release.
+  * Update the upstream signing key.
 
  -- Simon Quigley <tsimonq2@debian.org>  Thu, 30 Apr 2026 14:37:32 -0500
 

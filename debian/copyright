@@ -3,7 +3,7 @@ Upstream-Name: pavucontrol-qt
 Source: https://github.com/lxqt/pavucontrol-qt
 
 Files: *
-Copyright: 2016-2025 LXQt team
+Copyright: 2016-2026 LXQt team
 License: GPL-2.0
 
 Files: src/elidinglabel.cc
